@@ -1,4 +1,7 @@
 import random
+from datetime import datetime
+
+t1 = datetime.now()
 
 '''
 # Create input data
@@ -43,12 +46,16 @@ def calc(x):
     # 最後dict結構裡面有幾個key就代表答案是多少
 	return len(digitMap)
     
-
-
 print("len(digitMap)=",calc(1))
+
+t2 = datetime.now()
+print("t1=",t1,"\nt2=",t2,"\nt2-t1=",t2-t1)
+
 
 
 # 字典：http://www.runoob.com/python3/python3-dictionary.html
 # get()：http://www.runoob.com/python3/python3-att-dictionary-get.html
+
 # dict.get(要索引的key, default=None)，如果指定key的值不存在，則填入default。
-# dict[i]：
+# dict[i] 和 digitMap.get(i, 0) 的差別：
+# https://blog.csdn.net/aaazz47/article/details/79022644
