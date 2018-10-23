@@ -20,7 +20,7 @@ print("變更當前工作路徑=",os.getcwd())
 
 highest_score=0
 
-# 需要處理空白字元做分隔的資料
+# 需要處理 以空白字元做分隔 的資料
 # 可以用result_f02.find(" ")來尋找空白字元，也可以使用split()
 # 寫法：(變數名稱1, 變數名稱2)=以空白分隔的行資料.split()
 for line in result_f02:
