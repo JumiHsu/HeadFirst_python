@@ -1,7 +1,8 @@
 ﻿import random
 import math
 import time
-# time參照：http://www.runoob.com/python/python-date-time.html
+# time：http://www.runoob.com/python/python-date-time.html
+# time：https://pythoncaff.com/docs/pymotw/time-time-module/97
 
 A=[]
 B=[]
@@ -32,8 +33,7 @@ k=0
 while k<N1:
     #K2必定<K1
     K2=random.sample(range(0,K1+1),1) #隨機決定K2的值
-    K2=int(K2[0])
-    
+    K2=int(K2[0])    
     # print("第",k+1,"個元素= 向量位置k=",k,"，第k個位置的值= K2=",K2)
 
     A.append(K2)
@@ -42,11 +42,11 @@ while k<N1:
     k += 1
     
 print("A向量=",A)
-print("binarianA= fn=",fn)
-print("\n")
+print("binarian of A= fn=",fn)
 
 t12=time.time()
 print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
+print("\n")
 
 '''
 import time
@@ -194,7 +194,7 @@ print("\n")
 # ====================================================================
 # 檢查：「取log結果 與 2進位轉換」，結果是否相同
 # ====================================================================
-print("檢查：「取log結果 與 2進位轉換」，結果是否相同")
+print("========== 檢查：「取log結果 與 2進位轉換」，結果是否相同 ==========")
 print("\n")
 if B == C:
     print("檢查結果 = OK!!    相同")
@@ -209,11 +209,9 @@ else:
 # 比較：「取log結果(t22-t21) 與 2進位轉換(t32-t31)」，程式需時
 #       （計算程式執行時間而非CPU時間）
 # ====================================================================
-print("比較：「取log結果 與 2進位轉換」，程式需時")
+print("========== 比較：「取log結果 與 2進位轉換」，程式需時 ==========")
 print("\n")
 if (t32-t31) - (t22-t21) > 0:
-    # print("取 log 較快，較2進位快了", ((t32-t31) - (t22-t21))/(t22-t21)  )
-    # print('percent: {:.2%}'.format(42/50))
     print("取 log 較快，較2進位快了")
     h1=((t32-t31) - (t22-t21))/(t22-t21)
     print( 'percent: {:.2%}'.format(h1)  )
