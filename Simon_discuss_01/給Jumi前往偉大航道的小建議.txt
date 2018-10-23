@@ -1,0 +1,42 @@
+1. 題目其實是希望給出一個function，然後這個function需要return向量長度，所以其實妳的答案並不是完全正確，
+   只不過我覺得那不是很重要，畢竟妳不是在面試XD
+   回歸正題，妳需要回傳的內容如下：
+def fnb(A):
+    # 假定A是陣列，計算fn，這裡依照妳之前的解法，也還有一點效能微幅增加的空間在
+    # 用妳寫的二進位轉換來處理
+    # 妳也可以把二進位轉換寫成function，然後在這個function裡return妳的function
+
+2. "不知道怎麼宣告一個空的int變數，先令他=0"，不知道妳怎麼會想到這樣做，但是這真的是個超棒的好習慣，請持續保持XD
+
+3. 新手寫程式最common的問題之一，就是變數命名XD 妳的命名可以再想得更好一點，
+當然像迴圈的i,j,k這種算是很一般的不見得需要好的命名，大家就可以很容易理解，
+我截取妳的一段code改一下給妳參考一下：
+
+Your Code:
+k=0
+
+while k<N1:
+    #K2必定<K1
+    K2=random.sample(range(0,K1+1),1) #隨機決定K2的值
+    K2=int(K2[0])    
+    # print("第",k+1,"個元素= 向量位置k=",k,"，第k個位置的值= K2=",K2)
+
+    A.append(K2)
+    
+    fn += 2**A[k]
+    k += 1
+
+My Code:
+index=0
+
+while index<totalElement:
+    element=random.sample(range(0,elementMax+1),1) #隨機決定K2的值
+    element=int(element[0])
+    A.append(element)
+    
+    fn += 2**A[index]
+    index += 1
+
+4. 通常在測效能的時候，會把print相關的code拿掉，因為print也會影響效能。
+
+5. 最後，既然妳已經學過function，那可以盡量把程式改寫成function，這樣在閱讀上會比較平易近人。
