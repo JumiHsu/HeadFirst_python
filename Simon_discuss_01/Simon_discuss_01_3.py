@@ -1,69 +1,44 @@
-﻿import random
+import random
 import math
 import time
 # time：http://www.runoob.com/python/python-date-time.html
 # time：https://pythoncaff.com/docs/pymotw/time-time-module/97
 
-A=[]
-B=[]
 
 # # ====================================================================
-# # (一) 想辦法生出一個長度隨機<N1，元素值隨機但必<K1 的A向量
+# # (一) 生成一個隨機向量 定義長度上限、元素值上限
 # # ====================================================================
-print("========== (一) 生出一個 長度隨機<=N1，元素值隨機但必<=K1 的A向量 ==========")
 
-t11=time.time()
 
-# A 的長度隨機，落在 [1,100000] 內，令 N1=100000
-# A 的每個元素，落在 [0,10000]  內，令 K1=10000
-N1=50 #100000
-K1=8 #10000
 
-N1=random.sample(range(1,N1+1),1) # 隨機決定向量長度N1，取出來的東西為字串，range有頭無尾
-N1=int(N1[0])
+# 生成一個隨機向量，需定義長度上限、元素值上限
+def generateList(lengthMax,elementMax):
+    print("========== (一) 生成一個隨機向量 定義長度上限、元素值上限 ==========")
 
-print("\n")
-print("隨機取得向量長度= N1=",N1,"，令各元素值上限= K1=",K1)
-print("\n")
+    t11=time.time()
+    length=random.sample(range(1,lengthMax+1),1) # 取出物=字串，range有頭無尾
+    length=int(length[0])
 
-#不知道怎麼宣告一個空的int變數，先令他=0
-fn=0
-k=0
+    fn = 0                                    #不知道怎麼宣告一個空的int變數，先令他=0
+    index = 0
+    while index < length:
+        
+        element=random.sample(range(0,elementMax+1),1) # 注意random.sample取出的東西 = list
+        element=int(element[0])
+        # print("第",index+1,"個元素= 向量位置",index,"，其值為：",element)
+        A.append(element)
 
-while k<N1:
-    #K2必定<K1
-    K2=random.sample(range(0,K1+1),1) #隨機決定K2的值
-    K2=int(K2)    
-    # print("第",k+1,"個元素= 向量位置k=",k,"，第k個位置的值= K2=",K2)
-
-    A.append(K2)
+        fn += 2**A[index]
+        index += 1
     
-    fn += 2**A[k]
-    k += 1
+    t12=time.time()
+    print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
     
-print("A向量=",A)
-print("binarian of A= fn=",fn)
+    return A,fn,length
 
-t12=time.time()
-print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
-print("\n")
-
-'''
-import time
-
-start = time.monotonic()
-time.sleep(0.1)
-end = time.monotonic()
-print('start : {:>9.2f}'.format(start))
-print('end   : {:>9.2f}'.format(end))
-print('span  : {:>9.2f}'.format(end - start))
-
-$ python3 time_monotonic.py
-start : 716028.72
-end   : 716028.82
-span  :      0.10
-'''
-
+# 原来返回值是一个tuple！但是，在语法上，返回一个tuple可以省略括号，
+# 而多个变量可以同时接收一个tuple，按位置赋给对应的值，
+# 所以，Python的函数返回多值其实就是返回一个tuple，但写起来更方便。
 
 
 
@@ -72,7 +47,6 @@ span  :      0.10
 # ====================================================================
 # print("========== (一) 令一個固定的A向量、fn，作為測試對象 ==========")
 
-# t11=time.time()
 # A = [1,0,2,0,0,2]
 
 # # 計算出該 A向量 的fn是多少
@@ -87,8 +61,37 @@ span  :      0.10
 # print("A向量=",A,"，A向量長度=",n,"；對應的fn=",fn)
 # print("\n")
 
-# t12=time.time()
-# print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
+
+
+
+# ====================================================================
+# 主程式
+# ====================================================================
+
+A=[]
+B=[] # LOG作法
+C=[] # 二進位作法
+
+lengthMax=int(input("向量長度上限：")) # 特別注意input進去的是字串!!! 老是錯這邊
+elementMax=int(input("元素值上限："))
+
+A, fn, length = generateList(lengthMax,elementMax)
+
+print("\n隨機向量長度=",length,"，各元素值上限=",elementMax)
+print("A向量 =",A,"fn =",fn,"\n")
+
+
+fn2=bin(fn)
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -100,28 +103,20 @@ print("========== (二) 用連續取log來處理 ==========")
 
 t21=time.time()
 
-fnb=0
-sumb=0
-fna=fn
-fna_v=[]
+fnb,bCount = 0,0
+fna = fn
+fnaList = []
 
-while fna != 0:
+while fna != 0:                        # fna 扣到0就結束
 
-    #對fn取log2，取完的值取整，放入B[0]
-    
-    # print("fn= fna=",fna)
-    fna_v.append(fna)
-    B.append( int(math.log(fna,2)) ) # 先把取log2後取整的值放入B[0]
-    # print("sumb=",sumb)
-    # print("B[0]=",B[0])
-    # print("B[sumb]=",B[sumb])
-    # print("\n")
+    fnaList.append(fna)                # 為了觀察fna的變化
+    B.append( int(math.log(fna,2)) )   # 對fn取log2，取完的值取整，放入B[]
 
-    fnb +=  2**B[sumb]               # 再順手計算 bn,此時 sumb=0
-    fna += -2**B[sumb]               # fna 扣掉 2**B[0]，剩下來的成為新的fna
-    sumb += 1                        # 計數+1,雖不是用sumb來限制迴圈次數，但要用他來安排向量填入的順序
+    fnb +=  2**B[bCount]               # 再順手計算 fnb,此時 bCount=0
+    fna += -2**B[bCount]               # fna 扣掉 2**B[0]，剩下來的成為新的fna
+    bCount += 1                        # 計數+1,雖不是用 bCount 來限制迴圈次數，但要用他來安排向量填入的順序
 
-print("fna的變化 =",fna_v)
+print("fna的變化 =",fnaList)
 print("\n")
 print("最終B向量 =",B,"fnb =",fnb)
 
@@ -131,26 +126,17 @@ print("(二)取 log 花費秒數= {:>9.16f}".format(t22-t21) )
 print("\n")
 
 
+
 # ====================================================================
-# 測試 B[0] 是不是都等於 fn取平方根 的整數
+# 改寫
 # ====================================================================
-'''
-print("========== 測試 B[0] 是不是都等於 fn取平方根 的整數 ==========")
 
-fn1=abs(math.sqrt(fn))
+# A, fn, length = generateList(lengthMax,elementMax)
 
-if B[0] == int( fn1 ) :
-    print("B[0] 等於 fn取平方根 的整數")
-else:
-    print("不等於哦~")
+# def methodLog():
 
-'''
 
-'''
-# 留意!! 這樣只會print出8~1，0是不會print的
-for i in range(8,0,-1):
-    print(i)
-'''
+
 
 
 
@@ -230,3 +216,46 @@ print("\n")
 
 # rate = .1234
 # print('%.2f%%' % (rate * 100))
+
+
+
+# ====================================================================
+
+'''
+import time
+
+start = time.monotonic()
+time.sleep(0.1)
+end = time.monotonic()
+print('start : {:>9.2f}'.format(start))
+print('end   : {:>9.2f}'.format(end))
+print('span  : {:>9.2f}'.format(end - start))
+
+$ python3 time_monotonic.py
+start : 716028.72
+end   : 716028.82
+span  :      0.10
+'''
+
+
+'''
+# 留意!! 這樣只會print出8~1，0是不會print的
+for i in range(8,0,-1):
+    print(i)
+'''
+
+
+# ====================================================================
+# 測試 B[0] 是不是都等於 fn取平方根 的整數
+# ====================================================================
+'''
+print("========== 測試 B[0] 是不是都等於 fn取平方根 的整數 ==========")
+
+fn1=abs(math.sqrt(fn))
+
+if B[0] == int( fn1 ) :
+    print("B[0] 等於 fn取平方根 的整數")
+else:
+    print("不等於哦~")
+
+'''
