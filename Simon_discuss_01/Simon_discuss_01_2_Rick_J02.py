@@ -34,7 +34,7 @@ def calc(x):
 		                                          # 並同時指派給 digitMap 作為 key 了
 		j = i
 
-		# 如果該位數超過1代表可以進位，一路往上進位
+		# 如果該位數超過 1 代表可以進位，一路往上進位
 		while digitMap[j] > 1:
 			digitMap[j + 1] = digitMap.get(j + 1, 0) + 1
 			del digitMap[j]
