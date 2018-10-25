@@ -1,84 +1,66 @@
 import random
 import math
 import time
-# time：http://www.runoob.com/python/python-date-time.html
-# time：https://pythoncaff.com/docs/pymotw/time-time-module/97
 
 
-# 生成一個隨機向量(長度上限，元素值上限)
+
+# ====================================================================
+# 計算fn (input= 任意向量)
+# ====================================================================
+def calculate_fn(anyList):
+
+    length = len(anyList)
+    fn ,index = 0 ,0
+    while index < length:
+        fn += 2**anyList[index]
+        index += 1
+
+    return fn ,length
+
+
+
+# ====================================================================
+# 生成一個隨機向量 (input= 長度上限，元素值上限)
+# ====================================================================
 def generateList(lengthMax,elementMax):
 
-    t11=time.time()
+    A=[]
     length=random.sample(range(1,lengthMax+1),1) # 取出物=字串，range有頭無尾
     length=int(length[0])
 
-    fn = 0                                    #不知道怎麼宣告一個空的int變數，先令他=0
-    index = 0
+    fn ,index = 0 ,0                             # 不知道怎麼宣告一個空的int變數，先令他=0
     while index < length:
         
-        element=random.sample(range(0,elementMax+1),1) # 注意random.sample取出的東西 = list
-        element=int(element[0])
-        # print("第",index+1,"個元素= 向量位置",index,"，其值為：",element)
+        element=random.sample(range(0,elementMax+1),1)
+        element=int(element[0])                  # random.sample取出物 = list
         A.append(element)
 
-        fn += 2**A[index]
-        index += 1
+        # fn += 2**A[index]
+        # index += 1
     
-    t12=time.time()
-    print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
-    
+    fn ,length = calculate_fn(A)
+
+
     return A,fn,length
 
 
 
 # ====================================================================
-# (一) 令一個固定的A向量、fn，作為測試對象
+# 生成題目向量
 # ====================================================================
-# print("========== (一) 令一個固定的A向量、fn，作為測試對象 ==========")
+def generateExampleList():
+    A = [1,0,2,0,0,2]
+        
+    # length = len(A)
+    # fn ,index = 0 ,0
 
-# A = [1,0,2,0,0,2]
+    # while index < length:
+    #     fn += 2**A[index]
+    #     index += 1
+    
+    fn ,length = calculate_fn(A)
 
-# # 計算出該 A向量 的fn是多少
-# n = len(A)
-# fn = 0
-# sum=0
-
-# while sum<n:
-#     fn += 2**A[sum]
-#     sum += 1
-
-# print("A向量=",A,"，A向量長度=",n,"；對應的fn=",fn)
-# print("\n")
-
-
-
-
-# ====================================================================
-# 主程式
-# ====================================================================
-
-A=[]
-B=[] # LOG作法
-C=[] # 二進位作法
-
-lengthMax=int(input("向量長度上限：")) # 特別注意input進去的是字串!!! 老是錯這邊
-elementMax=int(input("元素值上限："))
-
-A, fn, length = generateList(lengthMax,elementMax)
-
-print("\n隨機向量長度=",length,"，各元素值上限=",elementMax)
-print("A向量 =",A,"fn =",fn,"\n")
-
-
-fn2=bin(fn)
-
-
-
-
-
-
-
-
+    return A ,fn ,length
 
 
 
@@ -86,45 +68,33 @@ fn2=bin(fn)
 
 
 # ====================================================================
-# (二) 用 對fn 連續取log來回推B
+# (一) 對 fn 連續取log (input= fn)
 # ====================================================================
-print("========== (二) 用連續取log來處理 ==========")
+def methodLog(fn):
+        
+    t21=time.time()
+    fnb,bCount = 0,0
+    fna = fn
+    fnaList = []
 
-t21=time.time()
+    while fna != 0:                        # fna 扣到0就結束
 
-fnb,bCount = 0,0
-fna = fn
-fnaList = []
+        fnaList.append(fna)                # 為了觀察fna的變化
+        B.append( int(math.log(fna,2)) )   # 對fn取log2，取完的值取整，放入B[]
 
-while fna != 0:                        # fna 扣到0就結束
+        fnb +=  2**B[bCount]               # 再順手計算 fnb,此時 bCount=0
+        fna += -2**B[bCount]               # fna 扣掉 2**B[0]，剩下來的成為新的fna
+        bCount += 1                        # 計數+1,雖不是用 bCount 來限制迴圈次數，但要用他來安排向量填入的順序
 
-    fnaList.append(fna)                # 為了觀察fna的變化
-    B.append( int(math.log(fna,2)) )   # 對fn取log2，取完的值取整，放入B[]
+    print("fna的變化 =",fnaList)
+    print("\n")
+    print("最終B向量 =",B,"fnb =",fnb)
+        
+    t22=time.time()
+    print("(二)取 log 花費秒數= {:>9.16f}".format(t22-t21) )
+    print("\n")
 
-    fnb +=  2**B[bCount]               # 再順手計算 fnb,此時 bCount=0
-    fna += -2**B[bCount]               # fna 扣掉 2**B[0]，剩下來的成為新的fna
-    bCount += 1                        # 計數+1,雖不是用 bCount 來限制迴圈次數，但要用他來安排向量填入的順序
-
-print("fna的變化 =",fnaList)
-print("\n")
-print("最終B向量 =",B,"fnb =",fnb)
-
-
-t22=time.time()
-print("(二)取 log 花費秒數= {:>9.16f}".format(t22-t21) )
-print("\n")
-
-
-
-# ====================================================================
-# 改寫
-# ====================================================================
-
-# A, fn, length = generateList(lengthMax,elementMax)
-
-# def methodLog():
-
-
+    return B ,fnb ,len(B) ,(t22-t21) 
 
 
 
@@ -141,17 +111,17 @@ t31=time.time()
 # fn=50
 
 C=[]
-fn2=bin(fn)
-print("fn=",fn,"，其二進位=",fn2)
+fnBin=bin(fn)
+print("fn=",fn,"，其二進位=",fnBin)
 
-# 轉成二進位，前面一定會被加上 0b，取 fn2[2:] 或取 b 後的數字，即可取得實際數字
-fn2=fn2[2:]
-print("fn2的向量長度=",len(fn2)) #最高位數 = len(fn2)-1
+# 轉成二進位，前面一定會被加上 0b，取 fnBin[2:] 或取 b 後的數字，即可取得實際數字
+fnBin=fnBin[2:]
+print("fnBin的向量長度=",len(fnBin)) #最高位數 = len(fnBin)-1
 
 
 j=0
-for i in range(len(fn2)-1,-1,-1):
-    if int(fn2[j]) != 0:
+for i in range(len(fnBin)-1,-1,-1):
+    if int(fnBin[j]) != 0:
         C.append(i)
         # print("C向量=",C,"，i=",i,"，j=",j)
         j += 1
@@ -165,6 +135,97 @@ print("最終C向量=",C)
 t32=time.time()
 print("(三) 二進位轉換 花費秒數= {:>9.16f}".format(t32-t31) )
 print("\n")
+
+
+
+
+
+# ====================================================================
+# (三) 改寫
+# ====================================================================
+
+def methodBin(fn):
+    
+    t31=time.time()
+    C=[]
+    fnBin = bin(fn)[2:]
+    # 轉成二進位，前面一定會被加上 0b，取 fnBin[2:] 或取 b 後的數字，即可取得實際數字
+
+    print("fnBin的向量長度=",len(fnBin)) # 最高位數 = len(fnBin)-1
+
+    j=0
+    for power in range(len(fnBin)-1,-1,-1):  # fnBin=1101  power =[3 2 1 0] 表 2進位之次方list
+        if int(fnBin[j]) != 0:               # 從 fnBin 的第0位開始找，若 不等於0(即=1)，
+
+            C.append(power)                  # 就把 次方向量power 放入 C
+            j += 1                           # 找完就找下一位
+
+        else:
+            j += 1                           # =0，沒事，下一位
+
+    print("\n")
+    print("最終C向量=",C)
+
+    t32=time.time()
+    print("(三) 二進位轉換 花費秒數= {:>9.16f}".format(t32-t31) )
+    print("\n")
+    return C ,fnb ,len(C) ,(t22-t21) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# ====================================================================
+# 主程式
+# ====================================================================
+
+A=[]
+B=[] # LOG作法
+C=[] # 二進位作法
+
+# 記得補寫錯誤信息
+lengthMax=int(input("向量長度上限：")) # 特別注意input進去的是字串!!! 老是錯這邊
+elementMax=int(input("元素值上限："))
+
+A, fn, length = generateExampleList() #生成題目
+# A, fn, length = generateList(lengthMax,elementMax)        #生成隨機向量
+
+print("\n隨機向量長度=",length,"，各元素值上限=",elementMax)
+print("A向量 =",A,"fn =",fn,"\n")
+
+
+
+
+
+fnBin=bin(fn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
