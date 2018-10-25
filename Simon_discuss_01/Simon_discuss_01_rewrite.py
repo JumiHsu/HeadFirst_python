@@ -5,15 +5,8 @@ import time
 # time：https://pythoncaff.com/docs/pymotw/time-time-module/97
 
 
-# # ====================================================================
-# # (一) 生成一個隨機向量 定義長度上限、元素值上限
-# # ====================================================================
-
-
-
-# 生成一個隨機向量，需定義長度上限、元素值上限
+# 生成一個隨機向量(長度上限，元素值上限)
 def generateList(lengthMax,elementMax):
-    print("========== (一) 生成一個隨機向量 定義長度上限、元素值上限 ==========")
 
     t11=time.time()
     length=random.sample(range(1,lengthMax+1),1) # 取出物=字串，range有頭無尾
@@ -35,10 +28,6 @@ def generateList(lengthMax,elementMax):
     print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
     
     return A,fn,length
-
-# 原来返回值是一个tuple！但是，在语法上，返回一个tuple可以省略括号，
-# 而多个变量可以同时接收一个tuple，按位置赋给对应的值，
-# 所以，Python的函数返回多值其实就是返回一个tuple，但写起来更方便。
 
 
 

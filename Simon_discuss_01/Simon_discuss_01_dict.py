@@ -9,7 +9,6 @@ import time
 def generateList(lengthMax,elementMax):
     print("========== (一) 生成一個隨機向量 定義長度上限、元素值上限 ==========")
 
-    t11 = time.time()
     length = random.sample(range(1,lengthMax+1),1)        # 取出物=字串，range有頭無尾
     length = int(length[0])
 
@@ -19,14 +18,10 @@ def generateList(lengthMax,elementMax):
         
         element=random.sample(range(0,elementMax+1),1)  # 注意random.sample取出的東西 = list
         element=int(element[0])
-        # print("第",index+1,"個元素= 向量位置",index,"，其值為：",element)
         A.append(element)
 
         fn += 2**A[index]
-        index += 1
-    
-    t12=time.time()
-    print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
+        index += 1    
                                                         # 其實是 return 一個 tuple，可以省略括號
     return A,fn,length                                  # 且多個變數可同時接收一個 tuple，按位置指派值
 
