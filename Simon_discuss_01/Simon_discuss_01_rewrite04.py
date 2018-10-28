@@ -136,7 +136,7 @@ def methodBinNum(inputList):
     lengthB3 = fnBin.count("1")
     t32=time.time()
 
-    return B3 ,fn_BinNum ,lengthB3 ,t32-t31 ,t31 ,t32
+    return B3 ,fn_BinNum ,lengthB3 ,t32-t31
 
 
     
@@ -200,7 +200,7 @@ else:
 
 
 # ----- 計算二進位後，1的個數
-binNumList ,fn_BinNum ,lengthBinNum ,tBinNum ,t31 ,t32 = methodBinNum(A)
+binNumList ,fn_BinNum ,lengthBinNum ,tBinNum  = methodBinNum(A)
 print("binNumList = ",binNumList ,"\n")
 
 # 檢查答案是否 = 前兩種算法的向量長度
@@ -229,51 +229,15 @@ ratioFinalJson = json.dumps(ratioFinal ,indent=1)
 
 print( ratioFinalJson )
 
-print(ratioFinal.items())
-ratio_min =  min(ratioFinal.items() ,key=lambda x:x[1] )
-ratio_max =  max(ratioFinal.items() ,key=lambda x:x[1] )
+# print(ratioFinal.items())
+# ratio_min =  min(ratioFinal.items() ,key=lambda x:x[1] )
+# ratio_max =  max(ratioFinal.items() ,key=lambda x:x[1] )
 
-print( "最快的算法 =" , ratio_min[0] )
+# print( "最快的算法 =" , ratio_min[0] )
+print( "最快的算法 =" , min(ratioFinal.items() ,key=lambda x:x[1] )[0] )
 print( "為 最慢算法 的：" )
 print( 'percent: {:.2%}'.format( min(method_t)/max(method_t) ) )
 # 不知道為何這樣會報錯
 # print( 'percent: {:.2%}'.format( float(ratio_min[1]) / float(ratio_max[1]) )
 print("\n")
 
-
-
-# 檢查一個向量的每一個值，確認是否為最小值
-# def check( method_t , index):
-#     index = 0
-#     for index < len(method_t):
-#         if min(method_t) = method_t
-
-
-# # ----- 檢查程式執行時間、別忘了回答問題 (a)
-# if min( method_t ) == tLog :
-#     print( "LOG算法 最快，\n\n為 最慢算法 的：" )
-#     print( 'percent: {:.2%}'.format( min(method_t)/max(method_t) ) )
-
-#     print( "所求 B 向量長度 =",lengthLog ,"\n")
-#     print( "使用函式 = methodLog(A)" )
-
-# elif min( method_t ) == tBin :
-#     print( "二進位算法 最快，\n\n為 最慢算法 的：" )
-#     print( 'percent: {:.2%}'.format( min(method_t)/max(method_t) ) )
-
-#     print( "所求 B 向量長度 =",lengthBin ,"\n")
-#     print( "使用函式 = methodBin(A)" )
-
-# elif min( method_t ) == tBinNum :
-#     print( "計算 二進位1個數 最快，\n\n為 最慢算法 的：" )
-#     print( 'percent: {:.2%}'.format( min(method_t)/max(method_t) ) )
-
-#     print( "所求 B 向量長度 =",lengthBinNum ,"\n")
-#     print( "使用函式 = methodBinNum(A)" )
-
-# else :
-#     print( "答案有誤，請確認" )
-
-
-
-# print("\n")
