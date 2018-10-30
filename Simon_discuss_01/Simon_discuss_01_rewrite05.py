@@ -139,7 +139,95 @@ def methodBinNum(inputList):
     return B3 ,fn_BinNum ,lengthB3 ,t32-t31
 
 
+
+
+
+
+# =============================================================================
+# (四-1) 張CHI 根據給定向量A 算fn
+# =============================================================================
+def chi_calculate_fn(anyList):
     
+    t41=time.time()
+    print("========== (四) Chi ==========")
+    length = len(anyList)
+    fn ,index = 0 ,0
+    while index < length:
+        fn += 1 << anyList[index]
+        index += 1
+
+    t42=time.time()
+    return fn ,length ,t42-t41
+
+
+
+# =============================================================================
+# (四-2) 張CHI 用fn 算B向量長度
+# =============================================================================
+def countBit(fn):
+    t41=time.time()
+    count = 0
+    while fn > 0:
+        lsb = fn & 1      # fn和1 做bitwise and 就會只剩最右邊一個bit
+        if lsb == 1:      # 最右邊一個bit 是1 等式才會成立
+            count +=1
+
+        fn = fn >> 1  #原始資料向右shift 一位
+    t42=time.time()
+
+    return count ,t42-t41
+
+
+
+
+
+
+# =============================================================================
+# (五) Rick
+# =============================================================================
+# Create input data
+def createInput(digits, maxExp):
+    result = []
+    for i in range(digits):
+        result.append(random.randint(0, maxExp))
+    return result
+
+
+def calc( inputList ):
+
+    t51=time.time()
+    print("========== (五) Rick ==========")
+    digitMap = {}
+    for i in inputList:
+        # 找到對應的位數，然後+1
+        # 先計算 inputList 中各個數字的出現次數
+        digitMap[i] = digitMap.get(i, 0) + 1
+        j = i
+
+        # # 如果該位數超過1代表可以進位，一路往上進位
+        while digitMap[j] > 1:
+            digitMap[j + 1] = digitMap.get(j + 1, 0) + 1
+            del digitMap[j]
+            j += 1
+            
+    t52=time.time()
+    # 最後dict結構裡面有幾個key就代表答案是多少
+    return len(digitMap) ,digitMap ,t52-t51
+
+
+# CHECK
+def check_rick(digitMap):   # 本來 digitMap 是 dict
+    B=[]
+    for x in range(len(digitMap) ,-1 ,-1):
+        if digitMap.get(x, 0) != 0:
+            B.append(x)     # 還原為一個向量
+            fn_check ,length_check = calculate_fn(B)
+
+    return B ,fn_check ,length_check
+
+
+
+
 
 
 
@@ -177,7 +265,7 @@ print("\n目標向量 A =",A,"，向量長度 =",length,"fn =",fn,"\n")
 
 # ----- 取 LOG 處理
 logList ,fn_Log ,lengthLog ,tLog = methodLog(A)
-print("logList = ",logList ,"\n")
+print("logList = ",logList ,"\n" ,"B向量長=" ,lengthLog ,"\n")
 
 # 檢查答案是否 = fn
 if fn_Log == fn :
@@ -189,7 +277,7 @@ else:
 
 # ----- 取 二進位 處理
 binList ,fn_Bin ,lengthBin ,tBin = methodBin(A)
-print("binList = ",binList ,"\n")
+print("binList = ",binList ,"\n" ,"B向量長=" ,lengthBin ,"\n")
 
 # 檢查答案是否 = fn
 if fn_Bin == fn :
@@ -201,7 +289,7 @@ else:
 
 # ----- 計算二進位後，1的個數
 binNumList ,fn_BinNum ,lengthBinNum ,tBinNum  = methodBinNum(A)
-print("binNumList = ",binNumList ,"\n")
+print( "B向量長=" ,lengthBinNum ,"\n")
 
 # 檢查答案是否 = 前兩種算法的向量長度
 if (lengthBinNum == lengthLog) and (lengthBinNum == lengthBin) :
@@ -212,19 +300,46 @@ else:
 
 
 
+# ----- 用張CHI的算法
+fn_chi ,lengthInputChi ,tChi_1 = chi_calculate_fn(A)
+lengthChi ,tChi_2 = countBit(fn_chi)
+
+print("fn_chi =" ,fn_chi ,"\n" ,"B向量長=" ,lengthChi ,"\n")
+
+
+
+
+
+# -----Rick的算法
+lengthRick ,digitMap ,tRick = calc(A)
+print("B向量長 =" ,lengthRick ,"\n")
+
+
+# B ,fn_check ,length_check = check_rick(digitMap)
+# print("(RECHECK) B向量 =" ,B ,"fn_check =" ,fn_check ,
+#       "length_check =" ,length_check)
+
+
+
+
+
 
 # ----- 檢查程式執行時間、別忘了回答問題(b)
 
-method_t=[tLog ,tBin ,tBinNum]
+method_t=[tLog ,tBin ,tBinNum ,tChi_1+tChi_2 ,tRick]
 
-ratioLog = tLog/min( tLog ,tBin ,tBinNum )
-ratioBin = tBin/min( tLog ,tBin ,tBinNum )
-ratioBinNum = tBinNum/min( tLog ,tBin ,tBinNum )
+ratioLog = tLog /min( method_t )
+ratioBin = tBin /min( method_t )
+ratioBinNum = tBinNum /min( method_t )
+ratioChi = (tChi_1+tChi_2) /min( method_t )
+ratioRick = tRick /min( method_t )
 
 ratioFinal = {}
-ratioFinal["ratioLog"] = tLog/min( tLog ,tBin ,tBinNum )
-ratioFinal["ratioBin"] = tBin/min( tLog ,tBin ,tBinNum )
-ratioFinal["ratioBinNum"] = tBinNum/min( tLog ,tBin ,tBinNum )
+ratioFinal["ratioLog"] = ratioLog
+ratioFinal["ratioBin"] = ratioBin
+ratioFinal["ratioBinNum"] = ratioBinNum
+ratioFinal["ratioChi"] = ratioChi
+ratioFinal["ratioRick"] = ratioRick
 ratioFinalJson = json.dumps(ratioFinal ,indent=1)
 
 print( ratioFinalJson )
