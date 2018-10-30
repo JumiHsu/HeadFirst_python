@@ -10,15 +10,22 @@ Given nums = [2, 7, 11, 15], target = 9,
 Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
 
-Jumi:
-1. 令t=任意正整數
-2. 找出向量A中，任意兩實數相加=t
+Tip
+題目只會給 具有唯一解 的向量nums
+nums元素值不重複
+target必定落在 min1+2 ~ MAX1+2 之間
+檢查input2的target，找出只有一個解決方案者，放入dict中
+{ target1:'[0,1]' ,target2:'[1,3]' }
+
 '''
 
 
 import random
 import math
 import time
+import json
+
+
 
 
 # ====================================================================
@@ -40,8 +47,24 @@ L=list( enumerate(name) )
 print(L)
 print("\n")
 
+values = [1, 2, 3, 4, 5, 6]
+for i in range(8):
+    print( random.choice(values) )
+    # print( np.random.choice(100, 20, replace=False) )
 
-import numpy as np
+print("END-1")
+
+
+
+values = [1, 2, 3, 4, 5, 6]
+for i in range(8):
+    print( random.sample(values, 5) )
+
+print("END-2")
+
+
+'''
+import numpy
 import matplotlib.pyplot as plt
 import seaborn
 seaborn.set()
@@ -56,58 +79,36 @@ indices = np.random.choice(100, 20, replace=False)
 # -----
 # np.random.choice代表隨機抽樣之意，0-99中抽出20個樣本，
 # 且抽樣後不放回(replace=False，因此不重複抽樣)
-
+'''
 
 
 A=[]
 
 # ====================================================================
-# (一) 生成長度隨機 (<N1)，元素值隨機 (<M1) 的A向量  (random math time)
-#      且向量元素值「不重複」
+# (一) 隨機生成 Nums 向量，且向量元素值「不重複」(random math time)
 # ====================================================================
-print("========== (一) 生出一個 長度隨機<=N1，元素值隨機但必<=M1 的A向量 ==========")
+print("========== (一) 隨機生成 Nums 向量，且向量元素值「不重複」 ==========")
 
-t11=time.time()
-# A 的長度隨機，落在 [1,N1] 內，意同 range(1,N1+1)
-# A 的每個元素，落在 [1,M1] 內，意同 range(1,M1+1)
-N1=4  #長度 上限
-M1=20 #元素值 上限
+NumsLenMax = 10                            # 長度 上限
+NumsElementMax = 20                        # 元素值 上限
+NumsLen = random.randint( 1 ,NumsLenMax )  # 向量 長度，落在 [0,Max] 內
 
-N1=random.sample(range(1,N1+1),1) # 隨機決定向量長度N1，range有頭無尾
-N1=int(N1[0])                     # 取出來的東西為字串
+print("隨機向量長度 =",NumsLen,"，各元素值上限 =",NumsElementMax ,"\n")
 
-print("\n")
-print("隨機令向量長度= N1=",N1,"，令各元素值上限= M1=",M1)
-print("\n")
-
-#不知道怎麼宣告一個空的int變數，先令他=0
-k=0
-
-while k<N1:
-    #M2必定<M1
-    M2=random.sample(range(0,M1+1),1) #隨機決定M2的值
-    M2=int(M2[0])
-    # if M2==A[k]:
-    # print("第",k+1,"個元素= 向量位置k=",k,"，第k個位置的值= M2=",M2)
-
-    A.append(M2) #一個一個放進向量A
-    k += 1       #計數+1
+NumsElementPopulation = range( 0 ,NumsElementMax+1 )    # 留意取頭不取尾
+Nums = random.sample( NumsElementPopulation ,NumsLen )  # 不重複抽取
     
-print("A向量=",A)
-t12=time.time()
-print("(一)花費秒數= {:>9.16f}".format(t12-t11)  )
-print("\n")
-
+print("向量 Nums =" ,Nums )
 
 
 # ====================================================================
 # (二) 取得合乎條件的 target 範圍
 # ====================================================================
 
-target_v=[]
-lenA=len(A)
+# target_v=[]
+# lenA=len(A)
 
-t1=A[0]
+# t1=A[0]
 
 
 

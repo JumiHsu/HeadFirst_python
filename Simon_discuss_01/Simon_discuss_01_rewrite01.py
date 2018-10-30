@@ -139,8 +139,8 @@ def methodBin(fn):
 lengthMax=int(input("向量長度上限：")) # 特別注意input進去的是字串!!! 老是錯這邊
 elementMax=int(input("元素值上限："))
 
-A, fn, length = generateExampleList() #生成題目
-# A, fn, length = generateList(lengthMax,elementMax)        #生成隨機向量
+# A, fn, length = generateExampleList() #生成題目
+A, fn, length = generateList(lengthMax,elementMax)        #生成隨機向量
 
 print("\n目標向量 A =",A,"，向量長度 =",length,"fn =",fn,"\n")
 
