@@ -26,12 +26,60 @@ import time
 import json
 
 
+A=[]
+
+# ====================================================================
+# (一) 隨機生成 Nums 向量，且向量元素值「不重複」(random math time)
+# ====================================================================
+print("========== (一) 隨機生成 Nums 向量，且向量元素值「不重複」 ==========")
+
+NumsLenMax = 10                            # 長度 上限
+NumsElementMax = 20                        # 元素值 上限
+NumsLen = random.randint( 1 ,NumsLenMax )  # 向量 長度，落在 [0,Max] 內
+print("隨機向量長度 =",NumsLen,"，各元素值上限 =",NumsElementMax)
+
+NumsElementPopulation = range( 0 ,NumsElementMax+1 )    # 留意取頭不取尾
+Nums = random.sample( NumsElementPopulation ,NumsLen )  # 不重複抽取
+print("向量 Nums =" ,Nums ,"\n")
+
+
+# ====================================================================
+# (二) 取得合乎條件的 target 範圍
+# ====================================================================
+
+# 用C幾取幾去找target
+
+def C(m,n):
+    f
+    
+
+
+# target_v=[]
+# lenA=len(A)
+
+# t1=A[0]
+
+
+
+# ====================================================================
+# 先把比target大的剔除
+# ====================================================================
+
+
+
+
+
+
+
+
+
 
 
 # ====================================================================
 # (零) 事前準備
 # ====================================================================
 # range(i,j,每次位移值)=i、i+1、i+2、…、j-1
+'''
 name="JUMI"
 for i in range(len(name)):
     print(i,name[i])
@@ -46,7 +94,9 @@ print("\n")
 L=list( enumerate(name) )
 print(L)
 print("\n")
+'''
 
+'''
 values = [1, 2, 3, 4, 5, 6]
 for i in range(8):
     print( random.choice(values) )
@@ -61,6 +111,7 @@ for i in range(8):
     print( random.sample(values, 5) )
 
 print("END-2")
+'''
 
 
 '''
@@ -80,39 +131,3 @@ indices = np.random.choice(100, 20, replace=False)
 # np.random.choice代表隨機抽樣之意，0-99中抽出20個樣本，
 # 且抽樣後不放回(replace=False，因此不重複抽樣)
 '''
-
-
-A=[]
-
-# ====================================================================
-# (一) 隨機生成 Nums 向量，且向量元素值「不重複」(random math time)
-# ====================================================================
-print("========== (一) 隨機生成 Nums 向量，且向量元素值「不重複」 ==========")
-
-NumsLenMax = 10                            # 長度 上限
-NumsElementMax = 20                        # 元素值 上限
-NumsLen = random.randint( 1 ,NumsLenMax )  # 向量 長度，落在 [0,Max] 內
-
-print("隨機向量長度 =",NumsLen,"，各元素值上限 =",NumsElementMax ,"\n")
-
-NumsElementPopulation = range( 0 ,NumsElementMax+1 )    # 留意取頭不取尾
-Nums = random.sample( NumsElementPopulation ,NumsLen )  # 不重複抽取
-    
-print("向量 Nums =" ,Nums )
-
-
-# ====================================================================
-# (二) 取得合乎條件的 target 範圍
-# ====================================================================
-
-# target_v=[]
-# lenA=len(A)
-
-# t1=A[0]
-
-
-
-# ====================================================================
-# 先把比target大的剔除
-# ====================================================================
-
