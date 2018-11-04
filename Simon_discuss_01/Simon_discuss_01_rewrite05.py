@@ -33,7 +33,8 @@ def generateList(lengthMax ,elementMax):
         element = random.randint(1,elementMax)
         inputList.append(element)
         index += 1
-    
+    # inputList = []    # 假設要給定指定向量
+
     fn ,length = calculate_fn(inputList)
 
     return inputList ,fn ,length
@@ -57,9 +58,6 @@ def generateExampleList():
 # (一) 對 fn 連續取log (input= inputList)
 # =============================================================================
 def methodLog(inputList):
-        
-    t11=time.time()
-    print("========== (一) LOG轉換 ==========")
 
     fn ,length = calculate_fn(inputList)
     fna ,bCount = fn ,0
@@ -69,30 +67,24 @@ def methodLog(inputList):
 
         B1.append( int(math.log(fna,2)) )   # 對fn取log2，取完的值取整，放入B[]
 
-        fna += -2**B1[bCount]               # fna 扣掉 2**B[0]，剩下來的成為新的fna
+        fna += -(2**B1[bCount])            # fna 扣掉 2**B[0]，剩下來的成為新的fna
         bCount += 1                        # 計數+1,雖不是用 bCount 來限制迴圈次數，
                                            # 但要用他來安排向量填入的順序
     
     fn_Log ,lengthB1 = calculate_fn(B1)
-    
-    t12=time.time()
-    print("取 log 花費秒數= {:>9.16f}".format(t12-t11) )
 
-    return B1 ,fn_Log ,lengthB1 ,t12-t11
+    return B1 ,fn_Log ,lengthB1
 
 
 
 
 
 # =============================================================================
-# (二) 用二進位轉換來處理 (input= inputList)
+# (二)-1 用二進位轉換來處理 (input= inputList)
 # =============================================================================
 
 def methodBin(inputList):
     
-    t21=time.time()
-    print("========== (二) 二進位轉換 ==========")
-
     fn ,length = calculate_fn(inputList)
     B2=[]
     fnBin = bin(fn)[2:]                 # 轉二進位，前面一定會加上 0b
@@ -109,10 +101,7 @@ def methodBin(inputList):
     
     fn_Bin ,lengthB2 = calculate_fn(B2)
 
-    t22=time.time()
-    print("二進位轉換 花費秒數= {:>9.16f}".format(t22-t21) )
-
-    return B2 ,fn_Bin ,lengthB2 ,t22-t21
+    return B2 ,fn_Bin ,lengthB2
 
 
 
@@ -120,13 +109,11 @@ def methodBin(inputList):
 
 
 # =============================================================================
-# (三) 直接計算 二進位中1的個數 (input= inputList)
+# (二)-2 直接計算 二進位中1的個數 (input= inputList)
 # =============================================================================
 
 def methodBinNum(inputList):
 
-    t31=time.time()
-    print("========== (三) 計算 二進位中 1的個數 ==========")
     B3=[]
 
     fn ,length = calculate_fn(inputList)
@@ -134,9 +121,37 @@ def methodBinNum(inputList):
     fnBin = bin(fn)[2:]                 # 轉二進位，前面一定會加上 0b
     fn_BinNum = None
     lengthB3 = fnBin.count("1")
-    t32=time.time()
 
-    return B3 ,fn_BinNum ,lengthB3 ,t32-t31
+    return B3 ,fn_BinNum ,lengthB3
+
+
+
+
+
+
+# =============================================================================
+# (三) KAO (input= inputList)
+# =============================================================================
+def SolutionA(inputList):
+    
+    tempN = 0
+    for i in range(len(inputList)):
+        tempN += pow(2,inputList[i])
+    #print(tempN)
+    return tempN
+
+def FindNearestBinarySolution(B): # B起初=fn
+    num = 0
+    while pow(2,num) <= B:
+        num += 1
+    return num-1
+
+def GetBinarySquareSolution(ARR):
+    finalnum = 0
+    for i in range(len(ARR)):
+        finalnum += pow(2,ARR[i])
+    #print(finalnum)
+    return finalnum
 
 
 
@@ -148,24 +163,21 @@ def methodBinNum(inputList):
 # =============================================================================
 def chi_calculate_fn(anyList):
     
-    t41=time.time()
-    print("========== (四) Chi ==========")
     length = len(anyList)
     fn ,index = 0 ,0
     while index < length:
         fn += 1 << anyList[index]
         index += 1
 
-    t42=time.time()
-    return fn ,length ,t42-t41
+    return fn ,length
 
 
 
 # =============================================================================
-# (四-2) 張CHI 用fn 算B向量長度
+# (四-21) 張CHI 用fn 算B向量長度，方法1
 # =============================================================================
 def countBit(fn):
-    t41=time.time()
+    
     count = 0
     while fn > 0:
         lsb = fn & 1      # fn和1 做bitwise and 就會只剩最右邊一個bit
@@ -173,9 +185,22 @@ def countBit(fn):
             count +=1
 
         fn = fn >> 1  #原始資料向右shift 一位
-    t42=time.time()
 
-    return count ,t42-t41
+    return count
+
+
+
+# =============================================================================
+# (四-22) 張CHI 用fn 算B向量長度，方法2
+# =============================================================================
+def superCount(fn):
+    v = fn
+    v = ( v & 0x55555555 ) + ((v>> 1) & 0x55555555) # v1
+    v = ( v & 0x33333333 ) + ((v>> 2) & 0x33333333) # v2
+    v = ( v & 0x0f0f0f0f ) + ((v>> 4) & 0x0f0f0f0f) # v3
+    v = ( v & 0x00ff00ff ) + ((v>> 8) & 0x00ff00ff) # v4
+    v = ( v & 0x0000ffff ) + ((v>>16) & 0x0000ffff) # v5
+    return v
 
 
 
@@ -195,8 +220,6 @@ def createInput(digits, maxExp):
 
 def calc( inputList ):
 
-    t51=time.time()
-    print("========== (五) Rick ==========")
     digitMap = {}
     for i in inputList:
         # 找到對應的位數，然後+1
@@ -210,9 +233,9 @@ def calc( inputList ):
             del digitMap[j]
             j += 1
             
-    t52=time.time()
+
     # 最後dict結構裡面有幾個key就代表答案是多少
-    return len(digitMap) ,digitMap ,t52-t51
+    return len(digitMap) ,digitMap
 
 
 # CHECK
@@ -252,8 +275,8 @@ def check_rick(digitMap):   # 本來 digitMap 是 dict
 
 
 
-lengthMax = 100000
-elementMax = 10000
+lengthMax = 10000
+elementMax = 1000
 
 A, fn, length = generateList(lengthMax,elementMax)        #生成隨機向量
 
@@ -263,9 +286,16 @@ print("\n目標向量 A =",A,"，向量長度 =",length,"fn =",fn,"\n")
 
 
 
-# ----- 取 LOG 處理
-logList ,fn_Log ,lengthLog ,tLog = methodLog(A)
-print("logList = ",logList ,"\n" ,"B向量長=" ,lengthLog ,"\n")
+# ----- (一)取 LOG 處理
+print("========== (一) LOG轉換 ==========")
+t1=time.time()
+
+logList ,fn_Log ,lengthLog , = methodLog(A)
+
+t2=time.time()
+tLog = t2 - t1
+print("tLog = {:>9.16f}".format(tLog) )
+print("B向量長=" ,lengthLog ,"\n")
 
 # 檢查答案是否 = fn
 if fn_Log == fn :
@@ -275,9 +305,16 @@ else:
 
 
 
-# ----- 取 二進位 處理
-binList ,fn_Bin ,lengthBin ,tBin = methodBin(A)
-print("binList = ",binList ,"\n" ,"B向量長=" ,lengthBin ,"\n")
+# ----- (二)-1 取 二進位 處理
+print("========== (二)-1 二進位轉換 ==========")
+t1=time.time()
+
+binList ,fn_Bin ,lengthBin = methodBin(A)
+
+t2=time.time()
+tBin = t2 - t1
+print("tBin = {:>9.16f}".format(tBin) )
+print("B向量長=" ,lengthBin ,"\n")
 
 # 檢查答案是否 = fn
 if fn_Bin == fn :
@@ -287,9 +324,18 @@ else:
 
 
 
-# ----- 計算二進位後，1的個數
-binNumList ,fn_BinNum ,lengthBinNum ,tBinNum  = methodBinNum(A)
+# ----- (二)-2 計算二進位後，1的個數
+print("========== (二)-2 計算二進位後，1的個數 ==========")
+t1=time.time()
+
+binNumList ,fn_BinNum ,lengthBinNum = methodBinNum(A)
+
+t2=time.time()
+tBinNum = t2 - t1
+print("tBinNum = {:>9.16f}".format(tBinNum) )
 print( "B向量長=" ,lengthBinNum ,"\n")
+
+
 
 # 檢查答案是否 = 前兩種算法的向量長度
 if (lengthBinNum == lengthLog) and (lengthBinNum == lengthBin) :
@@ -300,18 +346,76 @@ else:
 
 
 
-# ----- 用張CHI的算法
-fn_chi ,lengthInputChi ,tChi_1 = chi_calculate_fn(A)
-lengthChi ,tChi_2 = countBit(fn_chi)
+# ----- (三)高謙的算法
+print("========== (三) KAO ==========")
+t1=time.time()
 
-print("fn_chi =" ,fn_chi ,"\n" ,"B向量長=" ,lengthChi ,"\n")
+nSol = SolutionA(A)
+nTempSol = nSol
+# print("nSol =" ,nSol)
+nNearest = FindNearestBinarySolution(nSol)
+arrSol = [nNearest]
+# print("arrSol=",arrSol)
+
+while nSol != GetBinarySquareSolution(arrSol):
+    nTempSol -= pow(2,nNearest)
+    nNearest = FindNearestBinarySolution(nTempSol)
+    arrSol.append(nNearest)
+
+t2=time.time()
+tKAO = t2 - t1
+print("tKAO = {:>9.16f}".format(tKAO) )
+print("B向量長=" ,len(arrSol) ,"\n")
+
+
+# 檢查答案是否 = fn
+if nSol == fn:
+    pass
+else:
+    print("fn =" ,fn ,"，nSol =" ,nSol ,"，答案有誤，請確認\n")
 
 
 
 
+# ----- (四)-21 張CHI的算法1
 
-# -----Rick的算法
-lengthRick ,digitMap ,tRick = calc(A)
+print("========== (四)-1 Chi ==========")
+t1=time.time()
+
+fn_chi_1 ,lengthInputChi = chi_calculate_fn(A)
+lengthChi_1 = countBit(fn_chi_1)
+
+t2=time.time()
+tChi_1 = t2 - t1
+print("tChi_1 = {:>9.16f}".format(tChi_1) )
+print("B向量長=" ,lengthChi_1 ,"\n")
+print("fn_chi_1 =" ,fn_chi_1 ,"\n")
+
+
+# ----- (四)-22 用張CHI的算法2
+print("========== (四)-2 Chi ==========")
+t1=time.time()
+
+fn_chi_2 ,lengthInputChi = chi_calculate_fn(A)
+lengthChi_2 = superCount(fn_chi_2)
+
+t2=time.time()
+tChi_2 = t2 - t1
+print("tChi_1 = {:>9.16f}".format(tChi_2) )
+print("B向量長=" ,lengthChi_2 ,"\n")
+print("fn_chi_2 =" ,fn_chi_2 ,"\n")
+
+
+# ----- (五) Rick的算法
+print("========== (五) Rick ==========")
+t1=time.time()
+
+lengthRick ,digitMap = calc(A)
+
+t2=time.time()
+
+tRick = t2 - t1
+print("tChi_1 = {:>9.16f}".format(tRick) )
 print("B向量長 =" ,lengthRick ,"\n")
 
 
@@ -324,21 +428,26 @@ print("B向量長 =" ,lengthRick ,"\n")
 
 
 
-# ----- 檢查程式執行時間、別忘了回答問題(b)
+# ----- 檢查程式執行時間
 
-method_t=[tLog ,tBin ,tBinNum ,tChi_1+tChi_2 ,tRick]
+# 將新增的 算法耗時t 放進來
+method_t=[tLog ,tBin ,tBinNum ,tKAO ,tChi_1 ,tChi_2 ,tRick]
 
 ratioLog = tLog /min( method_t )
 ratioBin = tBin /min( method_t )
 ratioBinNum = tBinNum /min( method_t )
-ratioChi = (tChi_1+tChi_2) /min( method_t )
+ratioKAO = tKAO /min( method_t )
+ratioChi_1 = tChi_1 /min( method_t )
+ratioChi_2 = tChi_2 /min( method_t )
 ratioRick = tRick /min( method_t )
 
 ratioFinal = {}
 ratioFinal["ratioLog"] = ratioLog
 ratioFinal["ratioBin"] = ratioBin
 ratioFinal["ratioBinNum"] = ratioBinNum
-ratioFinal["ratioChi"] = ratioChi
+ratioFinal["ratioKAO"] = ratioKAO
+ratioFinal["ratioChi_1"] = ratioChi_1
+ratioFinal["ratioChi_2"] = ratioChi_2
 ratioFinal["ratioRick"] = ratioRick
 ratioFinalJson = json.dumps(ratioFinal ,indent=1)
 
