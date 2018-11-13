@@ -25,9 +25,9 @@ def calculate_fn(anyList):
 def generateList(lengthMax ,elementMax):
 
     inputList=[]
-    length = random.randint(1,lengthMax)                   # randint 取頭取尾
+    length = random.randint(1,lengthMax)           # randint 取頭取尾
 
-    index = 0                         # 不知道怎麼宣告一個空的int變數，先令他=0
+    index = 0                 # 不知道怎麼宣告一個空的int變數，先令他=0
     while index < length:
         
         element = random.randint(1,elementMax)
