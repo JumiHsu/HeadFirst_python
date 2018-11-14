@@ -23,6 +23,15 @@ def isGreaterThanZero(list):
     return ans
 
 
+def any(function):
+    ans = bool
+    if function():
+        ans = True
+    else:
+        ans = False
+    return ans
+
+
 # 希望在不定義 function() 丟入的變數是啥的情況下
 # 計算 function() 的運行時間
 def time(function):
@@ -33,10 +42,14 @@ def time(function):
     print("耗費時間 = {:>9.16f}".format(t2-t1) )
 
 
+
+
 list = [1006, 432121352, 345453.45, 45452121, -1 ,545 ,145 ,574874]
 
-
 print( isGreaterThanZero(list) )
+
+print( any( lambda : isGreaterThanZero(list) ) )
+
 
 # 丟進去的是函式，但這樣不行，
 # 要先讓丟進去的東西，假裝他也是一個變數，讓time去吃
