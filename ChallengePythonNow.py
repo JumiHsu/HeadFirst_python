@@ -57,16 +57,21 @@ print("\n文章總長度 =",targetCharacterTotal)
 alphabetSmallList = [chr(i) for i in range(97,122)]
 print("alphabetSmallList =",alphabetSmallList)
 
-index = 0
-ans4=[]
-while index < len(targetCharacterTotalStr):
-    ans4.append( alphabetSmallList[ int(targetCharacterTotalStr[index]) ] )
-    index += 1
+def changeKeyword(keyNum):
+    index = 0
+    ans=[]
+    keyNumStr = str(keyNum)
+    while index < len(keyNumStr):
+        ans.append( alphabetSmallList[ int(keyNumStr[index]) ] )
+        index += 1
+    return "".join(ans)
 # 63:TypeError
 # list indices must be integers or slices, not str
 # 解決：targetCharacterTotalStr[index]為一個str，但規格為 list[int]
 
-print("\n",i,".","".join(ans4))
+ans4 = changeKeyword(targetCharacterTotalStr)
+
+print("\n",i,".",ans4)
 
 
 
@@ -81,15 +86,15 @@ serial4 = dict.fromkeys([k for k in range(0,26)], 0)  # 這樣才是一個dict
 
 ''' 生成字母表，ASCII碼表，Dec碼為10進位碼 '''
 A=[]
-for i in range(65,91):                # 寫法 1 = ['A', 'B', 'C',..., 'Z']
-    A.append(chr(i))
+for j in range(65,91):                # 寫法 1 = ['A', 'B', 'C',..., 'Z']
+    A.append(chr(j))
 
-[chr(i) for i in range(97,123)]       # 寫法 2 = ['a', 'b', 'c',..., 'z']
+[chr(j) for j in range(97,123)]       # 寫法 2 = ['a', 'b', 'c',..., 'z']
 
 
 
 ''' 生成連續字串，用 "".join 就可以串在一起 '''
-"".join( [chr(i) for i in range(65,91)] )   # 寫法 1 = ABCDEFG...WXYZ
+"".join( [chr(j) for j in range(65,91)] )   # 寫法 1 = ABCDEFG...WXYZ
 
 
 ''' string.ascii_lowercase本身就是連續字串 '''
@@ -116,3 +121,86 @@ dict.fromkeys(string.ascii_lowercase, 0)
 # Level 5
 # 承上，找出這篇文章有幾個詞，並且此數字轉換為字母
 i += 1
+
+def strClean(anystr):
+    targetClean = anystr.strip()                    # 先清除頭尾垃圾
+    targetClean = targetClean.replace(",","")
+    targetClean = targetClean.replace(".","")       # 清除一些非屬單詞的符號
+    if targetClean.find("  ") > 0 :                 # 整理雙空白
+        targetClean = targetClean.replace("  "," ")
+    else:
+        pass
+    return targetClean
+
+targetClean = strClean(target)
+wordTotal = targetClean.count(" ") + 1          # 計算空白出現次數 +1
+print("wordTotal =" ,wordTotal)
+# print("第一個出現位置 =",(target.find(" ")))   # 這是找位置
+
+ans5 = changeKeyword(wordTotal)
+print("\n",i,".",ans5)
+
+''' 如果有連續4空白，會 4 → 2+1 → 1+1=2 
+test = "AA B    C D E  F  G H  "   # 雙空白=4次
+test1 = test.replace("  "," ",2) # 由左而右，替換 k 次'''
+
+
+
+# https://pythonhow.com/start/cia
+# Level 6
+# 承上，從結尾開始的第270個單詞，和從頭開始的第270個單詞
+i += 1
+
+#1 從左數來第270~271個空白之間那個詞，右邊同理
+#2 或是，先把字串變成list，就可以利用 sort 後，很快找到
+#3 記得先把.,移除，或是只是為了解題，找到再檢查並移除亦可
+
+# targetCleanList = list(targetClean) # 這樣會把所有字母和空白分開
+targetCleanList = targetClean.split(" ")
+# print("targetCleanList =",targetCleanList)
+
+# 從結尾開始的第270個單詞
+targetCleanList.reverse()  # 留意 reverse 是沒有 return值 的
+# print("Reverse =",targetCleanList)
+ans6_1 = targetCleanList[269]
+
+# 從頭開始的第270個單詞
+targetCleanList.reverse()
+# print("targetCleanList =",targetCleanList)
+ans6_2 = targetCleanList[269]
+
+# print(ans6_1,ans6_2)
+print("\n",i,".","".join([ans6_1,ans6_2]))
+
+
+
+# https://pythonhow.com/start/penatibuscondimentum
+# Level 7
+# 承上，使用每個單詞的最後一個字母創建一個字符串，並使用該字符串的最後三分之一
+i += 1
+anstemp7 = []
+ans7list = []
+
+for j in range( len(targetCleanList) ):
+    anstemp7.append( targetCleanList[j][ len(targetCleanList[j])-1 ] )
+
+if len(anstemp7) % 3 == 0:
+    ans7list = anstemp7[ int(len(anstemp7)*2/3)+1 : ]
+    print("len(anstemp7)=",len(anstemp7),"，","len(ans7list)=",len(ans7list))
+else:
+    ans7list = anstemp7[ int(len(anstemp7)*2/3)+1 : ]
+    print("len(anstemp7)=",len(anstemp7),"，","len(ans7list)=",len(ans7list))
+
+# a = targetCleanList[0][ len(targetCleanList[0])-1 ]
+
+print("\n",i,".","".join(ans7list))
+
+
+
+# https://pythonhow.com/start/tmecsasenmadauasossaldneicmtanaemcsmmtstmttttsussadmmtmsettxcsnssmmsttemmlssmnnostmtdreomeods
+# Level 8
+# 承上，包含大寫“q”的單詞
+i += 1
+
+test = ["Quest","soloQ","ThisisveryQandCute","soloq"]
+print( test.find("Q") )
