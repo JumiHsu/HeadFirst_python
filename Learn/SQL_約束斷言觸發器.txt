@@ -1,0 +1,126 @@
+----- SQL -----
+
+約束
+
+1.非空(not null)
+　一種"欄位的特性"，表示該欄資料中不允許null
+　SQL Server 在存放和查詢有 NULL 的資料表時，會花費額外的運算動作
+　↑參考資料：
+　http://sweeteason.pixnet.net/blog/post/36954495-sql-%E6%95%88%E8%83%BD%E8%AA%BF%E6%A0%A1
+
+
+2.鍵值(primary key)
+　key其值需為唯一值
+　非null
+　一張table只允許一個key
+
+CREATE TABLE ***(
+ID int NOT NULL PRIMARY KEY,
+Name varchar(255) NOT NULL,
+City varchar(255) NOT NULL
+)
+
+
+3.外鍵值(foreign key)
+foreign key可保護表與表之間的連結被破壞
+並且防止非法數據被插入foreign key欄中(因為foreign key必須是另外一張表所具備的值)
+
+4.唯一性(unique)
+他是一種"欄位的特性"
+UNIQUE與PRIMARY都可以保護資料的唯一性與可辨識性
+PRIMARY會自動獲得unique這個特性
+一張表中可以有複數的欄位為UNIQUE，但只能有一個PRIMARY
+
+CREATE TABLE ***(
+ID int NOT NULL UNIQUE,
+Name varchar(255) NOT NULL,
+City varchar(255) NOT NULL
+)
+
+
+
+5.CHECK
+用來限定欄位資料中，值的範圍
+對該欄位做CHECK約束，會使得該欄只存在特定的值；
+若對一張table做CHECK約束，
+那麼此CHECK將會在特定的欄資料中，對值進行限制
+
+CREATE TABLE ****(
+ID int NOT NULL,
+Name varchat(255) NOT NULL,
+City varchar(255),
+CONSTRANT chk_Person CHECK (ID>0 AND City='Taipei')
+)
+
+
+
+6.預設值(default)
+用在"要對欄資料插入某值"時，進行約束
+沒有規定要加入啥，就加入預設值
+CREATE TABLE ****(
+ID int NOT NULL,
+Name varchat(255) NOT NULL,
+City varchar(255) DEFAULT 'Taipei',
+)
+
+也可以預設插入系統值
+CREATE TABLE ****(
+ID int NOT NULL,
+Name varchat(255) NOT NULL,
+OrderDate varchar(255) DEFAULT GETDATE(),
+)
+
+
+斷言
+CREATE assertion <斷言名稱> check <條件>
+
+（1）主动元素：是一个表达式或者语句。该表达式或语句只需编写一次，存储在数据库中，然后在适当的时间被执行。主动元素的执行可以是由于某个特定事件引发，如对关系插入元组，或者是当修改数据库的值引起某个逻辑为真等。 
+（2）断言：关系之间的约束称之为断言，是SQL逻辑表达式，并且总是为真。 
+（3）触发器是与某个事件相关的一系列动作，例如向关系中插入元组。触发器总是当这些事情发射时被执行。
+
+当建立断言时，断言条件必须为真，并且要永远保持为真。
+
+資料參考：
+https://blog.csdn.net/Bambi12/article/details/76201563
+
+
+
+觸發器
+是一種預存好的程序，如果當目標TABLE，遭遇到
+有人試圖透過DML(資料操作語言)事件來修改資料，就會觸發此程序。
+DML事件包含INSERT/UPDATE/DELETE這一類會修改到資料表的陳述式，
+就算資料表沒有真的被修改，也會觸發。
+
+CREATE TRIGGER <triggername> ON <table.name>
+
+-- Trigger is valid for single-row inserts.  
+USE AdventureWorks2012;  
+GO  
+
+CREATE TRIGGER NewPODetail  
+ON Purchasing.PurchaseOrderDetail             <以下是Jumi的筆記，跟微軟的中文描述語意，略有不同>
+AFTER INSERT AS                               當INSERT發生時觸發
+
+   UPDATE PurchaseOrderHeader                 會對 PurchaseOrderHeader資料表 進行變動
+   SET SubTotal = SubTotal + LineTotal        SET 變動的欄位 SubTotal = SubTotal + LineTotal
+
+   FROM inserted                              從 inserted表中 讀取 LineTotal欄資料
+   
+   WHERE PurchaseOrderHeader.PurchaseOrderID = inserted.PurchaseOrderID 
+                                    我的理解是 inserted.PurchaseOrderID 是foreignKey，可以索引到 PurchaseOrderHeader
+
+									
+微軟描述：									
+當一個資料列載入至 PurchaseOrderDetail 資料表時，第一種 DML 觸發程序版本非常適用於單一資料列插入。
+INSERT 陳述式引發 DML 觸發程序，而且在此觸發程序的執行期間，會將新的資料列載入到 inserted 資料表。
+UPDATE 陳述式為資料列讀取 LineTotal 資料行的值，
+並將此值與 SubTotal 資料表中 PurchaseOrderHeader 資料行中的現有值加以累計。
+
+WHERE 子句確定 PurchaseOrderDetail 資料表中已更新的資料列，
+與 PurchaseOrderID inserted 資料表中資料列的 相符。
+
+									
+觸發器資料參考：
+https://docs.microsoft.com/zh-tw/sql/relational-databases/triggers/create-dml-triggers-to-handle-multiple-rows-of-data?view=sql-server-2017
+
+
