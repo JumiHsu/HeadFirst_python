@@ -327,6 +327,23 @@ reverse = {v: k for k, v in dic.items()}
 # https://pythonhow.com/start/ca
 # Level 10
 # 承上，Number of days from Wednesday, November 24, 1892 to Jan, 1, 2000 In alphabetic form (0->a, 1->b, etc.)
-# s1892年11月24日星期三至2000年1月1日的天數 以字母形式（0-> a，1-> b等）
+# 1892年11月24日星期三至2000年1月1日的天數 以字母形式（0-> a，1-> b等）
 questionNo += 1
 
+import datetime
+early = datetime.datetime(1892,11,24)
+late = datetime.datetime(2000,1,1)
+diff = late - early   # 39118 days, 0:00:00
+
+# 留意 timedelta格式不是字串，且數字與days之間必夾一個空白
+daysLocation = str(diff).find("days")
+days = int(str(diff)[0: int(daysLocation) ]) # 39118
+
+ans10 = changeKeyword(days)
+
+print("\n",questionNo,".",ans10)
+
+
+
+# https://pythonhow.com/start/djbbi
+# Level 10 complepte !
