@@ -11,7 +11,7 @@ print("\n========== 創建一個class ==========")
 
 
 # 創建一個 Animal 的類別，必須包含：物種名稱、重量
-# 以及 一個 Animal類型的物件，他可以進行吃的動作
+# 以及 一個 Animal 類型的物件，他可以進行吃的動作
 class Animal():
     def __init__(self, inputName ,inputKg): # 定義 這個class，包含哪些必須設定的屬性參數
         self.name = inputName               # 定義 以後要怎麼呼叫

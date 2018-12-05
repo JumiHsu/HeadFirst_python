@@ -71,7 +71,7 @@ def changeKeyword(keyNum):
     return "".join(ans)
 # 63:TypeError
 # list indices must be integers or slices, not str
-# 解決：targetCharacterTotalStr[index]為一個str，但規格為 list[int]
+# 解決： targetCharacterTotalStr[index]為一個str，但規格為 list[int]
 
 ans4 = changeKeyword(targetCharacterTotalStr)
 
@@ -178,6 +178,12 @@ targetCleanList.reverse()
 ans6_2 = targetCleanList[269]
 
 print("\n",questionNo,".","".join([ans6_1,ans6_2]))
+
+# 如果你直接去 str 一個 list ， 而不是 "".join 他的話
+# 會變成一個含有[]、逗點和空白的字串XD
+test=["k1","k2","k3"]
+strtest=str(test)       # strk= ['k1', 'k2', 'k3']，strk[0]= [
+jointest="".join(test)  # joink= k1k2k3
 
 
 
