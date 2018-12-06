@@ -81,7 +81,7 @@ print("\n",questionNo,".",ans4)
 
 
 
-''' 生成數列 '''
+''' 生成 List、Dict '''
 serial1 =[k for k in range(0,26)]    # 一個list
 serial2 ={k for k in range(0,26)}    # 結果他是一個set，不是dict
 serial3 = dict.fromkeys(serial1, 0)                   # 這樣才是一個dict
