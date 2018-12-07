@@ -1,5 +1,5 @@
 # 各種TEST，雜記簿
-
+from __future__ import unicode_literals
 
 # python中要實現動態變數不像其它語言，可以通過 字串+變數(通常數字)，來達到動態變數。
 # C語言例如
@@ -32,6 +32,7 @@ print(abccde)
 print(Element_a_is_)
 print(Element_b_is_)
 print(Element_c_is_)
+
 
 
 
@@ -71,6 +72,48 @@ a = dict( (name,eval(name)) for name in ['some','list','of','vars'] )
 print(a)
 '''
 
+
+
+
+print("\n\n")
+
+
+
+'''
+def details(val):
+    vn = val.__name__          # If such a thing existed
+    vs = str(val)
+    print("The Value of"+ str(vn) +" is" + vs)
+    print("The data type of" + vn +" is" + str(type(val)))
+
+m = 'abracadabra'
+mm=[] 
+for n in m:
+    mm.append(n)
+
+mydic = {'first':(0,1,2,3,4,5,6),'second':mm,'third':3}
+details(mydic)
+'''
+
+'''
+myVariable = 5
+for v in locals():
+    if id(v) == id("myVariable"):
+        print(v, locals()[v])
+'''
+
+
+
+
+
+'''
+a=1
+for k, v in list(locals().iteritems()):
+    if id(v) == id(a):
+        a_as_str = k
+
+print("a=",a,"a_type =",type(a))
+'''
 
 
 

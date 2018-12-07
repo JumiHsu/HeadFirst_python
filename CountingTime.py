@@ -19,6 +19,9 @@ time( lambda : add1(1) )
 
 
 
+
+
+
 def beTest1():
     print("print出 test1")
 
