@@ -1,24 +1,37 @@
 
 # import os
-
 # print("當前工作路徑=", os.getcwd())
 # # os.chdir("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\ReadFile")
 # os.chdir("C:/Users/Jumi_Hsu/Desktop/TortoiseGit_Jumi_jfi/HeadFirst_python/nestPrint")
 # print("當前工作路徑=", os.getcwd())
 
-
+# 需要先定義 module 包的所在位置，而非調整當前工作路徑
 import sys
 sys.path.append("C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python/nestPrint")
-import nestPrint                                     # 這樣沒報錯，但一樣跳error
+import nestPrint
 
 
 # 如果是一個，表中表中表的話呢?
-movie = ["片名：La la Land",2016,"導演：Damien Chazelle",
-        ["主演1：Sebastian Wilder","主演2：Mia Dolan","主演3：Keith",
-        ["音樂：Justin Hurwitz","編劇：Damien Chazelle"]]]
+movie = ["片名：La la Land",
+         2016,
+         "導演：Damien Chazelle",
+         ["主演1：Sebastian Wilder","主演2：Mia Dolan","主演3：Keith",
+            ["音樂：Justin Hurwitz","編劇：Damien Chazelle"]
+         ],
+        "Jumi綜合評分：5/5",
+        ["劇情：5/5","氣氛：5/5","音樂：5/5"],
+         "觀影日期：2016.mm.dd",
+         "觀影地點：電影院"
+        ]
 
-nestPrint.identifyType_nestPrint(movie)
 
+sys.path.append(
+    "C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python/countingTime")
+import countingTime
+
+countingTime.time(lambda: nestPrint.print_nest_indent(movie))
+print("\n")
+countingTime.time(lambda: nestPrint.print_nest_level(movie))
 
 
 

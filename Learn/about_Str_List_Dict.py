@@ -92,6 +92,15 @@ for i in ["a","b","c"]:
 # printList(nameTest)
 
 
+# ========================================================================
+# +號不會產生空白
+# ========================================================================
+space = " "
+print("2*space=", 2*space, "end")
+print("2*space=" + 2*space + "end")
+print("2*space=" + 0*space + "end")
+
+
 
 
 
@@ -234,3 +243,4 @@ print( binascii.a2b_hex("e4bda0e5a5bde5958a").decode("utf8")   )
 # b'68656c6c6f20776f726c64'  
 # print(binascii.unhexlify(b))  
 # b'hello world'  
+

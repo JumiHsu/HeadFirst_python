@@ -2,13 +2,13 @@
 from distutils.core import setup
 
 setup(
-    name = 'nestPrint',
-    version = '1.1.0',
-    py_modules = ['nestPrint'],
+    name = 'countingTime',
+    version = '1.0.0',
+    py_modules = ['countingTime'],
     author = 'Jumi',
     author_email = 'scm80507211@gmail.com',
     url = '',
-    description = 'print 出一個，混和 str、int、list 形式的，多層級 list'
+    description = '計算一個函式所需的運算時間'
     )
 
 

@@ -229,6 +229,89 @@ identifyType_Print(movie)
 #2 setup.py install
 
 
+print("\n------------ NEXT：加上更多參數 -------------")
+for i in movie:
+    space=" "
+    indent=2
+    if isinstance(i, str) or isinstance(i, int):
+        print(i)
+    elif isinstance(i, list):
+        for j in i:
+            if isinstance(j, str) or isinstance(j, int):
+                print(space*indent + j)
+            else:
+                for k in j:
+                    print(space*indent*2 + k)
+    else:
+        print("plz check")
+
+
+
+print("\n------------ NEXT：加上更多參數 2 -------------")
+count=0
+for i in movie:
+    space = " "
+    indent = 2
+    if isinstance(i, str) or isinstance(i, int):
+        print(count*indent*space + str(i))
+    elif isinstance(i, list):
+        count += 1
+        for j in i:
+            if isinstance(j, str) or isinstance(j, int):
+                print(space*indent*count + str(j))
+            else:
+                count += 1
+                for k in j:
+                    print(space*indent*count + str(k) )
+    else:
+        print("plz check")
+
+
+
+
+print("\n------------ NEXT：加上更多參數後，嘗試遞迴他 -------------")
+count = 0
+space = " "
+indent = 2
+for i in movie:
+    if isinstance(i, str) or isinstance(i, int):
+        print(count*indent*space + str(i))
+    elif isinstance(i, list):
+        count += 1
+        for j in i:
+            if isinstance(j, str) or isinstance(j, int):
+                print(space*indent*count + str(j))
+            else:
+                count += 1
+                for k in j:
+                    print(space*indent*count + str(k))
+    else:
+        print("plz check")
+
+
+
+def identifyType_Print_indent(anyList ,indent=2):
+    count = 0
+    space = " "
+    def nestPrint_indent(anyList, count, indent, space):
+        for i in anyList:
+            if isinstance(i, str) or isinstance(i, int):
+                print(space*indent*count + str(i))
+
+            elif isinstance(i, list):
+                count += 1
+                nestPrint_indent(i, count, indent, space)
+
+            else:
+                print("plz check，具有不為 str、int、list 的element")
+
+    nestPrint_indent(anyList, count, indent, space)
+
+
+
+print("\n撰寫中，測試結果：")
+identifyType_Print_indent(movie,2)
+
 
 
 
