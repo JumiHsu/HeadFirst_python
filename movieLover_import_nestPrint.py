@@ -13,13 +13,13 @@ import nestPrint
 
 # 如果是一個，表中表中表的話呢?
 movie = ["片名：La la Land",
-         2016,
+         2016.5,
          "導演：Damien Chazelle",
          ["主演1：Sebastian Wilder","主演2：Mia Dolan","主演3：Keith",
             ["音樂：Justin Hurwitz","編劇：Damien Chazelle"]
          ],
-        "Jumi綜合評分：5/5",
-        ["劇情：5/5","氣氛：5/5","音樂：5/5"],
+         "Jumi綜合評分：★★★★★",
+         ["劇情：★★★★"  , "氣氛：★★★★★"  , "音樂：★★★★★"   ],
          "觀影日期：2016.mm.dd",
          "觀影地點：電影院"
         ]
@@ -30,10 +30,9 @@ sys.path.append(
 import countingTime
 
 countingTime.time(lambda: nestPrint.print_nest_indent(movie))
-print("\n")
-countingTime.time(lambda: nestPrint.print_nest_level(movie))
 
 
+countingTime.time()
 
 '''
 ******** 同一文件目录下 ********
