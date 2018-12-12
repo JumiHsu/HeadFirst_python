@@ -9,9 +9,24 @@ def changeChdir(workPath):
     return open("result02.txt")
 
 
-result_f02 = changeChdir("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\ReadFile")
+# home
+# result_f02 = changeChdir("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\ReadFile")
+# office
+result_f02 = changeChdir("C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python/ReadFile")
 
-print("\n======== 取得資料並尋找 max 值========")
+
+print("\n======== 先看看 result02.txt 長怎樣 ========")
+for line in result_f02:
+        print(line)
+result_f02.close
+
+
+
+
+
+
+
+print("\n======== 取得資料並尋找 max 值 ========")
 highest_score=0
 scoreArray=[]
 
@@ -30,3 +45,4 @@ result_f02.close()                   # 注意一定要加 close
 
 print("最高分=",highest_score)
 print("scoreArray=\n",scoreArray)
+
