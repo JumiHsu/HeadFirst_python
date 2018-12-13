@@ -36,6 +36,28 @@ print(Element_c_is_)
 
 
 
+print("------------------------------------")
+print("------------------------------------")
+
+a="gg"
+
+try:
+    # b = int(a) * 2  # ValueError
+
+    # b = a * 2 
+    # print(int(b))     # ValueError
+
+    print(b)            # NameError
+
+except ValueError:
+    print("ValueError")
+except IOError:
+    print("IOError")
+except TypeError:
+    print("TypeError")
+except:
+    print("Error")
+
 
 # 也可放入兩個動態變量(例如i及j放入)
 # for i in range(1,11):
