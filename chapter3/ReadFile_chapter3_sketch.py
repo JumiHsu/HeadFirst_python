@@ -133,25 +133,25 @@ except:
 
 
 
-print("\n======== 代碼磁貼 ========")
+print("\n======== 產生兩個新的資料檔案 ========")
+man, other = [],[]
+man_data = "man_data.txt"
+other_data = "other_data.txt"
 
-man = []
-other = []
 try:
     sketch.seek(0)                                       # 記得重置定位點
     for eachLine in sketch:
         try:
             (actor, lineSpeak) = eachLine.split(":", 1)  # 只對第一個: 分隔
             lineSpeak = lineSpeak.strip()                # 清除頭尾垃圾
-            # lineSpeak = lineSpeak.replace("","")       # 清除頭尾垃圾
             if actor == "Man" or actor == "man":
                 man.append(lineSpeak)
             else:
                 other.append(lineSpeak)
 
         except:
-            # print(eachLine)                       # 不加end，就會多換一次行(why?)
-            pass                                    # 也可以pass，略過整行不印
+            # print(eachLine)                 # 不加end，就會多換一次行(why?)
+            pass                              # 也可以pass，略過整行不印
     
     print("man的台詞 =", man, "\n共有幾句=", len(man))
     print("\n其他人的台詞 =", other, "\n共有幾句=", len(other))
@@ -161,41 +161,33 @@ except:
 
 
 try:
-
-    
-    man_data = "man_data.txt"
-    other_data = "other_data.txt"
-
-    manSpeakList = open( man_data, "w")       # 打開/創建後打開(可寫入)一個文件
-    print( man, file=manSpeakList )           # 用 print 來寫入文件 (why?)
-    # manSpeakList.write(man)
-
+    manSpeakList = open( man_data, "w")    # 打開/創建後打開(可寫入)一個文件
     otherSpeakList = open( other_data , "w")
-    print(other, file=otherSpeakList)
-    # otherSpeakList.write(other)
 
-    manSpeakList.close()
-    otherSpeakList.close()
+    print( man, file=manSpeakList )        # 用 print 來寫入文件 (why?)
+    print(other, file=otherSpeakList)
+    # manSpeakList.write(man)              # 不知為何網路上分享的 f.write無用
 
 except :
     print(errorMsg)
 
+finally:
+    manSpeakList.close()
+    otherSpeakList.close()
 
 
 
-# out = open(txtName,"w")
-# print("out=",out)
-# print("aaaaaaaaaaaaaaaa",file=out)   # 他寫入，是移除整個內容後，才寫入新的
-# print("out=", out)
 
-# print("\n======== OUT ========")
-# try:
-#     for eachLine in out:
-#         print(eachLine)
-# except:
-#     print(errorMsg)
-# out.close()
+print("\n======== 嘗試開啟一個不存在的檔案 ========")
+try:
+    data = open("missing.txt")
+    print(data.readline(),end="")
 
+except IOError:
+    print("File error")
+finally:
+    if 'data' in locals():
+        data.close()
 
 
 
