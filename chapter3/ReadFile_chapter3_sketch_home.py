@@ -50,20 +50,20 @@ print("\n打開檔案 ......")
 try:
     # sketch = changeChdir(bottomPathOffice, fileFolder, txtName,1)  # 打開檔案
     sketch = changeChdir(bottomPathHome, fileFolder, txtName,1)  # 打開檔案
+
     sketckRowNum = len(sketch.readlines())  # txt的資料列數
     print("資料列數 =",sketckRowNum)
     
-    
-    sketch.seek(0)  # 因讀到檔案最末行，故定位點移動，需使之回到第一行,同tell()
-    # sketch.close                          # 記得關閉
-except :                                    # 這裡不能用 IO/Value/TypeError
+    sketch.close  # 記得關閉
+except :  # 這裡不是 IO/Value/TypeError
     print(errorMsg,"無法取得資料列數\n")
 
 
 
 print("\n======== 只看一行 ========")
 try:
-    print(sketch.readline())                # 一次印一行，但會使定位點向後移動一行
+    sketch.seek(0)  # 記得重置定位點
+    print(sketch.readline())  # 一次印一行，但會使定位點向後移動一行
 except:
     print(errorMsg)
 
@@ -71,10 +71,11 @@ except:
 
 print("\n======== 印出前後 n 行看一下 ========")
 try:
+    sketch.seek(0)  # 記得重置定位點
     sketckRowNum = len(sketch.readlines())  # txt的資料列數
     printRowHdFt = 3                        # 只印資料的前後 n 行
     lineCount = 0
-    
+
     sketch.seek(0)                          # 同 tell()，需要使定位點回到第一行
     for line in sketch:
         lineCount += 1
@@ -108,11 +109,10 @@ except:
 
 
 
+
+
 print("\n======== 總不能遇到問題就處理吧(說啥呢) ========")
 print("假設我們不處理特殊的符號問題")
-# if isinstance(sketch, str):
-#     print(sketch)
-# else:
 try:
     sketch.seek(0)                                       # 記得重置定位點
     for eachLine in sketch:
@@ -129,11 +129,10 @@ except:
 
 
 
+
+
 print("\n======== 產生兩個新的資料檔案 ========")
 man, other = [],[]
-man_data = "man_data.txt"
-other_data = "other_data.txt"
-
 try:
     sketch.seek(0)  # 記得重置定位點
     for eachLine in sketch:
@@ -156,6 +155,12 @@ except:
     print(errorMsg)
 
 
+
+
+
+print("\n======== 【產生file】 ========")
+man_data = "man_data.txt"
+other_data = "other_data.txt"
 try:
     manSpeakList = open( man_data, "w")    # 打開/創建後打開(可寫入)一個文件
     otherSpeakList = open( other_data , "w")
@@ -173,12 +178,12 @@ finally:
 
 
 
-print("\n======== 對於「檔案開啟」一個比較漂亮的結構 ========")
-print("\n======== 嘗試開啟一個不存在的檔案 ========")
+
+
+print("\n======== 嘗試開啟一個不存在的檔案1 ========")
 try:
     data = open("missing.txt")
     print(data.readline(),end="")
-
 except IOError:
     print("File error")
 finally:
@@ -190,51 +195,91 @@ finally:
 
 
 
+print("\n======== 嘗試開啟一個不存在的檔案2 ========")
+print("======== 對於「檔案開啟」一個比較漂亮的結構 ========")
+try:
+    with open("missing.txt") as data:
+        print(data.readline(),end="",file=data)
+except IOError:
+    print("File error")
 
 
-print("\n======== 使用 nestPrint，產生兩個新的file ========")
-man2, other2 = [],[]
+
+
+
+
+
+
+print("\n======== 【產生file】使用 with 簡化程式碼 ========")
 man2_data = "man2_data.txt"
 other2_data = "other2_data.txt"
 
 try:
-    sketch.seek(0)  # 記得重置定位點
-    for eachLine in sketch:
-        try:
-            (actor, lineSpeak) = eachLine.split(":", 1)  # 只對第一個: 分隔
-            lineSpeak = lineSpeak.strip()                # 清除頭尾垃圾
-            if actor == "Man" or actor == "man":
-                man2.append(lineSpeak)
-            else:
-                other2.append(lineSpeak)
+    with open( man2_data, "w") as man2SpeakList:
+        print(man,file=man2SpeakList)
+        # nestPrint_home.print_nest_indent_txt(man2SpeakList)
 
-        except:
-            # print(eachLine)                 # 不加end，就會多換一次行(why?)
-            pass                              # 也可以pass，略過整行不印
-    
-    print("man的台詞 =", man2, "\n共有幾句=", len(man2))
-    print("\n其他人的台詞 =", other2, "\n共有幾句=", len(other2))
-
-except:
-    print(errorMsg)
-
-
-try:
-    manSpeakList = open( man2_data, "w")    # 打開/創建後打開(可寫入)一個文件
-    otherSpeakList = open( other2_data , "w")
-
-    print(man2, file=manSpeakList)        # 用 print 來寫入文件 (why?)
-    print(other2, file=otherSpeakList)
+    with open( other2_data, "w") as other2SpeakList:
+        print(other,file=other2SpeakList)
+        # nestPrint_home.print_nest_indent_txt(other2SpeakList)
 
 except :
     print(errorMsg)
 
-finally:
-    manSpeakList.close()
-    otherSpeakList.close()
 
 
 
+
+# import sys
+# # sys.path.append("C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python/nestPrint")
+# sys.path.append("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\nestPrint_home")
+import nestPrint_home
+import nestPrint
+
+print("\n======== 【產生file】使用 nestPrint，產生兩個新的file ========")
+man3_data = "man3_data.txt"
+other3_data = "other3_data.txt"
+try:
+    with open( man3_data, "w") as man3SpeakList:
+        nestPrint_home.nestPrintTxt(man,fn=man3SpeakList)
+
+    with open( other3_data, "w") as other3SpeakList:
+        nestPrint_home.nestPrintTxt(other,fn=other3SpeakList)
+
+except :
+    print(errorMsg)
+
+
+'''
+print("\n======== 這一切都太複雜了，用用看pickle吧 ========")
+# 寫入並儲存一個數據
+with open('pickleSave.txt',"wb") as mysavedata:
+    pickle.dump([1,2,3],mysavedata)
+
+# 讀一個 pickle 儲存過的數據，可以用 load
+with open('pickleSave.txt',"rb") as myloaddata:
+    pickleLoad = pickle.load(mysavedata)
+'''
+
+
+
+print("\n======== 【使用pickle】產生檔案 ========")
+import pickle
+man4_data = "man4_data.txt"
+other4_data = "other4_data.txt"
+try:
+    with open( man4_data, "wb") as man4SpeakList:
+        pickle.dump(man,man4SpeakList)
+
+    with open( other4_data, "wb") as other4SpeakList:
+        pickle.dump(other,other4SpeakList)
+
+except IOError as err :
+    print(errorMsg,"\n",err)
+except pickle.PickleError as perr:
+    print("PickleError =",perr)
+except Exception as Eerr:
+    print("Exception Error=",Eerr)
 
 
 
