@@ -47,7 +47,7 @@ bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_py
 fileFolder = r"\chapter3"
 txtName = "sketch.txt"
 
-errorMsg = "發生錯誤，請檢查!"
+errorMsg = "發生錯誤，請檢查："
 
 
 
@@ -132,7 +132,6 @@ except:
 
 
 
-
 print("\n======== 產生兩個新的資料檔案 ========")
 man, other = [],[]
 man_data = "man_data.txt"
@@ -160,6 +159,7 @@ except:
     print(errorMsg)
 
 
+
 try:
     manSpeakList = open( man_data, "w")    # 打開/創建後打開(可寫入)一個文件
     otherSpeakList = open( other_data , "w")
@@ -172,8 +172,13 @@ except :
     print(errorMsg)
 
 finally:
-    manSpeakList.close()
-    otherSpeakList.close()
+    if "manSpeakList" in locals():
+        manSpeakList.close()
+    if "otherSpeakList" in locals():
+        otherSpeakList.close()
+
+
+
 
 
 
@@ -189,6 +194,99 @@ finally:
     if 'data' in locals():
         data.close()
 
+# locals() 會返回當前作用域中，定義的所有名字的一個集合 P.143
+# 他會去找，變量名稱為 data 的變量
+# 如果有，就會正常close檔案(以避免檔案遺失時，close無法正確呼叫的問題)
+
+
+
+
+print("\n======== 只要新增一點東西，就可以取得error的內容 ========")
+try:
+    data = open("missing.txt")
+    print(data.readline(), end="")
+
+except IOError as err:                  # 可以print出error
+    print("File error:",err)
+    # print("File error:" + str(err))   # +號只能連接同類型資料
+finally:
+    if 'data' in locals():
+        data.close()
+
+
+print("\n\n... 但因為try/except/finally實在很常用")
+print("所以with可以直接幫你包括 try/finally")
+print("以後直接用 try with/except 即可")
+
+print("\n======== [with]嘗試讀取一個不存在的檔案 ========")
+try:
+    with open("missing.txt") as missingData:
+        print(missingData.readline(), end="")
+        print("missingData is ...", file=missingData)
+
+except IOError as err:  # 可以print出error
+    print("File error:", err)
+
+
+print("\n======== [with]嘗試讀取一個存在的檔案 ========")
+try:
+    with open("sketch.txt") as sketchData:  # 若疏忽而加上,"w"，仍會寫入(空白)
+        print(sketchData.readline(), end="")  # 這樣可以用open("sketch.txt")
+
+except IOError as err:
+    print("File error:", err)
+
+
+print("\n======== [with]嘗試寫入一個存在的檔案 ========")
+try:
+    with open("sketchWrite.txt", "w") as sketchWriteData:
+        # print(sketchWriteData.readline(), end="")  # 這樣可以用open("sketch.txt")
+        print("sketchWrite is ...", file=sketchWriteData)  # 一定要open(".txt","w")
+
+except IOError as err:                  # 可以print出error
+    print("File error:", err)
+
+
+print("\n======== [with]產生兩個新的資料檔案 ========")
+man2, other2 = [], []
+man2_data = "man2_data.txt"
+other2_data = "other2_data.txt"
+try:
+    sketch.seek(0)                                       # 記得重置定位點
+    for eachLine in sketch:
+        try:
+            (actor, lineSpeak) = eachLine.split(":", 1)  # 只對第一個: 分隔
+            lineSpeak = lineSpeak.strip()                # 清除頭尾垃圾
+            if actor == "Man" or actor == "man":
+                man2.append(lineSpeak)
+            else:
+                other2.append(lineSpeak)
+
+        except:
+            # print(eachLine)                 # 不加end，就會多換一次行(why?)
+            pass                              # 也可以pass，略過整行不印
+
+    print("man的台詞 =", man2, "\n共有幾句=", len(man2))
+    print("\n其他人的台詞 =", other2, "\n共有幾句=", len(other2))
+except:
+    print(errorMsg)
+
+try:
+    with open(man2_data, "w") as man2SpeakList:  # 打開/創建後打開一個可寫入的文件
+        print(man2, file=man2SpeakList)  # 用 print 來寫入文件 (why?)
+    with open(other2_data, "w") as other2SpeakList:  # 2個open可用,號連成同一行
+        print(other2, file=other2SpeakList)
+except IOError as err:
+    print(errorMsg,str(err))  # 這邊其實err沒東西 P.147
+
+
+print("\n======== [with]打開剛剛產生的檔案，看看內容 ========")
+try:
+    with open(man23_data) as man2Read:
+        print(man2Read.readline())
+except BaseException as err:  # 用這個描述，可以捕獲所有類型的error
+    print("Error:\n{0}".format(err))
+    print("{0}\n{1}".format("Error:", err))  # 這兩句顯示起來相同
 
 
 # 參考資料：
@@ -201,3 +299,8 @@ finally:
 
 #3 open(f,'mode')的說明
 # https://ithelp.ithome.com.tw/articles/10161708
+
+#4 except BaseException as err:
+# https://python3-cookbook.readthedocs.io/zh_CN/latest/c14/p07_catching_all_exceptions.html
+# 也可以進行自定義異常，切記必須繼承自預設的底層異常class
+# BaseException：未必萬用，有時候會因為涵蓋太多種error，而導致該抓的異常沒抓到

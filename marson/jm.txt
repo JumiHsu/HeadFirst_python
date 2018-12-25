@@ -1,0 +1,15 @@
+def print_nest_indent_rec(items, level, indent, space):
+	for item in items:
+		if isinstance(item, str) or isinstance(item, int):
+			print((space * indent * level) + str(item))
+
+		elif isinstance(item, list):
+			print_nest_indent_rec(item, level + 1, indent, space)
+
+		else:
+			print("plz check，具有不為 str、int、list 的 element，或者 indent 出現負數。")
+
+def print_nest_indent(items, indent = 2):
+    print_nest_indent_rec(items, 0, indent, " ")
+
+print("\n----- nestPrint.print_nest_indent(anyList, indent) 匯入成功 -----")
