@@ -1,0 +1,19 @@
+
+# 1
+# ³Ð«Ø¤@­Ó def ÀÉ + setupÀÉ¡A«ö·Ó©T©w®æ¦¡¥h³]¸m setup ÀÉ
+# ±N¤W­z (a.py + setup.py) ©ñ¦b¦@¦Pªº¸ê®Æ§¨ A ¤U
+# ¨ì ¸ê®Æ§¨¸ô®|A ¤U¡A¶}±Òcmd¡A¿é¤J
+# setup.py sdist  (½d¨Ò¤¤¬O¿é¤J¡G python3 setup.py sdist)
+# setup.py install    (½d¨Ò¤¤¬O¿é¤J¡G sudo python3 setup.py install)
+# ³o®É­Ô·|¥Í¥X³\¦h¸ê®Æ§¨©MÀÉ®×¡Aµo¥¬¤w¸g´NŽ«
+
+# 2
+# ¨Ï¥Î¥L¡C
+# »Ý­n¥ý©w¸q¸Ó module ©Ò¦b¦ì¸m
+# import sys
+# sys.path.append("C:/Users\***\***\****/nestPrint")
+# import a
+# ±µµÛ«K¥i¥H a.def() ¥h¨Ï¥Î¤F!
+
+# 3
+# ¦pªG§A­×§ï¤F¨ç¦¡¦WºÙ/°Ñ¼Æ¡A»Ý­n­«¶]2¤~¯à¨Ï¥Î

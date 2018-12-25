@@ -4,16 +4,23 @@
     巢狀 list，並在 內嵌list 前縮排。
     return：無'''
 
+import sys
+
 # 綜合版本
-def print_nest_indent(list, opt=0, indent=0 ,level=0 ,sysbol=" "):
-    if opt == 0:
-        print_nest_indent_marson(list ,indent=4) # indent =每次縮排空白數
-    elif opt == 1:
+def print_nest_indent(list, opt="marson", indent=0 ,level=0 ,fn=sys.stdout):
+    if opt == "marson":
+        print_nest_indent_marson(list ,indent=4)
+    elif opt == "marson_ori":
+        print_nest_indent_marson_rec(list, indent=4, level=0 )
+
+    elif opt == "book":
         print_nest_level(list,level=0)           # level = 統一縮排TAB數
-    elif opt == 2:
+    elif opt == "txt":
+        nestPrintTxt(list,level=0,fn=sys.stdout)
+
+    elif opt == "jumi":
         print_nest_indent_jumi(list, indent=4)
-    elif opt == "ori":
-        print_nest_indent_marson_rec(list, indent=4, level=0, space=sysbol )
+
     else:
         print(msg02)
 
@@ -26,7 +33,7 @@ msg02 = "plz check，參數錯誤"
 
 # 馬森
 # 功能差異：可在 內嵌list 前縮排。（此為完整參數版本）
-def print_nest_indent_marson_rec(items, indent, level, space):
+def print_nest_indent_marson_rec(items, indent, level, space=" "):
     for item in items:
         if isinstance(item, str) or isinstance(item, int):
             print((space * indent * level) + str(item))
@@ -37,7 +44,7 @@ def print_nest_indent_marson_rec(items, indent, level, space):
         else:
             print(msg01)
 
-# 功能差異：可在 內嵌list 前縮排。（建議使用此版本）
+# indent =每次縮排空白數
 def print_nest_indent_marson(items, indent=4):
     print_nest_indent_marson_rec(items, 0, indent, " ")
 
@@ -45,7 +52,7 @@ def print_nest_indent_marson(items, indent=4):
 
 
 # 深入淺出
-# 功能差異：除了遇到 內嵌list 時縮排，且每列左方，皆可統一縮排 level 個TAB
+# 功能新增：每列左方，皆可統一縮排 level 個TAB
 def print_nest_level(anyList, level=0):
     
     for eachItem in anyList:
@@ -68,7 +75,6 @@ def print_nest_level(anyList, level=0):
 def print_nest_indent_jumi(anyList, indent=4):
     count = 0
     space = " "
-
     def identifyIndent_nestPrint(anyList, count, indent, space):
         for eachItem in anyList:
             if isinstance(eachItem, list):
@@ -80,7 +86,26 @@ def print_nest_indent_jumi(anyList, indent=4):
 
             else:
                 print(msg01)
+
     identifyIndent_nestPrint(anyList, count, indent, space)
+
+
+
+
+# 深入淺出 2
+# 功能新增：可設定要寫入哪個檔案
+def nestPrintTxt(anyList, level=0, fn=sys.stdout):
+    for eachItem in anyList:
+        if isinstance(eachItem,list):
+            nestPrintTxt(eachItem, level+1 ,fn)  # 內嵌的list，左邊縮排量=level+1
+
+        elif isinstance(eachItem, str) or isinstance(eachItem, int):
+            for tab_stop in range(level):
+                print("\t",end="" ,file=fn)
+            print(eachItem, file=fn)        # 用 print 來寫入文件 (why?)
+
+        else:
+            print(msg01)
 
 
 # 函數名稱不可與檔名相同
