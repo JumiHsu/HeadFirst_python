@@ -59,7 +59,7 @@ def print_nest_level(anyList, level=0):
         if isinstance(eachItem,list):
             print_nest_level(eachItem, level+1)  # 內嵌的list，左邊縮排量=level+1
 
-        elif isinstance(eachItem, str) or isinstance(eachItem, int):
+        elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
             for tab_stop in range(level):
                 print("\t",end="")               # 最上層的list，左邊縮排量=level
             print(eachItem)
@@ -81,7 +81,7 @@ def print_nest_indent_jumi(anyList, indent=4):
                 # count += 1
                 identifyIndent_nestPrint(eachItem, count+1, indent, space)
 
-            elif isinstance(eachItem, str) or isinstance(eachItem, int):
+            elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
                 print(space*indent*count + str(eachItem))
 
             else:
@@ -99,7 +99,7 @@ def nestPrintTxt(anyList, level=0, fn=sys.stdout):
         if isinstance(eachItem,list):
             nestPrintTxt(eachItem, level+1 ,fn)  # 內嵌的list，左邊縮排量=level+1
 
-        elif isinstance(eachItem, str) or isinstance(eachItem, int):
+        elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
             for tab_stop in range(level):
                 print("\t",end="" ,file=fn)
             print(eachItem, file=fn)        # 用 print 來寫入文件 (why?)

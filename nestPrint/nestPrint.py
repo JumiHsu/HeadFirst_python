@@ -3,6 +3,7 @@
 ''' 功能：print 出一個，混和 str/int/list 形式的
     巢狀 list，並在 內嵌list 前縮排。
     return：無'''
+import sys
 
 # 綜合版本
 def print_nest_indent(list, opt=0, indent=0 ,level=0 ,sysbol=" "):
@@ -54,7 +55,7 @@ def print_nest_level(anyList, level=0):
         if isinstance(eachItem,list):
             print_nest_level(eachItem, level+1)  # 內嵌的list，左邊縮排量=level+1
 
-        elif isinstance(eachItem, str) or isinstance(eachItem, int):
+        elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
             for tab_stop in range(level):
                 print("\t",end="")               # 最上層的list，左邊縮排量=level
             print(eachItem)
@@ -77,7 +78,7 @@ def print_nest_indent_jumi(anyList, indent=4):
                 # count += 1
                 identifyIndent_nestPrint(eachItem, count+1, indent, space)
 
-            elif isinstance(eachItem, str) or isinstance(eachItem, int):
+            elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
                 print(space*indent*count + str(eachItem))
 
             else:
@@ -87,38 +88,25 @@ def print_nest_indent_jumi(anyList, indent=4):
 
 # 同"深入淺出"
 # 功能差異：額外增加「可以輸出至txt檔」的功能
-def print_nest_level_txt(anyList, level=0, txtName="txtOutput"):
-
+def print_nest_level_txt(anyList, level=0, txtName=sys.stdout):
     try:
-        with open(txtName, "w") as txtNameList:  # 創建一個可寫入的文件
-            for eachItem in anyList:
-                if isinstance(eachItem, list):
-                    print_nest_level(eachItem, level+1)  # 內嵌的list，左邊縮排量=level+1
+        for eachItem in anyList:
+            if isinstance(eachItem, list):
+                print_nest_level_txt(eachItem, level+1, txtName)  # 內嵌的list，左邊縮排量=level+1
+            elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
+                for tab_stop in range(level):
+                    print("\t", end="",file=txtName)  # 最上層的list，左邊縮排量=level
+                print(eachItem,file=txtName)
+            else:
+                print(msg01)
+    except BaseException as err:
+        print("Error:\n{0}".format(err))
+        print("{0}\n{1}".format("Error:", err))  # 這兩句顯示起來相同
 
-                elif isinstance(eachItem, str) or isinstance(eachItem, int):
-                    for tab_stop in range(level):
-                        print("\t", end="")               # 最上層的list，左邊縮排量=level
-                    print(eachItem)
-                else:
-                    print(msg01)
-
-                    print(man2, file=txtNameList)  # 用 print 來寫入文件 (why?)
-    except IOError as err:
-        print(errorMsg, str(err))  # 這邊其實err沒東西 P.147
 
 # 函數名稱不可與檔名相同
 # 註解 50字 長度最佳
 
-
-
-
-print("\n======== [with]打開剛剛產生的檔案，看看內容 ========")
-try:
-    with open(man23_data) as man2Read:
-        print(man2Read.readline())
-except BaseException as err:  # 用這個描述，可以捕獲所有類型的error
-    print("Error:\n{0}".format(err))
-    print("{0}\n{1}".format("Error:", err))  # 這兩句顯示起來相同
 
 
 

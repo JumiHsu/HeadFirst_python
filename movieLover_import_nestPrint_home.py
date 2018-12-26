@@ -30,18 +30,23 @@ sys.path.append(
 import countingTime
 
 
-sys.path.append("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\nestPrint_home")
+# sys.path.append(r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\nestPrint_home")  # home
+# office
+sys.path.append(r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python\nestPrint_home")
 import nestPrint_home
 
-print("print_nest_indent------")
+print("\nprint_nest_indent------")
 countingTime.time(lambda: nestPrint.print_nest_indent(movie))
 
-print("print_nest_indent_marson------")
+print("\nprint_nest_indent_marson------")
 nestPrint_home.print_nest_indent_marson(movie)
 
+print("\nnestPrintTxt------")
+nestPrint_home.nestPrintTxt(movie)
 
-print("print_nest_level_txt------")
-nestPrint_home.print_nest_level_txt(movie)
+
+print("\nprint_nest_level_txt------")
+nestPrint.print_nest_level_txt(movie)
 
 
 
