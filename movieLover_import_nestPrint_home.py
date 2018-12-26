@@ -34,9 +34,12 @@ import countingTime
 # office
 sys.path.append(r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python\nestPrint_home")
 import nestPrint_home
+sys.path.append(
+    r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python\nestPrint")
+import nestPrint
 
 print("\nprint_nest_indent------")
-countingTime.time(lambda: nestPrint.print_nest_indent(movie))  # 錯:縮排
+countingTime.time(lambda: nestPrint.nestPrints(movie))  # 錯:縮排
 
 print("\nmarson------")
 nestPrint_home.nestPrints(movie, opt="marson")  # 錯:縮排 + int
@@ -49,6 +52,10 @@ nestPrint_home.nestPrints(movie, opt="book")
 
 print("\njumi------")
 nestPrint_home.nestPrints(movie, opt="jumi")  # 縮排2空格
+
+
+print("\n【home】txt------")
+nestPrint.nestPrints(movie, opt="txt")
 
 
 

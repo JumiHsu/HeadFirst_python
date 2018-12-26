@@ -5,7 +5,7 @@
 # ¨ì ¸ê®Æ§¨¸ô®|A ¤U¡A¶}±Òcmd¡A¿é¤J
 # setup.py sdist  (½d¨Ò¤¤¬O¿é¤J¡G python3 setup.py sdist)
 # setup.py install    (½d¨Ò¤¤¬O¿é¤J¡G sudo python3 setup.py install)
-# ³o®É­Ô·|¥Í¥X³\¦h¸ê®Æ§¨©MÀÉ®×¡Aµo¥¬¤w¸g´NŽ«
+# ³o®É­Ô·|¥Í¥X³\¦h¸ê®Æ§¨©MÀÉ®×¡Aµo¥¬¤w¸g´N??
 
 # 2
 # ¨Ï¥Î¥L¡C
@@ -17,3 +17,8 @@
 
 # 3
 # ¦pªG§A­×§ï¤F¨ç¦¡¦WºÙ/°Ñ¼Æ¡A»Ý­n­«¶]2¤~¯à¨Ï¥Î
+
+°Ñ¦Ò¸ê®Æ¡G
+https://blog.xuite.net/anadachien/MyQuilt/490835461-%E5%A6%82%E4%BD%95%E8%A7%A3%E6%B1%BAMicrosoft+Visual+Studio+Code%E4%B8%80%E9%96%8B%E5%95%9F%E6%AA%94%E6%A1%88%E4%B8%AD%E6%96%87%E5%AD%97%E8%AE%8A%E4%BA%82%E7%A2%BC%E7%9A%84%E5%95%8F%E9%A1%8C
+
+https://hk.saowen.com/a/356f9f76788e8c94f297b2413d675f0b2a645a4cf46d946962ecd12973321d0d

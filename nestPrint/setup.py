@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name = 'nestPrint',
-    version = '1.1.0',
+    version = '1.2.0',
     py_modules = ['nestPrint'],
     author = 'Jumi',
     author_email = 'scm80507211@gmail.com',

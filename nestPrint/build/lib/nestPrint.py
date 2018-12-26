@@ -1,13 +1,14 @@
 
 
+
 ''' 功能：print 出一個，混和 str/int/list 形式的
     巢狀 list，並在 內嵌list 前縮排。
     return：無'''
 
 
+
 import sys
 # 綜合版本
-
 
 def nestPrints(list, opt="txt", indent=0, level=0, fn=sys.stdout):
     optCase = {"marson": "marson", "book": "book", "txt": "txt", "jumi": "jumi"
@@ -19,7 +20,7 @@ def nestPrints(list, opt="txt", indent=0, level=0, fn=sys.stdout):
     elif optCase.get(opt) == "book":
         print_nest_level(list, level=0)  # level = 統一縮排TAB數
 
-    elif optCase.get(opt) == "txt":
+    elif optCase.get(opt) == "txt":  # opt == "txt":
         nestPrintTxt(list, level=0, fn=sys.stdout)
 
     elif optCase.get(opt) == "jumi":
