@@ -13,7 +13,7 @@ import nestPrint
 
 # 如果是一個，表中表中表的話呢?
 movie = ["片名：La la Land",
-         2016.5,
+         "2016.5",
          "導演：Damien Chazelle",
          ["主演1：Sebastian Wilder","主演2：Mia Dolan","主演3：Keith",
             ["音樂：Justin Hurwitz","編劇：Damien Chazelle"]
@@ -36,23 +36,23 @@ sys.path.append(r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_pytho
 import nestPrint_home
 
 print("\nprint_nest_indent------")
-countingTime.time(lambda: nestPrint.print_nest_indent(movie))
+countingTime.time(lambda: nestPrint.print_nest_indent(movie))  # 錯:縮排
 
-print("\nprint_nest_indent_marson------")
-nestPrint_home.print_nest_indent_marson(movie)
+print("\nmarson------")
+nestPrint_home.nestPrints(movie, opt="marson")  # 錯:縮排 + int
 
-print("\nnestPrintTxt------")
-nestPrint_home.nestPrintTxt(movie)
+print("\ntxt------")
+nestPrint_home.nestPrints(movie,opt="txt")
+
+print("\nbook------")
+nestPrint_home.nestPrints(movie, opt="book")
+
+print("\njumi------")
+nestPrint_home.nestPrints(movie, opt="jumi")  # 縮排2空格
 
 
-print("\nprint_nest_level_txt------")
-nestPrint.print_nest_level_txt(movie)
 
 
-
-# # 功能新增：可設定要寫入哪個檔案
-# def print_nest_level_txt(anyList, level=0, fileName="fileName.txt"):
-    
 
 '''
 ******** 同一文件目录下 ********

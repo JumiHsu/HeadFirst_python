@@ -1,6 +1,19 @@
 # 各種TEST，雜記簿
 from __future__ import unicode_literals
 
+
+
+
+
+# 2018.12.26 在python中 實現switch case
+MAPPING = {
+    'zh': "zh",
+    'us': "us" }
+
+keyLang = 'cn'
+result = MAPPING.get(keyLang,'us')
+print("result=", result)
+
 # python中要實現動態變數不像其它語言，可以通過 字串+變數(通常數字)，來達到動態變數。
 # C語言例如
 # for(i=0,i<5,i++){

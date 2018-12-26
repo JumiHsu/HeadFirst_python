@@ -4,29 +4,34 @@
     巢狀 list，並在 內嵌list 前縮排。
     return：無'''
 
+
 import sys
-
 # 綜合版本
-def print_nest_indent(list, opt="marson", indent=0 ,level=0 ,fn=sys.stdout):
-    if opt == "marson":
-        print_nest_indent_marson(list ,indent=4)
-    elif opt == "marson_ori":
-        print_nest_indent_marson_rec(list, indent=4, level=0 )
+def nestPrints(list, opt="txt", indent=0 ,level=0 ,fn=sys.stdout):
+    optCase = {"marson": "marson"
+            ,"book":"book"
+            ,"txt":"txt"
+            ,"jumi":"jumi"
+            }
 
-    elif opt == "book":
-        print_nest_level(list,level=0)           # level = 統一縮排TAB數
-    elif opt == "txt":
+    if optCase.get(opt) == "marson":
+        print_nest_indent_marson(list ,indent=4)
+
+    elif optCase.get(opt) == "book":
+        print_nest_level(list,level=0)  # level = 統一縮排TAB數
+
+    elif optCase.get(opt) == "txt":
         nestPrintTxt(list,level=0,fn=sys.stdout)
 
-    elif opt == "jumi":
+    elif optCase.get(opt) == "jumi":
         print_nest_indent_jumi(list, indent=4)
-
     else:
         print(msg02)
 
 msg01 = "plz check，具有不為 str、int、list 的 element"
 msg02 = "plz check，參數錯誤"
 
+# switch的寫法概念：https://ithelp.ithome.com.tw/articles/10205598
 
 
 
@@ -50,7 +55,6 @@ def print_nest_indent_marson(items, indent=4):
 
 
 
-
 # 深入淺出
 # 功能新增：每列左方，皆可統一縮排 level 個TAB
 def print_nest_level(anyList, level=0):
@@ -59,7 +63,7 @@ def print_nest_level(anyList, level=0):
         if isinstance(eachItem,list):
             print_nest_level(eachItem, level+1)  # 內嵌的list，左邊縮排量=level+1
 
-        elif isinstance(eachItem, str) or isinstance(eachItem, int):
+        elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
             for tab_stop in range(level):
                 print("\t",end="")               # 最上層的list，左邊縮排量=level
             print(eachItem)
@@ -81,7 +85,7 @@ def print_nest_indent_jumi(anyList, indent=4):
                 # count += 1
                 identifyIndent_nestPrint(eachItem, count+1, indent, space)
 
-            elif isinstance(eachItem, str) or isinstance(eachItem, int):
+            elif isinstance(str(eachItem), str) or isinstance(int(eachItem), int):
                 print(space*indent*count + str(eachItem))
 
             else:
