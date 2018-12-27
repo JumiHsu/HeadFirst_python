@@ -2,9 +2,9 @@
 from distutils.core import setup
 
 setup(
-    name='nestPrint_home',
-    version = '1.1.0',
-    py_modules=['nestPrint_home'],
+    name='openTxt',
+    version = '1.0.0',
+    py_modules=['openTxt'],
     author = 'Jumi',
     author_email = 'scm80507211@gmail.com',
     url = '',

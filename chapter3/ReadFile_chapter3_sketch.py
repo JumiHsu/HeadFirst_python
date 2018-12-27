@@ -1,4 +1,11 @@
 import os
+import pickle
+import sys
+
+import nestPrint
+import nestPrint_home
+
+
 def changeChdir( bottomPath, fileFolder, txtName, cwdPrint=0):
     # if os.path.exists(bottomPath + fileFolder + "\\" + txtName):
     # else:
@@ -43,20 +50,23 @@ errorMsg = "發生錯誤，請檢查!"
 # 檔案路徑設定
 nowPath = bottomPathOffice
 
+# import來源設定
+sys.path.append(nowPath + "/nestPrint")
+sys.path.append(nowPath + "/nestPrint_home")
+
+
 
 
 # 打開檔案，並賦值給變數
 print("\n打開檔案 ......")
 try:
     sketch = changeChdir(nowPath, fileFolder, txtName,1)  # 打開檔案
-    # sketch = changeChdir(bottomPathHome, fileFolder, txtName,1)  # 打開檔案
-
     sketckRowNum = len(sketch.readlines())  # txt的資料列數
     print("資料列數 =",sketckRowNum)
-    
-    sketch.close  # 記得關閉
 except :  # 這裡不是 IO/Value/TypeError
     print(errorMsg,"無法取得資料列數\n")
+finally:
+    sketch.close  # 記得關閉
 
 
 
@@ -66,7 +76,8 @@ try:
     print(sketch.readline())  # 一次印一行，但會使定位點向後移動一行
 except:
     print(errorMsg)
-
+finally:
+    sketch.close  # 記得關閉
 
 
 print("\n======== 印出前後 n 行看一下 ========")
@@ -85,8 +96,10 @@ try:
             print("...\n...\n\n")
         else:
             pass
-except:                                     # 這裡不能用 IOError/ValueError
+except:
     print(errorMsg)
+finally:
+    sketch.close  # 記得關閉
 
 
 
@@ -106,7 +119,8 @@ try:
             pass
 except:
     print(errorMsg)
-
+finally:
+    sketch.close  # 記得關閉
 
 
 
@@ -114,7 +128,7 @@ except:
 print("\n======== 總不能遇到問題就處理吧(說啥呢) ========")
 print("假設我們不處理特殊的符號問題")
 try:
-    sketch.seek(0)                                       # 記得重置定位點
+    sketch.seek(0)  # 記得重置定位點
     for eachLine in sketch:
         try:
             (actor, lineSpeak) = eachLine.split(": ",1)  # 只對第一個: 分隔
@@ -126,7 +140,8 @@ try:
             pass                      # 也可以pass，略過整行不印
 except:
     print(errorMsg)
-
+finally:
+    sketch.close  # 記得關閉
 
 
 
@@ -143,10 +158,8 @@ try:
                 man.append(lineSpeak)
             else:
                 other.append(lineSpeak)
-
         except:
-            # print(eachLine)                 # 不加end，就會多換一次行(why?)
-            pass                              # 也可以pass，略過整行不印
+            pass
     
     print("man的台詞 =", man, "\n共有幾句=", len(man))
     print("\n其他人的台詞 =", other, "\n共有幾句=", len(other))
@@ -200,8 +213,10 @@ print("======== 對於「檔案開啟」一個比較漂亮的結構 ========")
 try:
     with open("missing.txt") as data:
         print(data.readline(),end="",file=data)
-except IOError:
-    print("File error")
+except IOError as IOerr:
+    print("IOError =", IOerr)
+except BaseException as BEerr:
+    print("Exception Error：\n{0}".format(BEerr))
 
 
 
@@ -210,30 +225,27 @@ except IOError:
 
 
 
-print("\n======== 【產生file】使用 with 簡化程式碼 ========")
+
+print("\n======== 【產生file2】使用 with 簡化程式碼 ========")
 man2_data = "man2_data.txt"
 other2_data = "other2_data.txt"
 
 try:
     with open( man2_data, "w") as man2SpeakList:
         print(man,file=man2SpeakList)
-        # nestPrint_home.print_nest_indent_txt(man2SpeakList)
-
     with open( other2_data, "w") as other2SpeakList:
         print(other,file=other2SpeakList)
-        # nestPrint_home.print_nest_indent_txt(other2SpeakList)
-
-except :
-    print(errorMsg)
-
-
+except IOError as IOerr:
+    print("IOError =", IOerr)
+except BaseException as BEerr:
+    print("Exception Error：\n{0}".format(BEerr))
 
 
 
-import sys
-sys.path.append(nowPath + "/nestPrint")
-import nestPrint
 
+
+# 3跟4：這兩段有bug，會輸出空檔案
+# 因為要debug所以才用了 nestPrint_home，其實不會再更新他了，以後不要用
 print("\n======== 【產生file3】使用 nestPrint，產生兩個新的file ========")
 man3_data = "man3_data.txt"
 other3_data = "other3_data.txt"
@@ -242,12 +254,11 @@ try:
         nestPrint.nestPrintText(man,fn=man3SpeakList)
     with open( other3_data, "w") as other3SpeakList:
         nestPrint.nestPrintText(other,fn=other3SpeakList)
-except :
-    print(errorMsg)
+except IOError as IOerr:
+    print("IOError =", IOerr)
+except BaseException as BEerr:
+    print("Exception Error：\n{0}".format(BEerr))
 
-
-sys.path.append(nowPath + "/nestPrint_home")
-import nestPrint_home
 
 print("\n======== 【產生file4】使用 nestPrint，產生兩個新的file ========")
 man4_data = "man4_data.txt"
@@ -257,13 +268,10 @@ try:
         nestPrint_home.nestPrints(man, opt="txt", fn=man4SpeakList)
     with open(other4_data, "w") as other4SpeakList:
         nestPrint_home.nestPrints(man, opt="txt", fn=man4SpeakList)
-except:
-    print(errorMsg)
-
-
-
-
-
+except IOError as IOerr:
+    print("IOError =", IOerr)
+except BaseException as BEerr:
+    print("Exception Error：\n{0}".format(BEerr))
 
 
 
@@ -274,15 +282,14 @@ print("\n======== 這一切都太複雜了，用用看pickle吧 ========")
 # 寫入並儲存一個數據
 with open('pickleSave.txt',"wb") as mysavedata:
     pickle.dump([1,2,3],mysavedata)
+
 # 讀一個 pickle 儲存過的數據，可以用 load
 with open('pickleSave.txt',"rb") as myloaddata:
     pickleLoad = pickle.load(mysavedata)
 '''
 
 
-
 print("\n======== 【使用pickle】產生檔案 ========")
-import pickle
 man5_data = "man5_data.txt"
 other5_data = "other5_data.txt"
 try:
@@ -292,18 +299,28 @@ try:
     with open( other5_data, "wb") as other5SpeakList:
         pickle.dump(other,other5SpeakList)
 
-except IOError as err :
-    print(errorMsg,"\n",err)
-except pickle.PickleError as perr:
-    print("PickleError =",perr)
+except IOError as IOerr :
+    print("IOError =",IOerr)
+except pickle.PickleError as Perr:
+    print("{0}\n{1}".format("PickleError：", Perr))
 except BaseException as BEerr:
-    print("Exception Error=",BEerr)
+    print("Exception Error：\n{0}".format(BEerr))
 
 
-
+print("\n======== 【使用pickle】讀檔並用nestPrint列印 ========")
 man_new=[]
-with open(man5_data, "rb") as man5LoadList:
-    man5PickleLoad = pickle.load(man5SpeakList)
+try:
+    with open(man5_data, "rb") as man5LoadList:
+        man_new = pickle.load(man5LoadList)
+
+except IOError as IOerr:
+    print("{0}\n{1}".format("PickleError：", IOerr))
+except pickle.PickleError as Perr:
+    print("{0}\n{1}".format("PickleError：", Perr))
+except BaseException as BEerr:
+    print("Exception Error：\n{0}".format(BEerr))
+
+nestPrint.nestPrints(man_new,opt="txt")
 
 
 # 參考資料：
