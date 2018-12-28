@@ -7,6 +7,7 @@
 '''
 
 import os
+'''
 def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
     try:
         if cwdCheck == 0:
@@ -17,18 +18,35 @@ def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
             os.chdir(btmPath + fileFolder)
             print("當前工作路徑變更後 =\n", os.getcwd(),"\n")
             openTxt = open(txtName)
+        return open(txtName)
+
+    except IOError as IOerr:
+        print("IOError：\n{0}\nCheck:\n{1}".format(IOerr, btmPath+fileFolder))
+        # return "IOError"
+    except BaseException as BEerr:
+        print("Something wrong：\n{0}".format(BEerr))
+        # return "BaseException"
+'''
+
+def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
+    try:
+        if cwdCheck == 0:
+            os.chdir(btmPath + fileFolder)  # 僅修改當前工作目錄
+        else:
+            # 如果想知道工作路徑變化
+            print("當前工作路徑 =\n", os.getcwd(), "\n")
+            os.chdir(btmPath + fileFolder)
+            print("當前工作路徑變更後 =\n", os.getcwd(), "\n")
+        openTxt = open(txtName)
         return openTxt
 
     except IOError as IOerr:
         print("IOError：\n{0}\nCheck:\n{1}".format(IOerr, btmPath+fileFolder))
+        # return "IOError"
     except BaseException as BEerr:
         print("Something wrong：\n{0}".format(BEerr))
-    
-    finally:
-        if "openTxt" in locals():
-            openTxt = open(txtName)
-            openTxt.close
-            print("File closed.")
+        # return "BaseException"
+
 
 
 # 字串格式化：https://openhome.cc/Gossip/Python/StringFormat.html

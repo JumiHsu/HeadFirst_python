@@ -2,8 +2,6 @@ import os
 import pickle
 import sys
 
-import nestPrint
-import nestPrint_home
 
 
 def changeChdir( bottomPath, fileFolder, txtName, cwdPrint=0):
@@ -19,11 +17,6 @@ def changeChdir( bottomPath, fileFolder, txtName, cwdPrint=0):
             print("當前工作路徑變更後 =\n", os.getcwd(),"\n")
 
         return open(txtName)
-
-        # with open(txtName) as tempFile:
-        #     tmpFile = open(txtName)         # 檔案會讀不到，但也不會進 except
-
-        # return tempFile
 
     except IOError:
         print("Oh!", txtName, "doesn't exit!")
@@ -53,7 +46,8 @@ nowPath = bottomPathOffice
 # import來源設定
 sys.path.append(nowPath + "/nestPrint")
 sys.path.append(nowPath + "/nestPrint_home")
-
+import nestPrint
+import nestPrint_home
 
 
 
@@ -100,6 +94,7 @@ except:
     print(errorMsg)
 finally:
     sketch.close  # 記得關閉
+
 
 
 
@@ -321,7 +316,6 @@ except BaseException as BEerr:
     print("Exception Error：\n{0}".format(BEerr))
 
 nestPrint.nestPrints(man_new,opt="txt")
-
 
 # 參考資料：
 
