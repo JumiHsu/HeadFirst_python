@@ -7,27 +7,7 @@
 '''
 
 import os
-'''
-def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
-    try:
-        if cwdCheck == 0:
-            os.chdir(btmPath + fileFolder)  # 僅修改當前工作目錄
-        else :
-            # 如果想知道工作路徑變化
-            print("當前工作路徑 =\n",os.getcwd(),"\n")
-            os.chdir(btmPath + fileFolder)
-            print("當前工作路徑變更後 =\n", os.getcwd(),"\n")
-            openTxt = open(txtName)
-        return open(txtName)
-
-    except IOError as IOerr:
-        print("IOError：\n{0}\nCheck:\n{1}".format(IOerr, btmPath+fileFolder))
-        # return "IOError"
-    except BaseException as BEerr:
-        print("Something wrong：\n{0}".format(BEerr))
-        # return "BaseException"
-'''
-
+# 改工作路徑，且開啟txt
 def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
     try:
         if cwdCheck == 0:
@@ -48,6 +28,44 @@ def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
         # return "BaseException"
 
 
+# 不開檔案，只是單純改工作路徑
+def changechdir(btmPath, fileFolder, cwdCheck=0):
+    try:
+        if cwdCheck == 0:
+            os.chdir(btmPath + fileFolder)  # 僅修改當前工作目錄
+        else:
+            # 如果想知道工作路徑變化
+            print("當前工作路徑 =\n", os.getcwd(), "\n")
+            os.chdir(btmPath + fileFolder)
+            print("當前工作路徑變更後 =\n", os.getcwd(), "\n")
+
+    except IOError as IOerr:
+        print("IOError：\n{0}\nCheck:\n{1}".format(IOerr, btmPath+fileFolder))
+    except BaseException as BEerr:
+        print("Something wrong：\n{0}".format(BEerr))
+
+
+
+'''
+def changechdir_opentxt(btmPath, fileFolder, txtName, cwdCheck=0):
+    try:
+        if cwdCheck == 0:
+            os.chdir(btmPath + fileFolder)  # 僅修改當前工作目錄
+        else :
+            # 如果想知道工作路徑變化
+            print("當前工作路徑 =\n",os.getcwd(),"\n")
+            os.chdir(btmPath + fileFolder)
+            print("當前工作路徑變更後 =\n", os.getcwd(),"\n")
+            openTxt = open(txtName)
+        return open(txtName)
+
+    except IOError as IOerr:
+        print("IOError：\n{0}\nCheck:\n{1}".format(IOerr, btmPath+fileFolder))
+        # return "IOError"
+    except BaseException as BEerr:
+        print("Something wrong：\n{0}".format(BEerr))
+        # return "BaseException"
+'''
 
 # 字串格式化：https://openhome.cc/Gossip/Python/StringFormat.html
 # 路徑格式參考：
