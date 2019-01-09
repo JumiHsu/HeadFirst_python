@@ -1,11 +1,12 @@
 
 
-# 定義檔案位置
+# 上層路徑設定
 bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
-# 檔案路徑設定
+# 檔案夾位置設定
 nowPath = bottomPathOffice
+fileFolder = r"\chapter5"
 
 # 匯入modual
 import os
@@ -19,49 +20,47 @@ import nestPrint
 import nestPrint_home
 import openTxt
 
+# 變更工作路徑
+openTxt.changechdir(nowPath, fileFolder)
+
+
 # 打開txt，讀取資料，並賦值給變數
-fileFolder = r"\chapter5"
 txtName_james = "james.txt"
 txtName_julie = "julie.txt"
 txtName_mikey = "mikey.txt"
 txtName_sarah = "sarah.txt"
 
-# To Do:以locals()裏面的變數為key，做成一個字典
-# Why:想要依次讀取5個檔案
 
 #1 ==================== 寫法一 ====================
 # To do:如何正確關閉檔案，jamesData.close無作用
 jamesData = openTxt.changechdir_opentxt(nowPath, fileFolder, txtName_james)
 
-
-# 看一下這份資料，列數過多則不列印
-# To do:計數共K列，每一列印出來，在總列數<多少時全列印
-jamesDataRows = len(jamesData.readlines())
-print("jamesData的列數 =", jamesDataRows)
-
-jamesData.seek(0)
-for eachline in jamesData:
-    print(eachline)
-
+# To do:看一下這份資料再處理
 
 # 檢查資料格式，整理乾淨，放進list
 jamesData.seek(0)
 for eachline in jamesData:
     jamesTimeRecord = eachline.strip().split(",")
-print("\njamesTimeRecord=", jamesTimeRecord)
-
-
+print("\njamesTimeRecord =", jamesTimeRecord,"\n---------------------------")
 
 
 
 #2 ==================== 寫法二 ====================
-# 資料與程式碼在同一個路徑，所以不用引用 openTxt
-jamesDataCleanB = []
 with open(txtName_james) as jamesfile:
     jamesData = jamesfile.readline()
-    jamesDataCleanB = jamesData.strip().split(",")
-print("\njamesDataCleanB =", jamesDataCleanB)
+jamesTimeRecord = jamesData.strip().split(",")  # split完會是一個list
 
+print("\njamesTimeRecord =", jamesTimeRecord)
+
+
+# 想要依次讀取5個檔案
+
+AlltxtTerm = [txtName_james, txtName_julie, txtName_mikey, txtName_sarah]
+for eachTxt in AlltxtTerm:
+    with open(eachTxt) as eachfile:
+        eachdata = eachfile.readline()
+    eachtxt = eachdata.strip().split(",")
+    print("\neachTxt =", eachtxt)
 
 
 
@@ -72,19 +71,22 @@ jamesDataClean = []
 jamesData.seek(0)
 for eachline in jamesData:
     jamesTimeRecord = eachline.strip().split(",")
-    jamesDataClean.append(jamesTimeRecord)
+jamesDataClean.append(jamesTimeRecord)
 print("\njamesDataClean=", jamesDataClean)
 '''
-
-
-
-
 # print("count(-)=", eachline.count("-"))
 # print("count(:)=", eachline.count(":"))
 # eachline.replace("-", ".")
 # eachline.replace(":", ".")
 
+
+
+
 # sort這個list，找出前三名
+'''
+list.sort():原地排序
+listCopy=sorted(list):會複製一個再排序
+'''
 
 
 # 把整理好的list，輸出成txt
