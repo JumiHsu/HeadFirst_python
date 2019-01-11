@@ -41,7 +41,7 @@ jamesData = openTxt.changechdir_opentxt(nowPath, fileFolder, txtName_james)
 jamesData.seek(0)
 for eachline in jamesData:
     jamesTimeRecord = eachline.strip().split(",")
-print("\njamesTimeRecord =", jamesTimeRecord,"\n---------------------------")
+print("\n[寫法一]jamesTimeRecord =\n", jamesTimeRecord,"\n-----------------")
 
 
 
@@ -50,22 +50,10 @@ with open(txtName_james) as jamesfile:
     jamesData = jamesfile.readline()
 jamesTimeRecord = jamesData.strip().split(",")  # split完會是一個list
 
-print("\njamesTimeRecord =", jamesTimeRecord)
-
-
-# 想要依次讀取5個檔案
-
-AlltxtTerm = [txtName_james, txtName_julie, txtName_mikey, txtName_sarah]
-for eachTxt in AlltxtTerm:
-    with open(eachTxt) as eachfile:
-        eachdata = eachfile.readline()
-    eachtxt = eachdata.strip().split(",")
-    print("\neachTxt =", eachtxt)
-
-
+print("\n[寫法一]jamesTimeRecord =\n", jamesTimeRecord,"\n-----------------")
 
 '''
-#3 錯誤寫法
+#3 ==================== 錯誤寫法 ====================
 # 他只有一列，split完之後已經是list了
 jamesDataClean = []
 jamesData.seek(0)
@@ -74,10 +62,56 @@ for eachline in jamesData:
 jamesDataClean.append(jamesTimeRecord)
 print("\njamesDataClean=", jamesDataClean)
 '''
-# print("count(-)=", eachline.count("-"))
-# print("count(:)=", eachline.count(":"))
-# eachline.replace("-", ".")
-# eachline.replace(":", ".")
+
+
+print("-----------想要依次印出5個檔案，分別指派給5個不同的變數----------")
+AlltxtTerm = [txtName_james, txtName_julie, txtName_mikey, txtName_sarah]
+AllRecordList = []
+
+for eachTxt in AlltxtTerm:
+    with open(eachTxt) as eachfile:
+        eachdata = eachfile.readline()
+    eachdataClean = eachdata.strip().split(",")
+    AllRecordList.append(eachdataClean)
+
+for i in range(len(AllRecordList)):
+    print(AlltxtTerm[i], "=", AllRecordList[i],"\n")
+
+
+#1整理資料 ------------ 符號取代 ------------
+def sanitizeList(timeList):
+    cleantimeList=[]
+    for eachTimeRecord in timeList:
+        cleanTemp = eachTimeRecord.replace(":", ".")  # replace會返回一個值
+        cleanTemp = cleanTemp.replace("-", ".")
+        cleanTemp = cleanTemp.replace(",", ".")
+        cleantimeList.append(cleanTemp)
+    return cleantimeList
+
+AllRecordCleanList = []
+for i in range(len(AllRecordList)):
+    AllRecordCleanList.append(sanitizeList(AllRecordList[i]))
+
+
+#2整理資料 ------------ 把分、秒"分開"來 ------------
+def sanitizeString(timeString):
+    if "-" in timeString:
+        splitter = "-"
+    elif ":" in timeString:
+        splitter = ":"
+    elif "," in timeString:
+        splitter = ","
+    else:
+        return(timeString)
+    (min,sec) = timeString.split(splitter)
+    return (min + "." + sec)
+
+AllRecordCleanList2 = []
+for eachRecord in AllRecordList:
+    eachRecordtemp = []
+    for eachTime in eachRecord:
+        eachRecordtemp.append(sanitizeString(eachTime))
+    AllRecordCleanList2.append(eachRecordtemp)
 
 
 
@@ -87,6 +121,22 @@ print("\njamesDataClean=", jamesDataClean)
 list.sort():原地排序
 listCopy=sorted(list):會複製一個再排序
 '''
+print("1----------- 一次對這五個資料，排序，並列印出來 ----------")
+AllRecordSortedList = []
+for i in range(len(AllRecordCleanList)):
+    AllRecordSortedList.append(sorted(AllRecordCleanList[i]))
+
+for i in range(len(AllRecordSortedList)):
+    print(AlltxtTerm[i], "=", AllRecordSortedList[i], "\n")
+
+
+print("2----------- 一次對這五個資料，排序，並列印出來 ----------")
+AllRecordSortedList2 = []
+for i in range(len(AllRecordCleanList2)):
+    AllRecordSortedList2.append(sorted(AllRecordCleanList2[i]))
+
+for i in range(len(AllRecordSortedList2)):
+    print(AlltxtTerm[i], "=", AllRecordSortedList2[i], "\n")
 
 
 # 把整理好的list，輸出成txt
