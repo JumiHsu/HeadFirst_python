@@ -5,7 +5,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-nowPath = bottomPathOffice
+nowPath = bottomPathHome
 fileFolder = r"\chapter5"
 
 # 匯入modual
@@ -91,6 +91,11 @@ def sanitizeList(timeList):
 AllRecordCleanList = []
 for i in range(len(AllRecordList)):
     AllRecordCleanList.append(sanitizeList(AllRecordList[i]))
+print("\nAllRecordCleanList=",AllRecordCleanList)
+# AllRecordCleanList 的另一種寫法
+AllRecordCleanList3=[sanitizeList(each) for each in AllRecordList]
+print("\nAllRecordCleanList3=",AllRecordCleanList3)
+
 
 
 #2整理資料 ------------ 把分、秒"分開"來 ------------
@@ -106,12 +111,45 @@ def sanitizeString(timeString):
     (min,sec) = timeString.split(splitter)
     return (min + "." + sec)
 
+# 我一開始寫的方式
 AllRecordCleanList2 = []
 for eachRecord in AllRecordList:
     eachRecordtemp = []
     for eachTime in eachRecord:
         eachRecordtemp.append(sanitizeString(eachTime))
     AllRecordCleanList2.append(eachRecordtemp)
+
+# list comprehension
+# 針對一個list遍歷內容物字串，並對其整理
+james = AllRecordList[0]
+jamesList = [sanitizeString(each) for each in james]
+print("\njames =",james,"\njamesList =",jamesList)
+
+# 但其實你不能這樣寫 AllRecordCleanList2，因為他其實是兩層
+AllRecordCleanList4 = [ sanitizeString(each) for each in AllRecordList ]
+print("\nAllRecordCleanList4=",AllRecordCleanList4)
+# 應該寫
+AllRecordCleanList5 = []
+for eachRecord in AllRecordList:
+    eachRecordtemp =[sanitizeString(each) for each in eachRecord]
+    AllRecordCleanList5.append(eachRecordtemp)
+print("\nAllRecordCleanList5=",AllRecordCleanList5)
+# 但這樣寫其實比較醜，而且你等等還要sort他
+
+
+
+# 書上教過 list comprehension 後的方式，還可以連帶排序好
+jamesCleanSorted = sorted( sanitizeString(each) for each in AllRecordList[0] )
+julieCleanSorted = sorted( sanitizeString(each) for each in AllRecordList[1] )
+mikeyCleanSorted = sorted( sanitizeString(each) for each in AllRecordList[2] )
+sarahCleanSorted = sorted( sanitizeString(each) for each in AllRecordList[3] )
+
+# 也就是
+AllRecordCleanSortedList = []
+for i in range(len(AllRecordList)):
+    temp = sorted( sanitizeString(each) for each in AllRecordList[i] )
+    AllRecordCleanSortedList.append(temp)
+print("\nAllRecordCleanSortedList = ",AllRecordCleanSortedList)
 
 
 
@@ -121,7 +159,7 @@ for eachRecord in AllRecordList:
 list.sort():原地排序
 listCopy=sorted(list):會複製一個再排序
 '''
-print("1----------- 一次對這五個資料，排序，並列印出來 ----------")
+print("\n1----------- 一次對這五個資料，排序，並列印出來 ----------")
 AllRecordSortedList = []
 for i in range(len(AllRecordCleanList)):
     AllRecordSortedList.append(sorted(AllRecordCleanList[i]))
@@ -130,7 +168,7 @@ for i in range(len(AllRecordSortedList)):
     print(AlltxtTerm[i], "=", AllRecordSortedList[i], "\n")
 
 
-print("2----------- 一次對這五個資料，排序，並列印出來 ----------")
+print("\n2----------- 一次對這五個資料，排序，並列印出來 ----------")
 AllRecordSortedList2 = []
 for i in range(len(AllRecordCleanList2)):
     AllRecordSortedList2.append(sorted(AllRecordCleanList2[i]))
@@ -138,6 +176,28 @@ for i in range(len(AllRecordCleanList2)):
 for i in range(len(AllRecordSortedList2)):
     print(AlltxtTerm[i], "=", AllRecordSortedList2[i], "\n")
 
+
+
+print("\n3----------- 又或者是剛剛已經一次搞定的 ----------")
+for i in range(len(AllRecordCleanSortedList)):
+    print(AlltxtTerm[i], "=", AllRecordCleanSortedList[i], "\n")
+
+
+# 練習：一行code複製一個list
+ori=[1,2,3,4]
+
+copy1=[]
+for i in range(len(ori)):
+    copy1.append(ori[i]*2)
+print("copy1=",copy1)
+
+copy2=[]
+for eachitem in ori:
+    copy2.append(eachitem*2)
+print("copy2=",copy2)
+
+copy3 = [ eachitem*2 for eachitem in ori]
+print("copy3=",copy3)
 
 # 把整理好的list，輸出成txt
 # 參數：路徑、檔案filefolder、讀取對象檔名、是否開啟工作路徑檢視
