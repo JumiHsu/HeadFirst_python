@@ -16,6 +16,7 @@ setup(
 # 創建一個 def 檔 + setup檔，按照固定格式去設置 setup 檔
 # 將上述 (a.py + setup.py) 放在共同的資料夾 A 下
 # 到 資料夾路徑A 下，開啟cmd，輸入
+# 指令：cd /d 右鍵貼上路徑
 # setup.py sdist  (範例中是輸入： python3 setup.py sdist)
 # a.py install    (範例中是輸入： sudo python3 setup.py install)
 # 這時候會生出許多資料夾和檔案，發布已經就緒
