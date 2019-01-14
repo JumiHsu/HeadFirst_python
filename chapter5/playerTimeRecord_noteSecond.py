@@ -5,7 +5,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-nowPath = bottomPathHome
+nowPath = bottomPathOffice
 fileFolder = r"\chapter5"
 
 # 匯入modual
@@ -69,7 +69,7 @@ for i in range(len(AllRecordList)):
     temp = sorted( sanitizeString(each) for each in AllRecordList[i] )
     AllRecordCleanSortedList.append(temp)
 
-print("\n排序好的四人資料 =")
+print("-----------n排序好的四人資料----------")
 for i in range(len(AllRecordCleanSortedList)):
     print(AlltxtTerm[i], "=", AllRecordCleanSortedList[i], "\n")
 
@@ -130,10 +130,10 @@ uni_julie = unigue(julieRecord)
 uni_mikey = unigue(mikeyRecord)
 uni_sarah = unigue(sarahRecord)
 
-print("uni_james",uni_james)
-print("uni_julie",uni_julie)
-print("uni_mikey",uni_mikey)
-print("uni_sarah",uni_sarah)
+print("uni_james =",uni_james)
+print("uni_julie =",uni_julie)
+print("uni_mikey =",uni_mikey)
+print("uni_sarah =",uni_sarah)
 
 
 
@@ -152,10 +152,15 @@ print("\njames_set =",james_set)
 jamesTOP = sorted(
     set([sanitizeString(each) for each in AllRecordList[0]])
     )[0:3]
-print("\njamesTOP =",jamesTOP)
+print("\njamesTOP =",jamesTOP,"\n")
 
 
-
+# 動態命名
+name=["james","julie","mikey","sarah"]
+for i in range(4):
+    eachTOP = sorted(set([sanitizeString(each) for each in AllRecordList[i]]))[0:3]
+    locals()[ "%s" % (name[i]) +"TOP" ] = eachTOP
+    print(  name[i]+"TOP" , "=" , locals()["%s" % (name[i]) + "TOP"] )
 
 
 # 把整理好的list，輸出成txt
