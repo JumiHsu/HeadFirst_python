@@ -24,7 +24,7 @@ fileFolder = r"\chapter5"
 # 匯入modual
 import os
 import sys
-import pickle
+import pickle  # 需要讀檔+輸出檔案時可以用
 sys.path.append(nowPath + "/openTxt")
 import openTxt
 
@@ -40,21 +40,27 @@ print("nameFourPlayers =", nameFourPlayers)
 print("txtFourPlayers =", txtFourPlayers)
 print("oriFourPlayers =", oriFourPlayers)
 
+
 #1 打開並讀取txt，並指派給變數，
 # 額外把四筆ori資料，塞進一個list
-print("----------- 原始資料 ----------")
-oriFourData = []
+print("\n----------- 原始資料 ----------")
+oriReadData = []
 for each in nameFourPlayers:
-    with open(each+".txt") as eachfile:
-        eachdata = eachfile.readline()
-        locals()["%s"%(each) + "OriData"] = eachdata.strip().split(",")
-        print(each+"OriData =", locals()["%s" % (each) + "OriData"], "\n")
+    try:
+        with open(each+".txt") as eachfile:
+            eachdata = eachfile.readline()
+            locals()["%s"%(each) + "OriData"] = eachdata.strip().split(",")
+            print(each+"OriData =", locals()["%s" % (each) + "OriData"], "\n")
 
-        oriFourData.append(locals()["%s" % (each) + "OriData"])
+            oriReadData.append(locals()["%s" % (each) + "OriData"])
+    except IOError as IOerr:
+        print("IOError：\n",IOerr, "\n")
+    except BaseException as BEerr:
+        print("BaseException：\n", BEerr, "\n")
 
 # 這樣寫會報錯
-# oriFourData = [locals()["%s" % (each)] for each in oriFourPlayers]
-print("oriFourData =", oriFourData)
+# oriReadData = [locals()["%s" % (each)] for each in oriFourPlayers]
+print("oriReadData =", oriReadData)
 
 
 
@@ -85,21 +91,27 @@ print("jamesTOP3 =",jamesTOP3)
 
 
 # 要丟進 getUnigue 的是 locals()["%s" % (each) + "OriData"]
-# 也就是 oriFourData[i]
+# 也就是 oriReadData[i]
 print("\n----------- 【先把資料放進list】自動做 4 個 ----------")
 i = 0
 for each in nameFourPlayers:
-    locals()["%s" % (each)+"TOP3"] = getUnigue(oriFourData[i])[0:3]
-    print(each+"TOP3 =", locals()["%s" % (each)+"TOP3"])
-    i += 1
+    try:
+        locals()["%s" % (each)+"TOP3"] = getUnigue(oriReadData[i])[0:3]
+        print(each+"TOP3 =", locals()["%s" % (each)+"TOP3"])
+        i += 1
+    except BaseException as BEerr:
+        print("BaseException：", BEerr)
 
 
 print("\n----------- 【變數自動命名】自動做 4 個 ----------")
 i=0
 for each in nameFourPlayers:
-    locals()["%s"%(each)+"TOP"] = getUnigue(locals()["%s"%(each)+"OriData"])[0:3]
-    print(each+"TOP =", locals()["%s" % (each)+"TOP"])
-    i += 1
+    try:
+        locals()["%s"%(each)+"TOP"] = getUnigue(locals()["%s"%(each)+"OriData"])[0:3]
+        print(each+"TOP =", locals()["%s" % (each)+"TOP"])
+        i += 1
+    except BaseException as BEerr:
+        print("BaseException：",BEerr)
 
 
 
