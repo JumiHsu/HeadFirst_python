@@ -2,6 +2,7 @@
 1.把例外格式的資料用pop取出
 2.使用 dict 管理不同格式的資料
 3.如果不想動到原始資料，使用 copy.deepcopy
+4.也可以改用 new = old[:] 來實現 deepcopy (slice)
 '''
 
 # 上層路徑設定
@@ -9,7 +10,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-nowPath = bottomPathHome
+nowPath = bottomPathOffice
 fileFolder = r"\chapter6"
 
 # 匯入modual
@@ -29,20 +30,61 @@ nameFourPlayers = ["james2", "julie2", "mikey2", "sarah2"]
 print("nameFourPlayers =", nameFourPlayers)
 
 
-print("\n----------- 讀取 原始資料 ----------")
-# oriReadData = []
-for each in nameFourPlayers:
-    try:
-        with open(each+".txt") as eachfile:
-            eachdata = eachfile.readline()
-            locals()["%s"%(each) + "OriData"] = eachdata.strip().split(",")
-            print("\n",each+"OriData =", locals()["%s" % (each) + "OriData"], "\n")
+# print("\n----------- 讀取 原始資料 + 製作 dict ----------")
+# # oriReadData = []
+# for each in nameFourPlayers:
+#     try:
+#         with open(each+".txt") as eachfile:
+#             eachdata = eachfile.readline()
+#             locals()["%s"%(each) + "OriData"] = eachdata.strip().split(",")
 
-            # oriReadData.append(locals()["%s" % (each) + "OriData"])
+#             locals()["%s" % (each) + "_time"] = copy.deepcopy(locals()["%s"%(each) + "OriData"])
+#             locals()["%s" % (each)+"_dict"] ={}
+#             locals()["%s" % (each)+"_dict"]["name"] = locals()["%s" %
+#                                                                (each) + "_time"].pop(0)
+#             locals()["%s" % (each)+"_dict"]["birth"] = locals()["%s" %
+#                                                                 (each) + "_time"].pop(0)
+#             locals()["%s" % (each)+"_dict"]["time"] = locals()["%s" %(each) + "_time"]
+
+#             print(each+"OriData =", locals()["%s" % (each) + "OriData"])
+#             print(each+"_dict =", locals()["%s" % (each)+"_dict"], "\n")
+
+#             # oriReadData.append(locals()["%s" % (each) + "OriData"])
+#     except IOError as IOerr:
+#         print("IOError：\n",IOerr, "\n")
+#     except BaseException as BEerr:
+#         print("BaseException：\n", BEerr, "\n")
+
+
+#function ------------- 讀取 原始資料 + 製作 dict ------------------------
+print("\n----------- 【function】讀取 原始資料 + 製作 dict ----------")
+def get_playerData(filename):
+    try:
+        with open(filename) as eachfile:
+            eachdata = eachfile.readline()
+            locals()["%s" % (each) + "OriData"] = eachdata.strip().split(",")
+
+            locals()["%s" % (each) + "_time"] = copy.deepcopy(locals()
+                                                              ["%s" % (each) + "OriData"])
+            locals()["%s" % (each)+"_dict"] = {}
+            locals()["%s" % (each)+"_dict"]["name"] = locals()["%s" %
+                                                               (each) + "_time"].pop(0)
+            locals()["%s" % (each)+"_dict"]["birth"] = locals()["%s" %
+                                                                (each) + "_time"].pop(0)
+            locals()["%s" % (each)+"_dict"]["time"] = locals()["%s" %
+                                                               (each) + "_time"]
+
+            print(each+"OriData =", locals()["%s" % (each) + "OriData"])
+            print(each+"_dict =", locals()["%s" % (each)+"_dict"], "\n")
+
     except IOError as IOerr:
-        print("IOError：\n",IOerr, "\n")
+        print("IOError：\n", IOerr, "\n")
     except BaseException as BEerr:
         print("BaseException：\n", BEerr, "\n")
+
+
+for each in nameFourPlayers:
+    get_playerData(each+".txt")
 
 
 
@@ -148,4 +190,71 @@ print("james2_dict[birth] =",james2_dict["birth"])
 #3 getUnigue：整理資料、取集合(排除重複)，return 後取排序
 jamesTOP3 = getUnigue(james2_dict["time"])[0:3]
 print(james2_dict["name"],"TOP3 =",jamesTOP3)
+
+
+
+# ===================================================================
+print("\n-------- 【改用dict】【變數自動命名】自動做 4 個  -------")
+# ===================================================================
+i = 0
+for each in nameFourPlayers:
+    try:
+        # 注意這邊是 deepcopy
+        locals()["%s"%(each)+"_time"] = copy.deepcopy(locals()["%s"%(each)+"OriData"])
+
+        locals()["%s"%(each)+"_dict"] = {}
+
+        locals()["%s"%(each)+"_dict"]["name"]=locals()["%s"%(each)+"_time"].pop(0)
+        locals()["%s"%(each)+"_dict"]["birth"]=locals()["%s"%(each)+"_time"].pop(0)
+        locals()["%s"%(each)+"_dict"]["time"]=locals()["%s"%(each)+"_time"]
+
+        locals()["%s"%(each)+"TOP"]=getUnigue(locals()["%s"%(each)+"_time"])[0:3]
+        print(locals()["%s" % (each)+"_dict"]["name"],"TOP =", locals()["%s" % (each)+"TOP"])
+        i += 1
+    except BaseException as BEerr:
+        print("BaseException：", BEerr)
+
+
+
+# ===================================================================
+# 使用 a = b[:] 就可以實現深copy嗎
+# ===================================================================
+old = [1, 2, [6, 6, 6, 6], 3, 4, 5, 7, 8, 9]
+new = old[1:6]
+print("\nnew =", new, "\nold =", old)
+
+new_after_pop = new.pop(0)
+print("\nnew_after_pop =", new_after_pop, "\nnew =", new, "\nold =", old)
+
+new_after_pop2 = new.pop(0)
+print("\nnew_after_pop2 =", new_after_pop2, "\nnew =", new, "\nold =", old)
+
+new_after_pop3 = new.pop(0)
+print("\nnew_after_pop3 =", new_after_pop3, "\nnew =", new, "\nold =", old)
+
+
+# ===================================================================
+print("\n-------- 【不用 deepcopy 的話】【變數自動命名】自動做 4 個  -------")
+# ===================================================================
+i = 0
+for each in nameFourPlayers:
+    try:
+        locals()["%s" % (each)+"_dict"] = {}
+
+        locals()["%s" % (each)+"_dict"]["name"] = locals()["%s" %
+                                                           (each)+"OriData"][0]
+        locals()["%s" % (each)+"_dict"]["birth"] = locals()["%s" %
+                                                            (each)+"OriData"][1]
+        locals()["%s" % (each)+"_dict"]["time"] = locals()["%s" %
+                                                           (each)+"OriData"][2:len(locals()["%s" %
+                                                                                            (each)+"OriData"])]
+
+        locals()["%s" % (each)+"TOP_3"] = getUnigue(locals()
+                                                  ["%s" % (each)+"_time"])[0:3]
+        print(locals()["%s" % (each)+"_dict"]["name"],
+              "TOP_3 =", locals()["%s" % (each)+"TOP_3"])
+        i += 1
+    except BaseException as BEerr:
+        print("BaseException：", BEerr)
+
 
