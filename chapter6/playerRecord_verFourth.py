@@ -54,33 +54,7 @@ def getUnigue(playertimeList):
     return unigueSet
 
 
-#function ------------- me：讀取 原始資料 + 輸出 原始Dict ------------------------
-def get_playerDict(filename):
-    try:
-        with open(filename) as eachfile:
-            eachdata = eachfile.readline()
-            eachDataList = eachdata.strip().split(",")
-            tempDict = {}
-            tempDict["name"] = eachDataList[0]
-            tempDict["birth"] = eachDataList[1]
-            tempDict["time"] = eachDataList[2:]
-            return tempDict
-    except IOError as IOerr:
-        print("IOError：\n", IOerr, "\n")
-    except BaseException as BEerr:
-        print("BaseException：\n", BEerr, "\n")
 
-
-
-#class ------------- BOOK ------------------------
-# 使用方式：
-# 指派：newObj = Athlete("姓名","生日","時間list")，self 就是 newObj
-# 這時候就會針對 newObj 這個物件，產生三個可被呼叫的 物件屬性：
-# newObj.name = 姓名
-# newObj.birth = 生日
-# newObj.time = 時間list
-# 所以你可以令 something = newObj.time ，那something就會是一個list
-# 你也可以針對其中的某些物件屬性，去做相關的函數運算，比如 newObj.TOP(3)
 
 class Athlete:
     # 定義這個class，可以被什麼指令call出，以及定義這些東西，他會被傳入什麼
@@ -120,59 +94,24 @@ def get_coach_data(filename):
 
 
 # ========================================================================
-# 開始製作
-# ========================================================================
-print("\n----------- 定義 預計會常用到的的關鍵字 ----------")
-nameFourPlayers = ["james2", "julie2", "mikey2", "sarah2"]
-print("nameFourPlayers =", nameFourPlayers)
-
-
-
-# ========================================================================
-#1 方案一
-# ========================================================================
-print("\n----- 【方案一】做 4 個 Ori Dict  -----")
-for each in nameFourPlayers:
-    locals()["%s" % (each) + "OriData"] = get_playerDict(each+".txt")
-
-print("-------- 用getUnigue整理、並取前三  -------")
-for each in nameFourPlayers:
-    try:
-        locals()["%s" % (each)+"TOP3"] = getUnigue(locals()
-                                                   ["%s" % (each) + "OriData"]["time"])[0:3]
-        # print(each+"OriData =", locals()["%s" % (each) + "OriData"])
-        print(each+"TOP3 =", locals()["%s" % (each) + "TOP3"],"\n")
-    except BaseException as BEerr:
-        print("BaseException：", BEerr)
-
-
-
-# ========================================================================
-#2 方案二：創建符合 Athlete類型 的 instance
+# 【製作】創建符合 Athlete類型 的 instance
 # ========================================================================
 print("\n------- 【方案二】創建符合 Athlete類型 的 instance ------")
 for each in nameFourPlayers:
     rank = 3
     locals()["%s" % (each) + "OriData"] = get_coach_data(each+".txt")
     locals()["%s" % (each) + "TOP3"] = locals()["%s" % (each) + "OriData"].TOP(rank)
-    # print(each+"OriData =", locals()["%s" % (each) + "OriData"])
     # print(each+"TOP3 =", locals()["%s" % (each) + "TOP3"], "\n")
     print(locals()["%s" % (each) + "OriData"].name, "TOP3 =",  # 改成直接用 obj.name去呼叫
           locals()["%s" % (each) + "TOP3"], "\n")
 
 
-
-
-# ============= 測試新的code ===============
-jumiPlayer = Athlete("Jumi", "19870804", [
-                     '2.22', '2.31', '2.38','2.18', '2.21', '2.22'])
-print("\njumiPlayer.time =", jumiPlayer.time)
-print("jumiPlayer.TOP(3) =", jumiPlayer.TOP(3))
-
-jumiPlayer.addTime("1.11")
-print("\njumiPlayer.time =", jumiPlayer.time)
-print("jumiPlayer.TOP(3) =", jumiPlayer.TOP(3))
-
-jumiPlayer.addTimes([3.33,0.55])
-print("\njumiPlayer.time =", jumiPlayer.time)
-print("jumiPlayer.TOP(3) =", jumiPlayer.TOP(3))
+#class ------------- BOOK ------------------------
+# 使用方式：
+# 指派：newObj = Athlete("姓名","生日","時間list")，self 就是 newObj
+# 這時候就會針對 newObj 這個物件，產生三個可被呼叫的 物件屬性：
+# newObj.name = 姓名
+# newObj.birth = 生日
+# newObj.time = 時間list
+# 所以你可以令 something = newObj.time ，那something就會是一個list
+# 你也可以針對其中的某些物件屬性，去做相關的函數運算，比如 newObj.TOP(3)
