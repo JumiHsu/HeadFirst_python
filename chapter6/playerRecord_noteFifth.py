@@ -167,12 +167,6 @@ class AthleteList(list):
     def TOP(self, TOPrank):
         return getUnigue(self)[0:TOPrank]  # 這時候的 self 已經是 list 了
 
-    # def addTime(self, singleTime):
-    #     return self.time.append(str(singleTime))
-
-    # def addTimes(self, listTime):
-    #     newlistTime = [str(each) for each in listTime]
-    #     return self.time.extend(newlistTime)
 
 
 #function ------ BOOK：讀取原始資料 + 輸出 Athlete 類的 instance ----------
