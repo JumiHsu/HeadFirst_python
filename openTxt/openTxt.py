@@ -33,6 +33,7 @@ def changechdir(btmPath, fileFolder, cwdCheck=0):
     try:
         if cwdCheck == 0:
             os.chdir(btmPath + fileFolder)  # 僅修改當前工作目錄
+            print("當前工作路徑變更後 =\n", os.getcwd(), "\n")
         else:
             # 如果想知道工作路徑變化
             print("當前工作路徑 =\n", os.getcwd(), "\n")
