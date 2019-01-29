@@ -159,8 +159,9 @@ class AthleteList(list):
         list.__init__([])  # 比之前多做這一步
         self.name = playerName
         self.birth = playerBirth
+        self.time = playerTime
         self.extend(playerTime)  # self 繼承了 list.extend 這個功能
-        self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
+        # self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
         if " " in playerName:
             (self.firstName, self.lastName) = playerName.split(" ", 1)
 
@@ -175,14 +176,22 @@ def get_coach_data_new(filename):
         with open(filename) as eachfile:
             eachdata = eachfile.readline()
         temp = eachdata.strip().split(",")  # 留意這邊的縮排
+        # print("temp =", temp)
+        # print("temp[0] =", temp[0])
+        # print("temp[1] =", temp[1])
+        # print("temp[2:] =", temp[2:])
         return AthleteList(temp[0], temp[1], temp[2:])
     except IOError as IOerr:
         print("IOError：\n", IOerr, "\n")
     except BaseException as BEerr:
         print("BaseException：\n", BEerr, "\n")
 
-
-
+print("\n==========================")
+a = get_coach_data_new("james2"+".txt").time
+print("get_coach_data_new(james2.txt).time =", a)
+b = get_coach_data_new("james2"+".txt")
+print("get_coach_data_new(james2.txt) =", b)
+print("==========================\n")
 
 # ========================================================================
 # 【製作】創建符合 AthleteList類型 的 instance
@@ -191,16 +200,16 @@ print("\n------- 【方案B】創建符合 AthleteList類型 的 instance ------
 for each in nameFourPlayers:
     rank = 3
     locals()["%s" % (each) + "OriData"] = get_coach_data(each+".txt")
-    locals()["%s" % (each) + "OriDatanew"] = get_coach_data_new(each+".txt")
+    locals()["%s" % (each) + "OriTime"] = get_coach_data_new(each+".txt").time
     locals()["%s" % (each) + "TOP3"] = locals()["%s" %
                                                 (each) + "OriData"].TOP(rank)
     
     # sarah2OriData = <__main__.Athlete object at 0x043FFD50> 因為get_coach_data是一個自己的類
     print(each+"OriData =", locals()["%s" % (each) + "OriData"])
     
-    # sarah2OriDatanew = ['2:58', ...,'2.58']
+    # sarah2OriTime = ['2:58', ...,'2.58']
     # 但get_coach_data_new 繼承了list，所以可以print出東西
-    print(each+"OriDatanew =", locals()["%s" % (each) + "OriDatanew"])
+    print(each+"OriTime =", locals()["%s" % (each) + "OriTime"])
     print(each+"TOP3 =", locals()["%s" % (each) + "TOP3"], "\n")
 
     print(locals()["%s" % (each) + "OriData"].name, "TOP3 =",  # 改成直接用 obj.name去呼叫

@@ -8,8 +8,9 @@ class AthleteList(list):
         list.__init__([])  # 比之前多做這一步
         self.name = playerName
         self.birth = playerBirth
+        # self.time = playerTime  # 為什麼 PDF P.233(書頁P.208)不用此行
         self.extend(playerTime)  # self 繼承了 list.extend 這個功能
-        self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
+        # self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
         if " " in playerName:
             (self.firstName, self.lastName) = playerName.split(" ", 1)
 

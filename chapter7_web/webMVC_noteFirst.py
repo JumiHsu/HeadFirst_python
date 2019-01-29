@@ -27,6 +27,11 @@ nameFourPlayers = ["james", "julie", "mikey", "sarah"]
 print("nameFourPlayers =", nameFourPlayers, "\n")
 
 
+
+
+
+
+
 # 使用 import 的 module：athleteList
 # 一次只要處理一個 name 就好
 
@@ -36,11 +41,14 @@ print("nameFourPlayers =", nameFourPlayers, "\n")
 讀取那4個名字的txt
 用pickle存起來
 存成一個長度=4的，以名字為key的字典
-'''
+# '''
 # def put_to_store(nameList):
+#     for eachName in nameList:
+#         # with open(eachName+".txt") as locals()["%s" % (eachName) + "Data"]:
+#         with open(eachName+".txt") as eachName+"Data":
+#             pickle.dump(eachName+"Data", eachName+"Data")
+#     return a
 
-
-    # return a
 
 '''
 讀取檔案 (用pickle)
@@ -49,13 +57,23 @@ print("nameFourPlayers =", nameFourPlayers, "\n")
 # def get_from_store(b):
 #     return b
 
+
+# ========================================================================
+# 【製作】創建符合 AthleteList類型 的 instance
+# ========================================================================
 for each in nameFourPlayers:
     rank = 3
     locals()["%s" % (each) +
              "OriData"] = athleteList.get_coach_data(each+".txt")
+    print(each+"OriData =", locals()["%s" % (each) + "OriData"])
+
+    # locals()["%s" % (each) +
+    #          "OriTime"] = athleteList.get_coach_data(each+".txt").time
+    # print(each+"OriTime =", locals()["%s" % (each) + "OriTime"])
+
     locals()["%s" % (each) + "TOP3"] = locals()["%s" %
                                                 (each) + "OriData"].TOP(rank)
-
-    print(each+"OriData =", locals()["%s" % (each) + "OriData"])
     print(locals()["%s" % (each) + "OriData"].name, "TOP3 =",  # 改成直接用 obj.name去呼叫
           locals()["%s" % (each) + "TOP3"], "\n")
+
+

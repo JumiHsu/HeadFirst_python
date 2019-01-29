@@ -32,6 +32,12 @@ import openTxt
 openTxt.changechdir(nowPath, fileFolder)
 
 
+print("----------- 定義 預計會常用到的的關鍵字 ----------")
+nameFourPlayers = ["james2", "julie2", "mikey2", "sarah2"]
+# nameFourPlayers[0]+".txt"
+print("nameFourPlayers =", nameFourPlayers, "\n")
+
+
 
 
 #function ------------- 整理資料：把分、秒"分開"來 ------------------------
@@ -91,6 +97,8 @@ def get_coach_data(filename):
         print("IOError：\n", IOerr, "\n")
     except BaseException as BEerr:
         print("BaseException：\n", BEerr, "\n")
+
+
 
 
 # ========================================================================
