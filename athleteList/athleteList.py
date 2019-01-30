@@ -8,9 +8,12 @@ class AthleteList(list):
         list.__init__([])  # 比之前多做這一步
         self.name = playerName
         self.birth = playerBirth
-        # self.time = playerTime  # 為什麼 PDF P.233(書頁P.208)不用此行
-        self.extend(playerTime)  # self 繼承了 list.extend 這個功能
-        # self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
+
+        # self 繼承了 list.extend 這個功能，他不必用.time去call
+        # 等於是 self 本身具備一些可以被呼叫的屬性：name、birth
+        # 但他自己本身又是一個list，所以要扔 新的timelist的時候，是可以直接扔的
+        self.extend(playerTime)
+
         if " " in playerName:
             (self.firstName, self.lastName) = playerName.split(" ", 1)
 
@@ -39,7 +42,7 @@ def getUnigue(playertimeList):
     return unigueSet
 
 
-#function ------ BOOK：讀取原始資料 + 輸出 Athlete 類的 instance ----------
+#function ------ BOOK：讀取原始資料 + 輸出 AthleteList 類的 instance ----------
 def get_coach_data(filename):
     try:
         with open(filename) as eachfile:

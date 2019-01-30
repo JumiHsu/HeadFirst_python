@@ -4,7 +4,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-btmPath = bottomPathOffice
+btmPath = bottomPathHome
 fileFolder = r"\chapter7_web"
 
 # 匯入modual
@@ -36,11 +36,11 @@ def changechdir(btmPath, fileFolder, cwdCheck=0):
 changechdir(btmPath, fileFolder)
 
 
-print("\n======== 【使用pickle】產生檔案 ========")
+print("\n======== 【pickle儲存】產生一個pickle Save檔 ========")
 PickleSaveTxt = "PickleSaveTxt.txt"
 try:
     with open(PickleSaveTxt, "wb") as PickleSave:
-        pickle.dump([1,2,3], PickleSave)
+        pickle.dump([1,2,3], PickleSave)  # 儲存"資料" 在"哪裡"
 
 except IOError as IOerr:
     print("IOError =", IOerr)
@@ -51,11 +51,11 @@ except BaseException as BEerr:
 
 
 
-print("\n======== 【使用pickle】讀檔並列印 ========")
+print("\n======== 【pickle讀取】讀檔並列印 ========")
 PickleLoadData = []
 try:
     with open(PickleSaveTxt, "rb") as PickleLoad:
-        PickleLoadData = pickle.load(PickleLoad)
+        PickleLoadData = pickle.load(PickleLoad) # 讀出來的資料 = 誰
 
 except IOError as IOerr:
     print("{0}\n{1}".format("PickleError：", IOerr))

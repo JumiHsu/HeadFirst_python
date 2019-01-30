@@ -18,7 +18,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-nowPath = bottomPathOffice
+nowPath = bottomPathHome
 fileFolder = r"\chapter6"
 
 # 匯入modual
@@ -111,6 +111,14 @@ for each in nameFourPlayers:
           locals()["%s" % (each) + "TOP3"], "\n")
 
 
+
+
+
+
+
+
+
+
 #class ------------- BOOK ------------------------
 # 使用方式：
 # 指派：newObj = Athlete("姓名","生日","時間list")，self 就是 newObj
@@ -159,9 +167,13 @@ class AthleteList(list):
         list.__init__([])  # 比之前多做這一步
         self.name = playerName
         self.birth = playerBirth
-        self.time = playerTime
-        self.extend(playerTime)  # self 繼承了 list.extend 這個功能
-        # self.extendnew = self.extend(playerTime)  # self 繼承了 list.extend 這個功能
+        # self.time = playerTime
+
+        # self 繼承了 list.extend 這個功能，他不必用.time去call
+        # 等於是 self 本身具備一些可以被呼叫的屬性：name、birth
+        # 但他自己本身又是一個list，所以要扔 新的timelist的時候，是可以直接扔的
+        self.extend(playerTime)
+
         if " " in playerName:
             (self.firstName, self.lastName) = playerName.split(" ", 1)
 
@@ -186,32 +198,49 @@ def get_coach_data_new(filename):
     except BaseException as BEerr:
         print("BaseException：\n", BEerr, "\n")
 
-print("\n==========================")
-a = get_coach_data_new("james2"+".txt").time
-print("get_coach_data_new(james2.txt).time =", a)
-b = get_coach_data_new("james2"+".txt")
-print("get_coach_data_new(james2.txt) =", b)
-print("==========================\n")
+
 
 # ========================================================================
 # 【製作】創建符合 AthleteList類型 的 instance
 # ========================================================================
 print("\n------- 【方案B】創建符合 AthleteList類型 的 instance ------")
+rank = 3
 for each in nameFourPlayers:
-    rank = 3
-    locals()["%s" % (each) + "OriData"] = get_coach_data(each+".txt")
-    locals()["%s" % (each) + "OriTime"] = get_coach_data_new(each+".txt").time
-    locals()["%s" % (each) + "TOP3"] = locals()["%s" %
-                                                (each) + "OriData"].TOP(rank)
-    
     # sarah2OriData = <__main__.Athlete object at 0x043FFD50> 因為get_coach_data是一個自己的類
+    print("get_coach_data(each.txt) =",get_coach_data(each+".txt"),"\n")
+
+
+    # sarah2OriData = ['2:58', ...,'2.58']
+    # self 繼承了 list.extend 這個功能，他不必用.time去call
+    # 等於是 self 本身具備一些可以被呼叫的屬性：name、birth
+    # 但他自己本身又是一個list，所以要扔 新的timelist的時候，是可以直接扔的
+    locals()["%s" % (each) + "OriData"] = get_coach_data_new(each+".txt")
     print(each+"OriData =", locals()["%s" % (each) + "OriData"])
-    
-    # sarah2OriTime = ['2:58', ...,'2.58']
-    # 但get_coach_data_new 繼承了list，所以可以print出東西
-    print(each+"OriTime =", locals()["%s" % (each) + "OriTime"])
-    print(each+"TOP3 =", locals()["%s" % (each) + "TOP3"], "\n")
+    print(each+"OriData.name =", locals()["%s" % (each) + "OriData"].name)
+    print(each+"OriData.birth =", locals()["%s" % (each) + "OriData"].birth)
 
-    print(locals()["%s" % (each) + "OriData"].name, "TOP3 =",  # 改成直接用 obj.name去呼叫
-          locals()["%s" % (each) + "TOP3"], "\n")
 
+    locals()["%s"%(each) + "TOP" + "%s"%(rank)] = locals()["%s" %
+                                                (each) + "OriData"].TOP(rank)
+    print(locals()["%s" % (each) + "OriData"].name, "TOP"+str(rank),"=",
+          locals()["%s"%(each) + "TOP" + "%s"%(rank)], "\n\n")
+
+
+'''
+#1 為什麼Ori本人可以被print，print出來還只有time資料
+#2 為什麼.time反而沒東西
+#3 寫這樣不對嗎：
+# self.time = self.extend(playerTime)
+# self.time = playerTime  # 為什麼 PDF P.233(書頁P.208)不用此行
+
+sarahOriData = ['2:58', '2.58', '2:39', '2-25', '2-55', '2:54', '2.18', '2:55', '2:55',
+'2:22', '2-21', '2.22']
+sarahOriData.name = Sarah Sweeney
+sarahOriData.birth = 2002-6-17
+sarahOriData.time = None
+
+# 自問自答：
+# self 繼承了 list.extend 這個功能，他不必用.time去call
+# 等於是 self 本身具備一些可以被呼叫的屬性：name、birth
+# 但他自己本身又是一個list，所以要扔 新的timelist的時候，是可以直接扔的
+'''

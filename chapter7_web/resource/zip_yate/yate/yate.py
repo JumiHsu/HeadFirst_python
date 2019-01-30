@@ -1,5 +1,7 @@
 
+#關於Template：https://www.basemu.com/python3-4_template.html
 from string import Template
+
 
 def start_response(resp="text/html"):
     return('Content-type: ' + resp + '\n\n')
