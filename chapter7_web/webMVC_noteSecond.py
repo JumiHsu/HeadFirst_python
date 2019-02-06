@@ -4,7 +4,7 @@ bottomPathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
 bottomPathOffice = r"C:\Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
 
 # 檔案夾位置設定
-btmPath = bottomPathOffice
+btmPath = bottomPathHome
 fileFolder = r"\chapter7_web"
 
 # 匯入modual

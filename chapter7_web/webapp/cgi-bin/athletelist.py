@@ -1,10 +1,10 @@
 
 class AthleteList(list):
 
-    def __init__(self, a_name, a_dob=None, a_times=[]):
+    def __init__(self, a_name, a_birth=None, a_times=[]):
         list.__init__([])
         self.name = a_name
-        self.dob = a_dob
+        self.birth = a_birth
         self.extend(a_times)
 
     @staticmethod
@@ -25,3 +25,7 @@ class AthleteList(list):
     @property
     def clean_data(self):
         return(sorted(set([self.sanitize(t) for t in self])))
+
+'''@property
+可使一個def，成為一個class的屬性
+'''

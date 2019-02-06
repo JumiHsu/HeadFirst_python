@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="referrer" content="origin" />
+    <title>python实现基于CGI的Web应用 - windlaughing - 博客园</title>
+<meta property="og:description" content="本文用一个“网上书店”的web应用示例，简要介绍如何用Python实现基于CGI标准的Web应用，介绍python的cgi模块、cigtb模块对编写CGI脚本提供的支持。CGI(通用网关接口)，是一个" />
+    <link type="text/css" rel="stylesheet" href="/bundles/blog-common.css?v=-duj5vpGTntb85GJoM3iRI972XwWcI-j8zmqDzyfu2w1"/>
+<link id="MainCss" type="text/css" rel="stylesheet" href="/skins/SimpleBlue/bundle-SimpleBlue.css?v=0qK9u742QhZ2ygXQ2XvDKUpwAJ6TPVAq3vGGNZD4Qx81"/>
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="/skins/SimpleBlue/bundle-SimpleBlue-mobile.css?v=HkJKKbba4iGCuppu8zvm9csLqR-eZz_MIbDYkUT6eGM1"/>
+    <link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/windlaughing/rss"/>
+    <link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/windlaughing/rsd.xml"/>
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/windlaughing/wlwmanifest.xml"/>
+    <script src="//common.cnblogs.com/scripts/jquery-2.2.0.min.js"></script>
+    <script>var currentBlogId=112764;var currentBlogApp='windlaughing',cb_enable_mathjax=false;var isLogined=false;</script>
+    <script src="/bundles/blog-common.js?v=75GlRjvNr9aYgWttsJIxQDp4deiGqNQyDe6Io4CHSa81" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/windlaughing/">奔跑的小邵</a></div>
+<div class="subtitle">我是程序员，我为自己代言</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/windlaughing/">首页</a></li>
+<li id="nav_newpost"><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/windlaughing">联系</a></li>
+<li id="nav_rss"><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/windlaughing/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/windlaughing/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<!--done-->
+随笔-71&nbsp;
+文章-13&nbsp;
+评论-51&nbsp;
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+        <div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class = "post">
+		<h1 class = "postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/windlaughing/p/3153848.html">python实现基于CGI的Web应用</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><div>本文用一个&ldquo;网上书店&rdquo;的web应用示例，简要介绍如何用Python实现基于CGI标准的Web应用，介绍python的cgi模块、cigtb模块对编写CGI脚本提供的支持。</div>
+<div>&nbsp;</div>
+<div><strong>CGI简介</strong></div>
+<div>CGI &nbsp;Common Gateway Interface (通用网关接口)，是一个Internet标准，允许Web服务器运行一个服务器端程序，称为CGI脚本。一般的，CGI脚本都放在一个名为cgi-bin的特殊文件夹内，这样web服务器就知道到哪里查找cgi脚本。</div>
+<div>&nbsp;</div>
+<div><strong>CGI Architecture Diagram</strong></div>
+<div>When a request arrives, HTTP server execute &nbsp;a program, and whatever that program outputs is sent back for your browser to display. This function is called the Common Gateway Interface or CGI, and the programs are called CGI scripts. These CGI programs can be a Python Script, PERL Script, Shell Script, C or C++ program etc.</div>
+<div><img src="https://images0.cnblogs.com/blog/390993/201306/24211452-8786984e6b8d45f3ae8f2ae3431697a8.png" alt="" /></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div><strong>&ldquo;网上书店&rdquo;Web应用目录结构</strong></div>
+<div>（操作系统：win7；python版本：3.3）</div>
+<div>BookWebApp|</div>
+<div>　　　　　　 &nbsp;|cgi-bin</div>
+<div>　　　　　　　------|book_detail_view.py</div>
+<div>　　　　　　　------|book_list_view.py</div>
+<div>　　　　　　　------|template</div>
+<div>　　　　　　　　　　----|yate.py</div>
+<div>　　　　　　　------|mode</div>
+<div>　　　　　　　　　　----|Book.by</div>
+<div>　　　　　　　------|service</div>
+<div>　　　　　　　　　　----|book_service.py</div>
+<div>　　　　　　|resource</div>
+<div>　　　　　　-------&nbsp;|books.png</div>
+<div>　　　　　　|book.txt</div>
+<div>　　　　　　|index.html</div>
+<div>　　　　　　|run_server.py</div>
+<div>&nbsp;</div>
+<div>
+<div>1、Web服务器</div>
+<div>所有的Web应用都要在Web服务器上运行，实际上所有的web服务器都支持CGI，无论是Apache、IIS、nginx、Lighttpd还是其他服务器，它们都支持用python编写的cgi脚本。这些web服务器都比较强大，这里我们使用python自带的简单的web服务器，这个web服务器包含在http.server库模块中。</div>
+<div>&nbsp;</div>
+<div>run_server.py：</div>
+<div>运行此程序，即启动此web应用。</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">from</span> http.server <span style="color: #0000ff;">import</span><span style="color: #000000;"> HTTPServer, CGIHTTPRequestHandler
+
+port </span>= 8081<span style="color: #000000;">
+
+httpd </span>= HTTPServer((<span style="color: #800000;">''</span><span style="color: #000000;">, port), CGIHTTPRequestHandler)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">Starting simple_httpd on port: </span><span style="color: #800000;">"</span> +<span style="color: #000000;"> str(httpd.server_port))
+httpd.serve_forever()</span></pre>
+</div>
+<p>2、index.html</p>
+<p>首页；URL： &ldquo;http://localhost:8081/cgi-bin/book_list_view.py&rdquo; 将调用 cgi-bin文件夹下的<span>book_list_view.py</span></p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">html</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">head</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">title</span><span style="color: #0000ff;">&gt;</span>BookStore<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">title</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">head</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">body</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h1</span><span style="color: #0000ff;">&gt;</span>Welcome to My Book Store.<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h1</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">img </span><span style="color: #ff0000;">src</span><span style="color: #0000ff;">="resource/books.png"</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">h3</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;">
+please choose your favorite book, click </span><span style="color: #0000ff;">&lt;</span><span style="color: #800000;">a </span><span style="color: #ff0000;">href</span><span style="color: #0000ff;">="cgi-bin/book_list_view.py"</span><span style="color: #0000ff;">&gt;</span>here<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">a</span><span style="color: #0000ff;">&gt;</span><span style="color: #000000;">.
+</span><span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">h3</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">p</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;</span><span style="color: #800000;">strong</span><span style="color: #0000ff;">&gt;</span> Enjoy!<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">strong</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">p</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">body</span><span style="color: #0000ff;">&gt;</span>
+<span style="color: #0000ff;">&lt;/</span><span style="color: #800000;">html</span><span style="color: #0000ff;">&gt;</span></pre>
+</div>
+<p>3、book_list_view.py</p>
+<p>图书清单页面。用户选择要查看的图书，提交表单，然后调动图书详细界面。</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">#</span><span style="color: #008000;">Python标准库中定义的CGI跟踪模块：cgibt</span>
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> cgitb
+cgitb.enable()
+</span><span style="color: #008000;">#</span><span style="color: #008000;">启用这个模块时，会在web浏览器上显示详细的错误信息。enable()函数打开CGI跟踪</span><span style="color: #008000;">
+#</span><span style="color: #008000;">CGI脚本产生一个异常时，Python会将消息显示在stderr（标准输出）上。CGI机制会忽略这个输出，因为它想要的只是CGI的标准输出（stdout）</span>
+
+<span style="color: #0000ff;">import</span><span style="color: #000000;"> template.yate as yate
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> service.book_service as book_service
+
+</span><strong><span style="color: #008000;">#</span><span style="color: #008000;">CGI标准指出，服务器端程序（CGI脚本）生成的任何输出都将会由Web服务器捕获，并发送到等待的web浏览器。具体来说，会捕获发送到Stdout（标准输出）的所有内容</span></strong><span style="color: #008000;">
+<br /><strong>#</strong></span><strong><span style="color: #008000;">一个CGI脚本由2部分组成, 第一部分输出 Response Headers, 第二部分输出常规的html.</span></strong></pre>
+<pre><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">Content-type:text/html\n</span><span style="color: #800000;">"</span>)<span style="color: #008000;">#</span><span style="color: #008000;">Response Headers</span><span style="color: #008000;">
+#</span><span style="color: #008000;">网页内容：有html标签组成的文本</span>
+<span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;html&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;head&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;title&gt;Book List&lt;/title&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/head&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;body&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;h2&gt;Book List:&lt;/h2&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(yate.start_form(<span style="color: #800000;">'</span><span style="color: #800000;">book_detail_view.py</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+book_dict</span>=<span style="color: #000000;">book_service.get_book_dict()
+</span><span style="color: #0000ff;">for</span> book_name <span style="color: #0000ff;">in</span><span style="color: #000000;"> book_dict:
+    </span><span style="color: #0000ff;">print</span>(yate.radio_button(<span style="color: #800000;">'</span><span style="color: #800000;">bookname</span><span style="color: #800000;">'</span><span style="color: #000000;">,book_dict[book_name].name))
+</span><span style="color: #0000ff;">print</span>(yate.end_form(<span style="color: #800000;">'</span><span style="color: #800000;">detail</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span>(yate.link(<span style="color: #800000;">"</span><span style="color: #800000;">/index.html</span><span style="color: #800000;">"</span>,<span style="color: #800000;">'</span><span style="color: #800000;">Home</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/body&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/html&gt;</span><span style="color: #800000;">'</span>)</pre>
+</div>
+<p><span style="line-height: 1.5;">4、yate.py</span></p>
+</div>
+</div>
+<div>
+<p>自定义的简单模板，用于快捷生成html</p>
+</div>
+<div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">def</span> start_form(the_url, form_type=<span style="color: #800000;">"</span><span style="color: #800000;">POST</span><span style="color: #800000;">"</span><span style="color: #000000;">):
+    </span><span style="color: #0000ff;">return</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;form action="</span><span style="color: #800000;">'</span> + the_url + <span style="color: #800000;">'</span><span style="color: #800000;">" method="</span><span style="color: #800000;">'</span> + form_type + <span style="color: #800000;">'</span><span style="color: #800000;">"&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span> end_form(submit_msg=<span style="color: #800000;">"</span><span style="color: #800000;">Submit</span><span style="color: #800000;">"</span><span style="color: #000000;">):
+    </span><span style="color: #0000ff;">return</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;input type=submit value="</span><span style="color: #800000;">'</span> + submit_msg + <span style="color: #800000;">'</span><span style="color: #800000;">"&gt;&lt;/form&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> radio_button(rb_name, rb_value):
+    </span><span style="color: #0000ff;">return</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;input type="radio" name="</span><span style="color: #800000;">'</span> + rb_name +
+                             <span style="color: #800000;">'</span><span style="color: #800000;">" value="</span><span style="color: #800000;">'</span> + rb_value + <span style="color: #800000;">'</span><span style="color: #800000;">"&gt; </span><span style="color: #800000;">'</span> + rb_value + <span style="color: #800000;">'</span><span style="color: #800000;">&lt;br /&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> u_list(items):
+    u_string </span>= <span style="color: #800000;">'</span><span style="color: #800000;">&lt;ul&gt;</span><span style="color: #800000;">'</span>
+    <span style="color: #0000ff;">for</span> item <span style="color: #0000ff;">in</span><span style="color: #000000;"> items:
+        u_string </span>+= <span style="color: #800000;">'</span><span style="color: #800000;">&lt;li&gt;</span><span style="color: #800000;">'</span> + item + <span style="color: #800000;">'</span><span style="color: #800000;">&lt;/li&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">
+    u_string </span>+= <span style="color: #800000;">'</span><span style="color: #800000;">&lt;/ul&gt;</span><span style="color: #800000;">'</span>
+    <span style="color: #0000ff;">return</span><span style="color: #000000;">(u_string)
+
+</span><span style="color: #0000ff;">def</span> header(header_text, header_level=2<span style="color: #000000;">):
+    </span><span style="color: #0000ff;">return</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;h</span><span style="color: #800000;">'</span> + str(header_level) + <span style="color: #800000;">'</span><span style="color: #800000;">&gt;</span><span style="color: #800000;">'</span> + header_text +
+           <span style="color: #800000;">'</span><span style="color: #800000;">&lt;/h</span><span style="color: #800000;">'</span> + str(header_level) + <span style="color: #800000;">'</span><span style="color: #800000;">&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> para(para_text):
+    </span><span style="color: #0000ff;">return</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;p&gt;</span><span style="color: #800000;">'</span> + para_text + <span style="color: #800000;">'</span><span style="color: #800000;">&lt;/p&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">) 
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> link(the_link,value):
+    link_string </span>= <span style="color: #800000;">'</span><span style="color: #800000;">&lt;a href="</span><span style="color: #800000;">'</span> + the_link + <span style="color: #800000;">'</span><span style="color: #800000;">"&gt;</span><span style="color: #800000;">'</span> + value + <span style="color: #800000;">'</span><span style="color: #800000;">&lt;/a&gt;</span><span style="color: #800000;">'</span>
+    <span style="color: #0000ff;">return</span>(link_string)</pre>
+</div>
+<p>5、book_detail_view.py</p>
+<p>图书详细页面</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">import</span><span style="color: #000000;"> cgitb
+cgitb.enable()
+
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> cgi
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> template.yate as yate
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> service.book_service as book_service
+</span><span style="color: #0000ff;">import</span><span style="color: #000000;"> template.yate as yate
+
+</span><span style="font-size: 14px;"><strong><span style="color: #008000;">#</span><span style="color: #008000;">使用cig.FieldStorage() 访问web请求发送给web服务器的数据，这些数据为一个Python字典</span>
+form_data =<span style="color: #000000;"> cgi.FieldStorage()
+
+</span></strong></span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">Content-type:text/html\n</span><span style="color: #800000;">"</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;html&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;head&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;title&gt;Book List&lt;/title&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/head&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;body&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(yate.header(<span style="color: #800000;">'</span><span style="color: #800000;">Book Detail:</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">try</span><span style="color: #000000;">:
+   <span style="font-size: 14px;"><strong>book_name </strong></span></span><span style="font-size: 14px;"><strong>= form_data[<span style="color: #800000;">'</span><span style="color: #800000;">bookname</span><span style="color: #800000;">'</span></strong></span><span style="color: #000000;"><span style="font-size: 14px;"><strong>].value</strong></span>
+   book_dict</span>=<span style="color: #000000;">book_service.get_book_dict()
+   book</span>=<span style="color: #000000;">book_dict[book_name]
+   </span><span style="color: #0000ff;">print</span><span style="color: #000000;">(book.get_html)
+</span><span style="color: #0000ff;">except</span><span style="color: #000000;"> KeyError as kerr:
+   </span><span style="color: #0000ff;">print</span>(yate.para(<span style="color: #800000;">'</span><span style="color: #800000;">please choose a book...</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span>(yate.link(<span style="color: #800000;">"</span><span style="color: #800000;">/index.html</span><span style="color: #800000;">"</span>,<span style="color: #800000;">'</span><span style="color: #800000;">Home</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span>(yate.link(<span style="color: #800000;">"</span><span style="color: #800000;">/cgi-bin/book_list_view.py</span><span style="color: #800000;">"</span>,<span style="color: #800000;">'</span><span style="color: #800000;">Book List</span><span style="color: #800000;">'</span><span style="color: #000000;">))
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/body&gt;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+</span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">'</span><span style="color: #800000;">&lt;/html&gt;</span><span style="color: #800000;">'</span>)</pre>
+</div>
+<p><span style="line-height: 1.5;">6、Book.py</span></p>
+</div>
+<div>
+<p>图书类</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">from</span> template <span style="color: #0000ff;">import</span><span style="color: #000000;"> yate
+
+</span><span style="color: #0000ff;">class</span><span style="color: #000000;"> Book:
+    </span><span style="color: #0000ff;">def</span> <span style="color: #800080;">__init__</span><span style="color: #000000;">(self,name,author,price):
+        self.name</span>=<span style="color: #000000;">name
+        self.author</span>=<span style="color: #000000;">author
+        self.price</span>=<span style="color: #000000;">price
+    
+    @property
+    </span><span style="color: #0000ff;">def</span><span style="color: #000000;"> get_html(self):
+        html_str</span>=<span style="color: #800000;">''</span><span style="color: #000000;">
+        html_str</span>+=yate.header(<span style="color: #800000;">'</span><span style="color: #800000;">BookName:</span><span style="color: #800000;">'</span>,4)+<span style="color: #000000;">yate.para(self.name)
+        html_str</span>+=yate.header(<span style="color: #800000;">'</span><span style="color: #800000;">Author:</span><span style="color: #800000;">'</span>,4)+<span style="color: #000000;">yate.para(self.author)
+        html_str</span>+=yate.header(<span style="color: #800000;">'</span><span style="color: #800000;">Price:</span><span style="color: #800000;">'</span>,4)+<span style="color: #000000;">yate.para(self.price)
+        </span><span style="color: #0000ff;">return</span>(html_str)</pre>
+</div>
+<p>7、book_service.py</p>
+<p>图书业务逻辑类</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">from</span> model.Book <span style="color: #0000ff;">import</span><span style="color: #000000;"> Book
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> get_book_dict():
+    book_dict</span>=<span style="color: #000000;">{}
+    </span><span style="color: #0000ff;">try</span><span style="color: #000000;">:
+        with open(</span><span style="color: #800000;">'</span><span style="color: #800000;">book.txt</span><span style="color: #800000;">'</span>,<span style="color: #800000;">'</span><span style="color: #800000;">r</span><span style="color: #800000;">'</span><span style="color: #000000;">) as book_file:
+            </span><span style="color: #0000ff;">for</span> each_line <span style="color: #0000ff;">in</span><span style="color: #000000;"> book_file:
+                book</span>=<span style="color: #000000;">parse(each_line)
+                book_dict[book.name]</span>=<span style="color: #000000;">book
+    </span><span style="color: #0000ff;">except</span><span style="color: #000000;"> IOError as ioerr:
+        </span><span style="color: #0000ff;">print</span>(<span style="color: #800000;">"</span><span style="color: #800000;">IOErr:</span><span style="color: #800000;">"</span><span style="color: #000000;">,ioerr)
+    </span><span style="color: #0000ff;">return</span><span style="color: #000000;">(book_dict)
+    
+
+</span><span style="color: #0000ff;">def</span><span style="color: #000000;"> parse(book_info):
+    (name,author,price)</span>=book_info.split(<span style="color: #800000;">'</span><span style="color: #800000;">;</span><span style="color: #800000;">'</span><span style="color: #000000;">)
+    book</span>=<span style="color: #000000;">Book(name,author,price)
+    </span><span style="color: #0000ff;">return</span>(book)</pre>
+</div>
+<p>8、book.txt</p>
+<p>待显示的图书信息（书名;作者;价格）</p>
+<p>The Linux Programming Interface: A Linux and UNIX System Prog;Michael Kerrisk;$123.01<br />HTML5 and CSS3, Illustrated Complete (Illustrated Series);Jonathan Meersman Sasha Vodnik;$32.23<br />Understanding the Linux Kernel;Daniel P. Bovet Marco Cesati;$45.88<br />Getting Real;Jason Fried, Heinemeier David Hansson, Matthew Linderman;$87.99</p>
+
+</div>
+<div>&nbsp;</div>
+<div><strong>测试结果</strong></div>
+<div>运行run_server.py，浏览器访问：<a href="http://localhost:8081/">http://localhost:8081/</a></div>
+<div><img src="https://images0.cnblogs.com/blog/390993/201306/24223651-4e451bf3a6304638ab56bc90eeac4395.jpg" alt="" width="421" height="473" /></div>
+<div>控制台会监控请求的信息：</div>
+<div><img src="https://images0.cnblogs.com/blog/390993/201306/24223745-0e77c7c7125744a2a589d24fbf10f05e.jpg" alt="" /></div>
+<div>&nbsp;</div>
+<div>点击&ldquo;here&rdquo;，查看图书清单，即书名列表</div>
+<div><img src="https://images0.cnblogs.com/blog/390993/201306/24223825-9f8b6943e95046eba19845ebb5353430.jpg" alt="" /></div>
+<div>&nbsp;</div>
+<div>选择书名，点击&ldquo;detail&rdquo;提交表单，返回该书的详细信息：书名、作者、价格</div>
+<div><img src="https://images0.cnblogs.com/blog/390993/201306/24223913-e1353bcf54aa4236bbf65ad85544bbf2.jpg" alt="" /></div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>&nbsp;<span>（转载请注明出处 ^.^）</span></div>
+<div>&nbsp;</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info">
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"></div>
+</div>
+
+
+		</div>
+		<div class = "postDesc">posted @ <span id="post-date">2013-06-24 22:51</span> <a href='https://www.cnblogs.com/windlaughing/'>windlaughing</a> 阅读(<span id="post_view_count">...</span>) 评论(<span id="post_comment_count">...</span>)  <a href ="https://i.cnblogs.com/EditPosts.aspx?postid=3153848" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(3153848);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=112764,cb_entryId=3153848,cb_blogApp=currentBlogApp,cb_blogUserGuid='f7aa15c0-9274-e111-aa3f-842b2b196315',cb_entryCreatedDate='2013/6/24 22:51:00';loadViewCount(cb_entryId);var cb_postType=1;var isMarkdown=false;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id='comment_form' class='commentform'>
+<a name='commentform'></a>
+<div id='divCommentShow'></div>
+<div id='comment_nav'><span id='span_refresh_tips'></span><a href='javascript:void(0);' onclick='return RefreshCommentList();' id='lnk_RefreshComments' runat='server' clientidmode='Static'>刷新评论</a><a href='#' onclick='return RefreshPage();'>刷新页面</a><a href='#top'>返回顶部</a></div>
+<div id='comment_form_container'></div>
+<div class='ad_text_commentbox' id='ad_text_under_commentbox'></div>
+<div id='ad_t2'></div>
+<div id='opt_under_post'></div>
+<script async='async' src='https://www.googletagservices.com/tag/js/gpt.js'></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+<script>
+  googletag.cmd.push(function() {
+        googletag.defineSlot('/1090369/C1', [300, 250], 'div-gpt-ad-1546353474406-0').addService(googletag.pubads());
+        googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+        googletag.pubads().enableSingleRequest();
+        googletag.enableServices();
+  });
+</script>
+<div id='cnblogs_c1' class='c_ad_block'>
+    <div id='div-gpt-ad-1546353474406-0' style='height:250px; width:300px;'></div>
+</div>
+<div id='under_post_news'></div>
+<div id='cnblogs_c2' class='c_ad_block'>
+    <div id='div-gpt-ad-1539008685004-0' style='height:60px; width:468px;'></div>
+</div>
+<div id='under_post_kb'></div>
+<div id='HistoryToday' class='c_ad_block'></div>
+<script type='text/javascript'>
+ if(enablePostBottom()) {
+    codeHighlight();
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverT2();
+    deliverC1();
+    deliverC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);  
+}
+</script>
+</div>
+
+    
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright &copy;2019 windlaughing
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+</body>
+</html>
