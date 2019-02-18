@@ -46,6 +46,7 @@ for eachScore in sorted(scoreHash.keys(),reverse=True):
     print(scoreHash[eachScore], "had a score of",eachScore)
 
 
+print("\n")
 # RSA的衝浪者資料
 line = "101;Johnny 'wave-boy' Johns;USA;8.32;Fish;21"
 rsaHash={}
@@ -54,3 +55,5 @@ rsaHash={}
 
 # rsaHash[ID]=Name,Country,Average,Boardtype,Age
 print(rsaHash)
+
+# def find_detail():
