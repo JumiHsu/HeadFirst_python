@@ -1,18 +1,21 @@
 import os
 
-def changeChdir(workPath):    
+def changeChdir(workPath):
     print("當前工作路徑 =",os.getcwd())    # 確認當前的工作路徑
     # 修改當前工作目錄
     os.chdir(workPath)
     print("變更當前工作路徑後 =",os.getcwd())
 
-    return open("result02.txt")
+    # return open("result02.txt")
 
 
-# home
-# result_f02 = changeChdir("D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python\ReadFile")
-# office
-result_f02 = changeChdir("C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python/ReadFile")
+pathHome = r"D:\GIT_Tortoise_Jumi_NB\HeadFirst_Python"
+pathOffice = r"C:/Users\Jumi_Hsu\Desktop\TortoiseGit_Jumi_jfi\HeadFirst_python"
+fileFolder = r"\ReadFile"
+
+
+changeChdir( pathHome + fileFolder )
+result_f02 = open("result02.txt")
 
 
 print("\n======== 先看看 result02.txt 長怎樣 ========")
