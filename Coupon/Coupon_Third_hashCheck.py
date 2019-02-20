@@ -1,6 +1,5 @@
 '''
 產生不重複的Coupon券代碼100份，與先前不可重複，英數混和共12碼(本身的12碼可重複?)
-https://toyo0103.blogspot.com/2018/04/hash-table.html
 
 參考資料-dict幾個語法：
 https://kaochenlong.com/2011/10/13/python-dictionary/
@@ -8,7 +7,7 @@ https://kaochenlong.com/2011/10/13/python-dictionary/
 
 import random
 import time
-
+import hashlib
 
 t1 = time.time()
 # 先製作0~9、A~Z共10+26=36個值的索引，index=0~35
@@ -24,6 +23,7 @@ for i in range(elementMax):  # 0~35，長度=36
     else:
         symbolDict[i] = alphabet[i-len(number)]
 # print("密碼來源表 =", symbolDict)
+
 
 
 # 生成代碼
@@ -52,7 +52,7 @@ def checkRepeat(couponCodeTemp, couponDict):
     if tempCode not in couponDict:
         return tempCode
     else:
-        print("請確認異常狀況")
+        print("生成代碼重複，重新生成")
 
 
 
@@ -96,3 +96,30 @@ print("\n耗費時間 = {:>9.16f}\n".format(t2-t1))
 
 
 
+
+# salt加密
+# 怕撞庫破解 (在不同台計算機上，答案也一樣)
+salt = hashlib.md5("password".encode("utf-8"))
+
+checkSalt = []
+for eachKey in couponDict:
+    salt.update(eachKey.encode("utf-8"))
+    if salt.hexdigest() not in checkSalt:
+        checkSalt.append(salt.hexdigest())
+    else:
+        print("已存在同樣的hash值 =",salt.hexdigest())
+    # print("\neachKey by salt =", salt.hexdigest())
+
+
+# md5加密
+# 但以目前的密碼來源庫，測了幾次，沒有產生過一樣的 md5 hash值
+md5 = hashlib.md5()
+
+checkSalt = []
+for eachKey in couponDict:
+    md5.update(eachKey.encode("utf-8"))
+    if md5.hexdigest() not in checkSalt:
+        checkSalt.append(md5.hexdigest())
+    else:
+        print("已存在同樣的hash值 =", md5.hexdigest())
+    # print("\neachKey by md5 =", md5.hexdigest())
