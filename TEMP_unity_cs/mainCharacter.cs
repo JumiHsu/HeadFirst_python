@@ -10,11 +10,12 @@ public class mainCharacter : MonoBehaviour
     private SpriteRenderer m_SpriteRenderer;
     private Transform m_transform;
     private Vector2 moveDir;
+    private Vector2 jumpDir;
     
 
     // inspector顯示的位數好像是此處 +1位；自動判讀 大寫+小寫 = 單字的結尾，第一個大寫前的一串小寫 = 單字
     public float moveSpeed = 3.5f;  // 宣告一個 公開+浮點數 的變數，並令其值
-    public float jumpHight = 5.0f;
+    public float jumpSpeed = 5.0f;
 
     // Awake is called when the script instance is being loaded.
     void Awake()
@@ -63,7 +64,7 @@ public class mainCharacter : MonoBehaviour
             // How建議：可以先寫好狀態結構再製作，另外他好像有模糊的建議"把向左和向右分開寫"的概念
             
             m_SpriteRenderer.flipX = false;  // 米飯
-            
+
         }
         // 按住左
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -101,33 +102,38 @@ public class mainCharacter : MonoBehaviour
         // 按下空白
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            m_Rigidbody2D.velocity = new Vector2(0, jumpHight);
+            // m_Rigidbody2D.velocity = new Vector2(0, jumpHight);
+            jumpDir.y = jumpSpeed;
             m_Animator.SetBool("isMove", true);
 
             // 要怎樣才能寫出不會連跳
-            if (transform.localPosition.y == m_transform.localPosition.y + jumpHight)
-            {
-                jumpHight = 0;
-            }
+            // if (transform.localPosition.y == m_transform.localPosition.y + jumpHight)
+            // {
+            //     jumpHight = 0;
+            // }
         }
         // 放開空白
         if (Input.GetKeyUp(KeyCode.Space))
         {
             // m_Rigidbody2D.velocity = new Vector2(0, -jumpHight*0.2f); //如果不寫分段，直接*0.5會太怪異
-            m_Rigidbody2D.velocity = Vector2.zero;
+            // m_Rigidbody2D.velocity = Vector2.zero;
+            jumpDir = Vector2.zero;
             // 放開空白就恢復idle很怪，應該要加上條件：當高度=多少
             m_Animator.SetBool("isMove", false);
         }
 
+        jumpDir.y = m_Rigidbody2D.velocity.y;  // 當前 rigidbody2D 已經令給 m_rigidbody2D，取得 m_rigidbody2D 的重力數值作為moveDir.y
+        m_Rigidbody2D.velocity = jumpDir;
+
         // 向後(左)跳，向前(右)跳 = 按住+按住
         if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.RightArrow))
         {
-            m_Rigidbody2D.velocity = new Vector2(moveSpeed, jumpHight);
+            m_Rigidbody2D.velocity = new Vector2(moveSpeed, jumpSpeed);
         }
 
         if (Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftArrow))
         {
-            m_Rigidbody2D.velocity = new Vector2(-moveSpeed, jumpHight * 0.8f);
+            m_Rigidbody2D.velocity = new Vector2(-moveSpeed, jumpSpeed * 0.8f);
         }
 
 
