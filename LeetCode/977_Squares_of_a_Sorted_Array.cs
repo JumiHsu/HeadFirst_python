@@ -18,13 +18,17 @@ Output: [4,9,9,49,121]
 public class Solution 
 {
 	// 寫法1
+	/*
+	Runtime: 328 ms, faster than 55.44% of C# online submissions for Squares of a Sorted Array.
+	Memory Usage: 40.6 MB, less than 27.14% of C# online submissions for Squares of a Sorted Array.
+	*/
     public int[] SortedSquares(int[] A) 
     {       
         int N = A.Length;
         int[] ans = new int[N];
         for (int i =0; i < N; i++)
         {
-            Console.WriteLine(i);  // WriteLine會換行
+            //Console.WriteLine(i);  // WriteLine會換行
             
             ans[i] = A[i]*A[i];
         }
@@ -39,6 +43,11 @@ public class Solution
 	// 寫法2
 	// 參考資料：https://stackoverflow.com/questions/202813/adding-values-to-a-c-sharp-array
 	// Add/AddRange：https://blog.csdn.net/qq_36006719/article/details/77067700
+	/*
+	Runtime: 336 ms, faster than 48.21% of C# online submissions for Squares of a Sorted Array.
+	Memory Usage: 42.5 MB, less than 5.71% of C# online submissions for Squares of a Sorted Array.
+	*/
+	
     public int[] SortedSquares(int[] A) 
     {       
         int N = A.Length;
@@ -58,3 +67,6 @@ public class Solution
     }
 
 }
+
+
+
